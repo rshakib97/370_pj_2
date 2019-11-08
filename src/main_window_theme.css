@@ -1,0 +1,16 @@
+#left_layout {
+	-fx-background-color: deepskyblue;
+	-fx-padding: 15px;
+	-fx-hgap: 8;
+	-fx-vgap: 8;
+}
+
+.root {
+	-fx-font-family: "Tahoma";
+}
+
+Label, Text {
+	-fx-font-size: 20px;
+	-fx-fill: whitesmoke; /* Need for Text class */
+	-fx-text-fill: whitesmoke; /* Need for Label class */
+}
