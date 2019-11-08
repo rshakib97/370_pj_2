@@ -2,9 +2,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,9 +18,9 @@ import javafx.stage.Stage;
 public class MainWindow extends Application {
 	private final int SCENE_WINDOW_WIDTH;
 	private final int SCENE_WINDOW_HEIGHT;
+	private final String[] tabText;
 	// CSS Parameters;
 	// Classes
-	private final String MAIN_TEXT;
 	private final String LOG_IN_LABEL;
 	private final String LOG_IN_TEXT;
 			
@@ -29,8 +31,12 @@ public class MainWindow extends Application {
 	MainWindow() { 
 		SCENE_WINDOW_WIDTH = 1200;
 		SCENE_WINDOW_HEIGHT = 500;
+		tabText = new String[] {
+		    "Booking",
+		    "Departues",
+		    "Arrivals"
+		};
 		
-		MAIN_TEXT = "main_text";
 		LOG_IN_LABEL = "log_in_label";
 		LOG_IN_TEXT = "log_in_text";
 		
@@ -115,20 +121,38 @@ public class MainWindow extends Application {
 		TabPane tabPane = new TabPane();
 		tabPane.setId(CENTER_LAYOUT);
 		
-		// Tab 1 Setup
-		Tab tab1 = new Tab("Booking Info");
-		tab1.setClosable(false);
+		// Set up the tabs based on the text in the tabText array.
+		// If you want to add a new tab, just add a new string to the array in the constructor.
+		for(int i = 0; i < tabText.length; i++) {
+			Tab tab = new Tab(tabText[i]);
+			tab.setClosable(false);
+			tabPane.getTabs().add(tab);
+		}
 		
-		// Tab 2 Setup
-		Tab tab2 = new Tab("Departures", new Label("Departure Info"));
-		tab2.setClosable(false);
-		
-		// Tab 3 Setup
-		Tab tab3 = new Tab("Arrivals", new Label("Arrival Info"));
-		tab3.setClosable(false);
-		
-		tabPane.getTabs().addAll(tab1, tab2, tab3);
+		tabPane.getTabs().get(0).setContent(bookingLayout() );;
 		
 		return tabPane;
+	}
+	
+	public GridPane bookingLayout() {
+		GridPane gridPane = new GridPane();
+		
+		final ToggleGroup group = new ToggleGroup();
+		
+		// Round Trip Setup
+		RadioButton roundTripButton = new RadioButton();
+		roundTripButton.setToggleGroup(group);
+		Label roundTripLabel = new Label("Round Trip");
+		gridPane.add(roundTripButton, 0, 0);
+		gridPane.add(roundTripLabel, 1, 0);
+		
+		// One Way Setup
+		RadioButton oneWayButton = new RadioButton();
+		oneWayButton.setToggleGroup(group);
+		Label oneWayLabel = new Label("One Way");
+		gridPane.add(oneWayButton, 2, 0);
+		gridPane.add(oneWayLabel, 3, 0);
+		
+		return gridPane;
 	}
 }
