@@ -1,17 +1,22 @@
 import javafx.scene.Scene;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.RadioButton;
+import javafx.scene.control.Separator;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.util.Date;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -28,18 +33,19 @@ public class MainWindow extends Application {
 	private final String LEFT_LAYOUT;
 	private final String CENTER_LAYOUT;
 	
-	MainWindow() { 
+	MainWindow() throws ParseException { 
 		SCENE_WINDOW_WIDTH = 1200;
 		SCENE_WINDOW_HEIGHT = 500;
 		tabText = new String[] {
-		    "Booking",
 		    "Departues",
 		    "Arrivals"
 		};
 		
+		// Classes
 		LOG_IN_LABEL = "log_in_label";
 		LOG_IN_TEXT = "log_in_text";
 		
+		// I.D.'s
 		LEFT_LAYOUT = "left_layout";
 		CENTER_LAYOUT = "center_layout";
 	}
@@ -56,7 +62,7 @@ public class MainWindow extends Application {
 	}
 	
 	// Sets the outer most layout of the Main Window
-	public BorderPane setOuterLayout() {
+	private BorderPane setOuterLayout() {
 		BorderPane outerLayout = new BorderPane();
 		GridPane leftLayout = setLeftLayout();
 		TabPane centerLayout = setCenterLayout();
@@ -113,11 +119,19 @@ public class MainWindow extends Application {
 		PasswordField passwordField = new PasswordField();
 		leftLayout.add(passwordField, 1, 3);
 		
+		Separator separator = new Separator();
+		leftLayout.add(separator, 0, 4);
+		
+		Label dateLabel = new Label("Set Booking Date:");
+		dateLabel.getStyleClass().add(LOG_IN_LABEL);
+		leftLayout.add(dateLabel, 0, 6);
+		
+		leftLayout.add(setDatePicker(), 1, 6);
 		
 		return leftLayout;
 	}
 	
-	public TabPane setCenterLayout() {
+	private TabPane setCenterLayout() {
 		TabPane tabPane = new TabPane();
 		tabPane.setId(CENTER_LAYOUT);
 		
@@ -134,25 +148,27 @@ public class MainWindow extends Application {
 		return tabPane;
 	}
 	
-	public GridPane bookingLayout() {
-		GridPane gridPane = new GridPane();
+	private DatePicker setDatePicker() {
+		DatePicker datePicker = new DatePicker();
 		
-		final ToggleGroup group = new ToggleGroup();
+		datePicker.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override // Will make sure you can't make reservations for the past.
+			public void handle(ActionEvent e) {
+				LocalDate currentDate = LocalDate.now();
+				
+				System.out.print(datePicker.getValue() );
+				
+				System.out.println(currentDate.isBefore(datePicker.getValue() ) );
+			}
+			
+		});
 		
-		// Round Trip Setup
-		RadioButton roundTripButton = new RadioButton();
-		roundTripButton.setToggleGroup(group);
-		Label roundTripLabel = new Label("Round Trip");
-		gridPane.add(roundTripButton, 0, 0);
-		gridPane.add(roundTripLabel, 1, 0);
-		
-		// One Way Setup
-		RadioButton oneWayButton = new RadioButton();
-		oneWayButton.setToggleGroup(group);
-		Label oneWayLabel = new Label("One Way");
-		gridPane.add(oneWayButton, 2, 0);
-		gridPane.add(oneWayLabel, 3, 0);
-		
-		return gridPane;
+		return datePicker;
+	}
+	
+	private HBox bookingLayout() {
+		HBox hbox = new HBox();
+		return hbox;
 	}
 }
