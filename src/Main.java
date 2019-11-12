@@ -10,6 +10,6 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception { 
 		MainWindow mainWindow = new MainWindow(); 
 		primaryStage.setResizable(false);
-		mainWindow.start(primaryStage);
+		mainWindow.start(primaryStage); // Comment
 	}
 }
