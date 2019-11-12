@@ -96,7 +96,14 @@ public class MainWindow extends Application {
 
 			@Override
 			public void handle(ActionEvent event) {
-				// Will Open an account creation window
+				CustomerForm cf = new CustomerForm();
+				Stage stage = new Stage();
+				try {
+					cf.start(stage);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 					
 		});
