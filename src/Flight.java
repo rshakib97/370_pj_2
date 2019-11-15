@@ -1,4 +1,4 @@
-/* Should have a fare cost and where this flight will be going */
+/* Should have a fare cost and where this flight will be going. */
 public class Flight {
 	private static int flightNumber = 0;
 	private int filledSeats, maxSeats;

@@ -26,7 +26,8 @@ public class MainWindow extends Application {
 	private final int SCENE_WINDOW_HEIGHT;
 	// CSS Parameters;
 	// Classes
-	private final String TEXT_NODE;
+	private final String TEXT_NODE_LEFT_LAYOUT;
+	private final String TEXT_NODE_CENTER_LAYOUT;
 	private final String HYPERLINK;
 			
 	// I.D.'s
@@ -37,11 +38,12 @@ public class MainWindow extends Application {
 	private final String CSSFILENAME;
 	
 	MainWindow() throws ParseException { 
-		SCENE_WINDOW_WIDTH = 900;
+		SCENE_WINDOW_WIDTH = 925;
 		SCENE_WINDOW_HEIGHT = 400;
 		
 		// Classes
-		TEXT_NODE = "text_node_left_layout";
+		TEXT_NODE_LEFT_LAYOUT = "text_node_left_layout";
+		TEXT_NODE_CENTER_LAYOUT = "text_node_center_layout";
 		HYPERLINK = "hyperlink";
 		
 		// I.D.'s
@@ -78,6 +80,7 @@ public class MainWindow extends Application {
 	}
 	
 	// Sets the leftmost layout of the Main Window
+	// TODO check for account authentication 
 	private GridPane setLeftLayout() {
 		GridPane gp = new GridPane();
 		gp.setId(LEFT_LAYOUT);
@@ -94,7 +97,7 @@ public class MainWindow extends Application {
 		
 		// Set Classes
 		Node textNodes[] = new Node[] { userName, passWord };
-		for(int i = 0; i < textNodes.length; i++) { textNodes[i].getStyleClass().add(TEXT_NODE);}
+		for(int i = 0; i < textNodes.length; i++) { textNodes[i].getStyleClass().add(TEXT_NODE_LEFT_LAYOUT);}
 		link.getStyleClass().add(HYPERLINK);
 		
 		// Set I.D.'s
@@ -119,7 +122,10 @@ public class MainWindow extends Application {
 		Label returnLabel = new Label("Return");
 		
 		Label labels[] = new Label[] { fromLabel, toLabel, departLabel, returnLabel };
-		for(int i = 0; i < labels.length; i++) { gp.add(labels[i], i, 0);}
+		for(int i = 0; i < labels.length; i++) { 
+			labels[i].getStyleClass().add(TEXT_NODE_CENTER_LAYOUT);
+			gp.add(labels[i], i, 0);
+		}
 		
 		TextField fromField = new TextField();
 		TextField toField = new TextField();
@@ -137,7 +143,7 @@ public class MainWindow extends Application {
 	private Hyperlink setCreateAccountLink() {
 		// Link Setup
 		Text createAccountText = new Text("Create Account");
-		createAccountText.getStyleClass().add(TEXT_NODE);
+		createAccountText.getStyleClass().add(TEXT_NODE_LEFT_LAYOUT);
 		
 		Hyperlink link = new Hyperlink("", createAccountText);	
 		
