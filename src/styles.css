@@ -1,0 +1,35 @@
+/* MAIN WINDOW STYLES */
+
+/* Variables */
+* {
+	-fx-main-window-bg-color: linear-gradient(to top left, lightskyblue, steelblue);
+	-fx-main-window-text-fill: whitesmoke;
+}
+
+#left_layout {
+	-fx-background-color: -fx-main-window-bg-color;
+	-fx-padding: 15px;
+	-fx-hgap: 8;
+	-fx-vgap: 8;
+}
+
+#log-in-button {
+	-fx-background-color: -fx-main-window-bg-color;
+	-fx-font-size: 16px;
+	-fx-text-fill: -fx-main-window-text-fill;
+}
+
+#log-in-button:hover {
+	-fx-background-color: steelblue;
+	-fx-underline: true;
+}
+
+.root {
+	-fx-font-family: "Tahoma";
+}
+
+.log_in_label, .log_in_text {
+	-fx-font-size: 20px;
+	-fx-fill: -fx-main-window-text-fill; /* Need for Text class */
+	-fx-text-fill: -fx-main-window-text-fill; /* Need for Label class */
+}

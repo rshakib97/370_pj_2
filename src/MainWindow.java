@@ -1,4 +1,5 @@
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
@@ -9,7 +10,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import java.text.ParseException;
 import java.time.LocalDate;
-import java.util.Date;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -33,6 +33,8 @@ public class MainWindow extends Application {
 	private final String LEFT_LAYOUT;
 	private final String CENTER_LAYOUT;
 	
+	private final String CSSFILENAME;
+	
 	MainWindow() throws ParseException { 
 		SCENE_WINDOW_WIDTH = 1200;
 		SCENE_WINDOW_HEIGHT = 500;
@@ -48,6 +50,8 @@ public class MainWindow extends Application {
 		// I.D.'s
 		LEFT_LAYOUT = "left_layout";
 		CENTER_LAYOUT = "center_layout";
+		
+		CSSFILENAME = "styles.css";
 	}
 	
 	@Override // Sets and displays the primary stage
@@ -56,7 +60,7 @@ public class MainWindow extends Application {
 		BorderPane outerLayout = setOuterLayout();
 		
 		Scene scene = new Scene(outerLayout, SCENE_WINDOW_WIDTH, SCENE_WINDOW_HEIGHT);
-		scene.getStylesheets().add("main_window_theme.css");
+		scene.getStylesheets().add(CSSFILENAME);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
@@ -126,8 +130,12 @@ public class MainWindow extends Application {
 		PasswordField passwordField = new PasswordField();
 		leftLayout.add(passwordField, 1, 3);
 		
+		Button logInButton = new Button("Log in");
+		logInButton.setId("log-in-button");
+		leftLayout.add(logInButton, 0, 4);
+		
 		Separator separator = new Separator();
-		leftLayout.add(separator, 0, 4);
+		leftLayout.add(separator, 0, 5);
 		
 		Label dateLabel = new Label("Set Booking Date:");
 		dateLabel.getStyleClass().add(LOG_IN_LABEL);
@@ -155,6 +163,7 @@ public class MainWindow extends Application {
 		return tabPane;
 	}
 	
+	// TODO restrict past dates
 	private DatePicker setDatePicker() {
 		DatePicker datePicker = new DatePicker();
 		
