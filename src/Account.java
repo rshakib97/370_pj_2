@@ -1,10 +1,11 @@
+/* Base class where all types of accounts will inherit from */
 
-public class Account {
-	protected String userName;
+public abstract class Account {
+	protected String username;
 	protected String password;
 	
 	public Account(String un, String pw) {
-		userName = un;
+		username = un;
 		password = pw;
 	}
 }

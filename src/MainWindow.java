@@ -1,3 +1,5 @@
+/* First window the user will see when the program is run, can log in, create a new account and find flights */
+
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -79,7 +81,7 @@ public class MainWindow extends Application {
 	private GridPane setLeftLayout() {
 		GridPane gp = new GridPane();
 		gp.setId(LEFT_LAYOUT);
-		
+	
 		// Row 0
 		Label userName = new Label("User Name:");
 		Label passWord = new Label("Password:");

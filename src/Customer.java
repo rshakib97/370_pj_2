@@ -1,8 +1,9 @@
+/* Customers should be able to add/cancel reservations and search arrivals/departures */
 
 public class Customer extends Account {
 	// TODO Customer must have a data structure for reservations
 	
-	public Customer(String un, String pw) {
-		super(un, pw);
+	public Customer(String username, String password) {
+		super(username, password);
 	}
 }
