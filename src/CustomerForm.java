@@ -1,3 +1,5 @@
+/* Window that will handle the creation of a new customer */
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
