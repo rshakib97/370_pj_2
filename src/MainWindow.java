@@ -1,65 +1,63 @@
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.Separator;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import java.text.ParseException;
 import java.time.LocalDate;
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class MainWindow extends Application {
+	private Stage primaryStage;
+	private Scene scene;
+	
 	private final int SCENE_WINDOW_WIDTH;
 	private final int SCENE_WINDOW_HEIGHT;
-	private final String[] tabText;
 	// CSS Parameters;
 	// Classes
-	private final String LOG_IN_LABEL;
-	private final String LOG_IN_TEXT;
+	private final String TEXT_NODE;
+	private final String HYPERLINK;
 			
 	// I.D.'s
 	private final String LEFT_LAYOUT;
 	private final String CENTER_LAYOUT;
+	private final String LOG_IN_BUTTON;
 	
 	private final String CSSFILENAME;
 	
 	MainWindow() throws ParseException { 
-		SCENE_WINDOW_WIDTH = 1200;
+		SCENE_WINDOW_WIDTH = 1250;
 		SCENE_WINDOW_HEIGHT = 500;
-		tabText = new String[] {
-		    "Departues",
-		    "Arrivals"
-		};
 		
 		// Classes
-		LOG_IN_LABEL = "log_in_label";
-		LOG_IN_TEXT = "log_in_text";
+		TEXT_NODE = "text_node_left_layout";
+		HYPERLINK = "hyperlink";
 		
 		// I.D.'s
 		LEFT_LAYOUT = "left_layout";
 		CENTER_LAYOUT = "center_layout";
+		LOG_IN_BUTTON = "log_in_button";
 		
 		CSSFILENAME = "styles.css";
 	}
 	
 	@Override // Sets and displays the primary stage
-	public void start(Stage primaryStage) throws Exception {
+	public void start(Stage ps) throws Exception {
+		primaryStage = ps;
 		primaryStage.setTitle("Airline Reservation Welcome");
 		BorderPane outerLayout = setOuterLayout();
 		
-		Scene scene = new Scene(outerLayout, SCENE_WINDOW_WIDTH, SCENE_WINDOW_HEIGHT);
+		scene = new Scene(outerLayout, SCENE_WINDOW_WIDTH, SCENE_WINDOW_HEIGHT);
 		scene.getStylesheets().add(CSSFILENAME);
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -69,7 +67,7 @@ public class MainWindow extends Application {
 	private BorderPane setOuterLayout() {
 		BorderPane outerLayout = new BorderPane();
 		GridPane leftLayout = setLeftLayout();
-		TabPane centerLayout = setCenterLayout();
+		GridPane centerLayout = setCenterLayout();
 		
 		// Set the areas of the Border Pane
 		outerLayout.setLeft(leftLayout);
@@ -80,21 +78,67 @@ public class MainWindow extends Application {
 	
 	// Sets the leftmost layout of the Main Window
 	private GridPane setLeftLayout() {
-		GridPane leftLayout = new GridPane();
+		GridPane gp = new GridPane();
+		gp.setId(LEFT_LAYOUT);
 		
-		leftLayout.setId(LEFT_LAYOUT);
+		// Row 0
+		Label userName = new Label("User Name:");
+		Label passWord = new Label("Password:");
+		Button logInButton = new Button("Log in");
 		
-		// Title Setup
-		Text sceneTitle = new Text("Log in");
-		sceneTitle.getStyleClass().add(LOG_IN_LABEL);
-		leftLayout.add(sceneTitle, 0, 0);
+		// Row 1
+		TextField userTextField = new TextField();
+		PasswordField passwordField = new PasswordField();
+		Hyperlink link = setCreateAccountLink();
 		
-		// Account Creation Setup
-		Text createAccountText = new Text("Create Account");
-		createAccountText.getStyleClass().add(LOG_IN_TEXT);
+		// Set Classes
+		Node textNodes[] = new Node[] { userName, passWord };
+		for(int i = 0; i < textNodes.length; i++) { textNodes[i].getStyleClass().add(TEXT_NODE);}
+		link.getStyleClass().add(HYPERLINK);
 		
+		// Set I.D.'s
+		logInButton.setId(LOG_IN_BUTTON);
+		
+		Node nodesAtCol0[] = new Node[] { userName, passWord, logInButton };
+		for(int i = 0; i < nodesAtCol0.length; i++) { gp.add(nodesAtCol0[i], 0, i); }
+		
+		Node nodesAtCol1[] = new Node[] { userTextField, passwordField, link };
+		for(int i = 0; i < nodesAtCol1.length; i++) { gp.add(nodesAtCol1[i], 1, i); }
+		
+		return gp;
+	}
+	
+	private GridPane setCenterLayout() {
+		GridPane gp = new GridPane();
+		gp.setId(CENTER_LAYOUT);
+		
+		Label fromLabel = new Label("From");
+		Label toLabel = new Label("To");
+		Label departLabel = new Label("Depart");
+		Label returnLabel = new Label("Return");
+		
+		Label labels[] = new Label[] { fromLabel, toLabel, departLabel, returnLabel };
+		for(int i = 0; i < labels.length; i++) { gp.add(labels[i], i, 0);}
+		
+		TextField fromField = new TextField();
+		TextField toField = new TextField();
+		DatePicker departDate = setDatePicker();
+		DatePicker returnDate = setDatePicker();
+		
+		Node fields[] = new Node[] { fromField, toField, departDate, returnDate };
+		for(int i = 0; i < fields.length; i++) { gp.add(fields[i], i, 1); }
+		
+		// TODO set classes for styling
+	
+		return gp;
+	}
+	
+	private Hyperlink setCreateAccountLink() {
 		// Link Setup
-		Hyperlink link = new Hyperlink("", createAccountText);
+		Text createAccountText = new Text("Create Account");
+		createAccountText.getStyleClass().add(TEXT_NODE);
+		
+		Hyperlink link = new Hyperlink("", createAccountText);	
 		
 		link.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -109,59 +153,10 @@ public class MainWindow extends Application {
 					e.printStackTrace();
 				}
 			}
-					
+							
 		});
 		
-		leftLayout.add(link, 1, 0);
-		
-		// Username Setup
-		Label userName = new Label("User Name:");
-		userName.getStyleClass().add(LOG_IN_LABEL);
-		leftLayout.add(userName, 0, 1);
-		
-		TextField userTextField = new TextField();
-		leftLayout.add(userTextField, 1, 1);
-		
-		// Password Setup
-		Label passWord = new Label("Password:");
-		passWord.getStyleClass().add(LOG_IN_LABEL);
-		leftLayout.add(passWord, 0, 3);
-		
-		PasswordField passwordField = new PasswordField();
-		leftLayout.add(passwordField, 1, 3);
-		
-		// TODO add the acutal functionality of logging in
-		Button logInButton = new Button("Log in");
-		logInButton.setId("log-in-button");
-		leftLayout.add(logInButton, 0, 4);
-		
-		Separator separator = new Separator();
-		leftLayout.add(separator, 0, 5);
-		
-		Label dateLabel = new Label("Set Booking Date:");
-		dateLabel.getStyleClass().add(LOG_IN_LABEL);
-		leftLayout.add(dateLabel, 0, 6);
-		
-		leftLayout.add(setDatePicker(), 1, 6);
-		
-		return leftLayout;
-	}
-	
-	private TabPane setCenterLayout() {
-		TabPane tabPane = new TabPane();
-		tabPane.setId(CENTER_LAYOUT);
-		
-		// Set up the tabs based on the text in the tabText array.
-		// If you want to add a new tab, just add a new string to the array in the constructor.
-		for(int i = 0; i < tabText.length; i++) {
-			Tab tab = new Tab(tabText[i]);
-			tab.setClosable(false);
-			tabPane.getTabs().add(tab);
-		}
-		
-		tabPane.getTabs().get(0).setContent(bookingLayout() );;
-		
-		return tabPane;
+		return link;
 	}
 	
 	// TODO restrict past dates
@@ -178,14 +173,8 @@ public class MainWindow extends Application {
 				
 				System.out.println(currentDate.isBefore(datePicker.getValue() ) );
 			}
-			
 		});
 		
 		return datePicker;
-	}
-	
-	private HBox bookingLayout() {
-		HBox hbox = new HBox();
-		return hbox;
 	}
 }
