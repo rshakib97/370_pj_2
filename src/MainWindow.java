@@ -35,8 +35,8 @@ public class MainWindow extends Application {
 	private final String CSSFILENAME;
 	
 	MainWindow() throws ParseException { 
-		SCENE_WINDOW_WIDTH = 1250;
-		SCENE_WINDOW_HEIGHT = 500;
+		SCENE_WINDOW_WIDTH = 900;
+		SCENE_WINDOW_HEIGHT = 400;
 		
 		// Classes
 		TEXT_NODE = "text_node_left_layout";
