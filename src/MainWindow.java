@@ -130,6 +130,7 @@ public class MainWindow extends Application {
 		PasswordField passwordField = new PasswordField();
 		leftLayout.add(passwordField, 1, 3);
 		
+		// TODO add the acutal functionality of logging in
 		Button logInButton = new Button("Log in");
 		logInButton.setId("log-in-button");
 		leftLayout.add(logInButton, 0, 4);
