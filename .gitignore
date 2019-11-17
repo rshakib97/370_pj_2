@@ -11,6 +11,7 @@ local.properties
 .recommenders
 .project
 .classpath
+.vscode
 
 # External tool builders
 .externalToolBuilders/

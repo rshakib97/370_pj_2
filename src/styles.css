@@ -1,0 +1,50 @@
+/* Will be used for all styling throughout the project */
+
+/* MAIN WINDOW STYLES */
+* {
+	/* Variables */
+	-fx-left-layout-bg-color: linear-gradient(to top left, lightskyblue, steelblue);
+	-fx-center-layout-bg-color: whitesmoke;
+	-fx-main-window-text-fill: whitesmoke;
+}
+
+#left_layout {
+	-fx-background-color: -fx-left-layout-bg-color;
+	-fx-padding: 15px;
+	-fx-hgap: 8;
+	-fx-vgap: 12;
+}
+
+#center_layout {
+	-fx-background-color: -fx-center-layout-bg-color;
+	-fx-padding: 5px 0px 0px 5px;
+	-fx-vgap: 8;
+	-fx-hgap: 1;
+}
+
+#log_in_button {
+	-fx-background-color: -fx-left-layout-bg-color;
+	-fx-font-size: 16px;
+	-fx-text-fill: -fx-main-window-text-fill;
+}
+
+#log_in_button:hover {
+	-fx-background-color: steelblue;
+	-fx-underline: true;
+}
+
+.root {
+	-fx-font-family: "Tahoma";
+}
+
+.text_node_left_layout {
+	-fx-font-size: 20px;
+	-fx-fill: -fx-main-window-text-fill; /* Need for Text class */
+	-fx-text-fill: -fx-main-window-text-fill; /* Need for Label class */
+}
+
+.text_node_center_layout {
+	-fx-font-size: 14px;
+}
+
+/* END MAIN WINDOW STYLES */

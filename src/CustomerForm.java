@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+/* Window that will handle the creation of a new customer */
+
+>>>>>>> 293efef1689add6bf20785b99dabda5981142296
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -9,7 +14,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
  
 public class CustomerForm extends Application{
