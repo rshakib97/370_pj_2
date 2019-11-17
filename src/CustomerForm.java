@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-=======
-/* Window that will handle the creation of a new customer */
 
->>>>>>> 293efef1689add6bf20785b99dabda5981142296
+/* Window that will handle the creation of a new customer */
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
