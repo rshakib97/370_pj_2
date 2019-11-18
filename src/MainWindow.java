@@ -1,5 +1,4 @@
 /* First window the user will see when the program is run, can log in, create a new account and find flights */
-
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
