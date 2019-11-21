@@ -3,7 +3,7 @@
 public class Customer extends Account {
 	// TODO Customer must have a data structure for reservations
 	
-	public Customer(String username, String password) {
-		super(username, password);
+	public Customer(int id, String username, String password) {
+		super(id, username, password);
 	}
 }

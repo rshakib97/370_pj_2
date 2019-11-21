@@ -2,7 +2,7 @@
 
 public class FlightAdmin extends Account {
 
-	public FlightAdmin(String username, String password) {
-		super(username, password);
+	public FlightAdmin(int id, String username, String password) {
+		super(id, username, password);
 	}
 }

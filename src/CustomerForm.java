@@ -150,7 +150,6 @@ public void handle(ActionEvent event) {
 	if(firstname_TextField.getLength()==0) {
 		Stage pop_up = new Stage();
 		First_Name_Missing( pop_up) ;
-
 		
 	}else {
 		Counter_To_Check_If_All_Fields_Are_Valid++;
@@ -186,8 +185,10 @@ public void handle(ActionEvent event) {
 	Counter_To_Check_If_All_Fields_Are_Valid=0;
 	System.exit(0);
 	}
-
-
+	
+	DatabaseManager.insertCustomer(User_Name_TextField.getText(), First_Password_TextField.getText());
+	
+	
 //User_Name_TextField.clear();
 
 }

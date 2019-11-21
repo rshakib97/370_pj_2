@@ -1,5 +1,5 @@
 
-public class SearchEngine {
+public final class SearchEngine {
 	public SearchEngine() {
 		
 	}

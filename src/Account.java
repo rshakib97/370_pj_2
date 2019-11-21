@@ -1,10 +1,14 @@
 /* Base class where all types of accounts will inherit from */
 
 public abstract class Account {
+	protected enum clearance { CUST, FADMIN, SADMIN } 
+	
+	protected int accountID;
 	protected String username;
 	protected String password;
 	
-	public Account(String un, String pw) {
+	public Account(int id, String un, String pw) {
+		accountID = id;
 		username = un;
 		password = pw;
 	}
