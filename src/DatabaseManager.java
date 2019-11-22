@@ -35,9 +35,9 @@ public final class DatabaseManager {
 	// Puts a new customer into the database
 	public static void insertCustomer(String fn, String ln, String un, String pw) {
 		try {
-			String params[] = new String[] { fn, ln, un, pw };
+			String params[] = new String[] { fn, ln, un, pw, "CUST" };
 			
-			PreparedStatement ps = con.prepareStatement("INSERT INTO " + accountDatabase + " VALUES(DEFAULT,?,?,?,?)");
+			PreparedStatement ps = con.prepareStatement("INSERT INTO " + accountDatabase + " VALUES(DEFAULT,?,?,?,?,?)");
 			
 			for(int i = 1; i <= params.length; i++) { ps.setString(i, params[i - 1]); }
 			

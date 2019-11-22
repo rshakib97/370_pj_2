@@ -10,12 +10,9 @@ public class Customer extends Account {
 	
 	public Customer(int id, String username, String password, String fn, String ln, Clearance c) {
 		super(id, username, password);
-		
 		status = c;
-		
 		firstName = fn;
 		lastName = ln;
-		
 		reservedFlights = new ArrayList<Flight>();
 	}
 	
