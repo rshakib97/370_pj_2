@@ -139,26 +139,30 @@ public class MainWindow extends Application {
 		// Customer Data
 		String fn = c.getFirstName();
 		String ln = c.getLastName();
+		String status = c.getStatus().toString();
 		
 		// Row 0
-		Label p = new Label("Profile: ");
-		Label r = new Label("Reservations: ");
-		Button b = setLogoutButton();
+		Label profileLabel = new Label("Profile: ");
+		Label reservationLabel = new Label("Reservations: ");
+		Label statusLabel = new Label("Status: ");
+		Button logout = setLogoutButton();
 		
 		// Row 1
 		Text name = new Text(fn + " " + ln);
+		Text reservations = new Text("None");
+		Text textStatus = new Text(status);
 		
 		// Set I.D.'s
-		b.setId(LOG_OUT_BUTTON);
+		logout.setId(LOG_OUT_BUTTON);
 		
 		// Set classes
-		Node textNodes[] = new Node[] { p, r, name };
+		Node textNodes[] = new Node[] { profileLabel, reservationLabel, name, statusLabel, textStatus, reservations };
 		for(int i = 0; i < textNodes.length; i++) { textNodes[i].getStyleClass().add(TEXT_NODE_LEFT_LAYOUT); }
 		
-		Node nodesAtCol0[] = new Node[] { p, r, b };
+		Node nodesAtCol0[] = new Node[] { profileLabel, reservationLabel, statusLabel, logout };
 		for(int i = 0; i < nodesAtCol0.length; i++) { gp.add(nodesAtCol0[i], 0, i); }
 		
-		Node nodesAtCol1[] = new Node[] { name };
+		Node nodesAtCol1[] = new Node[] { name, reservations, textStatus };
 		for (int i = 0; i < nodesAtCol1.length; i++) { gp.add(nodesAtCol1[i], 1, i); }
 		
 		return gp;
@@ -229,14 +233,12 @@ public class MainWindow extends Application {
 		
 		b.setOnAction(new EventHandler<ActionEvent>() {
 
-			@Override
+			@Override // TODO should bring you to the appropriate GUI depending on clearance level.
 			public void handle(ActionEvent event) {
 				outerLayout.getChildren().remove(loggedInWindow);
 				loginWindow = setLoginWindow();
 				outerLayout.setLeft(loginWindow);
-				
 			}
-			
 		});
 		
 		return b;
