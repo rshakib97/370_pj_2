@@ -3,7 +3,6 @@ import java.util.ArrayList;
 /* Customers should be able to add/cancel reservations and search arrivals/departures */
 
 public class Customer extends Account {
-	// TODO Customer must have a data structure for reservations
 	private String firstName;
 	private String lastName;
 	

@@ -6,7 +6,7 @@ public final class DatabaseManager {
 	private String user;
 	private String password;
 	
-	private static String customerDatabase;
+	private static String accountDatabase;
 	
 	private static Connection con;
 	
@@ -16,7 +16,7 @@ public final class DatabaseManager {
 		user = "caad3435";
 		password = "23033435";
 		
-		customerDatabase = "caad3435.Customers";
+		accountDatabase = "caad3435.Accounts";
 		
 		initiateConnection();
 	}
@@ -37,7 +37,7 @@ public final class DatabaseManager {
 		try {
 			String params[] = new String[] { fn, ln, un, pw };
 			
-			PreparedStatement ps = con.prepareStatement("INSERT INTO " + customerDatabase + " VALUES(DEFAULT,?,?,?,?)");
+			PreparedStatement ps = con.prepareStatement("INSERT INTO " + accountDatabase + " VALUES(DEFAULT,?,?,?,?)");
 			
 			for(int i = 1; i <= params.length; i++) { ps.setString(i, params[i - 1]); }
 			
@@ -47,11 +47,11 @@ public final class DatabaseManager {
 		catch(Exception e) { System.out.print(e); }
 	}
 	
-	public static Customer retrieveCustomer(String un, String pw) {
+	public static Customer retrieveAccount(String un, String pw) {
 		Customer c = null;
 		
 		try {
-			PreparedStatement ps = con.prepareStatement("SELECT * FROM " + customerDatabase + " WHERE userName = ?" + " AND passWord = ?");
+			PreparedStatement ps = con.prepareStatement("SELECT * FROM " + accountDatabase + " WHERE userName = ?" + " AND passWord = ?");
 			ps.setString(1, un);
 			ps.setString(2, pw);
 			ResultSet rs = ps.executeQuery();

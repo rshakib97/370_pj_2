@@ -207,13 +207,11 @@ public class MainWindow extends Application {
 				
 				// TODO make a more meaningful message to user
 				if(validateFields(un, pw) ) { 
-					Customer c = DatabaseManager.retrieveCustomer(un, pw); 
+					Customer c = DatabaseManager.retrieveAccount(un, pw); 
 					
 					if(c != null) { 
 						outerLayout.getChildren().remove(loginWindow);
-						
 						loggedInWindow = setLoggedInWindow(c);
-						
 						outerLayout.setLeft(loggedInWindow);
 					}
 					else {
