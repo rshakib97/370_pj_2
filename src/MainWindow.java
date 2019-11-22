@@ -298,18 +298,14 @@ public class MainWindow extends Application {
 	private DatePicker setDatePicker() {
 		DatePicker datePicker = new DatePicker();
 		
-		Callback<DatePicker, DateCell> dayCellFactory = this.getDayCellFactory();
+		Callback<DatePicker, DateCell> dayCellFactory = getDayCellFactory();
 		datePicker.setDayCellFactory(dayCellFactory);
 		
 		datePicker.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override 
 			public void handle(ActionEvent e) {
-				LocalDate currentDate = LocalDate.now();
-				
-				System.out.print(datePicker.getValue() );
-				
-				System.out.println(currentDate.isBefore(datePicker.getValue() ) );
+				// TODO get the value of the selected date and make reservations
 			}
 		});
 		
