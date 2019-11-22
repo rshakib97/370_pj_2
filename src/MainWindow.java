@@ -282,7 +282,7 @@ public class MainWindow extends Application {
                     public void updateItem(LocalDate item, boolean empty) {
                         super.updateItem(item, empty);
  
-                        // Disable Monday, Tueday, Wednesday.
+                        // Disable dates before the current one
                         if (item.isBefore(LocalDate.now()) ) {
                             setDisable(true);
                             setStyle("-fx-background-color: #ffc0cb;");
