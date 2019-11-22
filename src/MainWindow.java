@@ -280,8 +280,6 @@ public class MainWindow extends Application {
                 return new DateCell() {
                     @Override
                     public void updateItem(LocalDate item, boolean empty) {
-                        super.updateItem(item, empty);
- 
                         // Disable dates before the current one
                         if (item.isBefore(LocalDate.now()) ) {
                             setDisable(true);
