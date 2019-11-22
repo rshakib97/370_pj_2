@@ -7,6 +7,9 @@ public class Customer extends Account {
 	
 	public Customer(int id, String username, String password, String fn, String ln) {
 		super(id, username, password);
+		
+		status = Clearance.CUST;
+		
 		firstName = fn;
 		lastName = ln;
 	}

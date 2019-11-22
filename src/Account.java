@@ -1,7 +1,8 @@
 /* Base class where all types of accounts will inherit from */
 
 public abstract class Account {
-	protected enum clearance { CUST, FADMIN, SADMIN } 
+	protected enum Clearance { CUST, FADMIN, SADMIN } 
+	protected Clearance status;
 	
 	protected int accountID;
 	protected String username;

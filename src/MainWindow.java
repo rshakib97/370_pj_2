@@ -34,6 +34,7 @@ public class MainWindow extends Application {
 	private final String LOGGED_IN_WINDOW;
 	private final String CENTER_LAYOUT;
 	private final String LOG_IN_BUTTON;
+	private final String LOG_OUT_BUTTON;
 	
 	private final String CSSFILENAME;
 	
@@ -57,6 +58,7 @@ public class MainWindow extends Application {
 		LOGGED_IN_WINDOW = "logged_in_window";
 		CENTER_LAYOUT = "center_layout";
 		LOG_IN_BUTTON = "log_in_button";
+		LOG_OUT_BUTTON = "log_out_button";
 		
 		CSSFILENAME = "styles.css";
 	}
@@ -133,15 +135,20 @@ public class MainWindow extends Application {
 		
 		// Row 0
 		Label p = new Label("Profile: ");
+		Label r = new Label("Reservations: ");
+		Button b = setLogoutButton();
 		
 		// Row 1
 		Text name = new Text(fn + " " + ln);
 		
-		Node textNodes[] = new Node[] { p, name };
-		for(int i = 0; i < textNodes.length; i++) { textNodes[i].getStyleClass().add(TEXT_NODE_LEFT_LAYOUT); }
-		// Set classes
+		// Set I.D.'s
+		b.setId(LOG_OUT_BUTTON);
 		
-		Node nodesAtCol0[] = new Node[] { p };
+		// Set classes
+		Node textNodes[] = new Node[] { p, r, name };
+		for(int i = 0; i < textNodes.length; i++) { textNodes[i].getStyleClass().add(TEXT_NODE_LEFT_LAYOUT); }
+		
+		Node nodesAtCol0[] = new Node[] { p, r, b };
 		for(int i = 0; i < nodesAtCol0.length; i++) { gp.add(nodesAtCol0[i], 0, i);}
 		
 		Node nodesAtCol1[] = new Node[] { name };
@@ -181,7 +188,7 @@ public class MainWindow extends Application {
 	}
 	
 	private Button setLoginButton(TextField tf, PasswordField pf) {
-		Button b = new Button("Log in");
+		Button b = new Button("Log In");
 		
 		b.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -208,8 +215,25 @@ public class MainWindow extends Application {
 		return b;
 	}
 	
+	private Button setLogoutButton() {
+		Button b = new Button("Log Out");
+		
+		b.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				outerLayout.getChildren().remove(loggedInWindow);
+				loginWindow = setLoginWindow();
+				outerLayout.setLeft(loginWindow);
+				
+			}
+			
+		});
+		
+		return b;
+	}
+	
 	private Hyperlink setCreateAccountLink() {
-		// Link Setup
 		Text createAccountText = new Text("Create Account");
 		createAccountText.getStyleClass().add(TEXT_NODE_LEFT_LAYOUT);
 		
@@ -237,7 +261,7 @@ public class MainWindow extends Application {
 		
 		datePicker.setOnAction(new EventHandler<ActionEvent>() {
 
-			@Override // Will make sure you can't make reservations for the past.
+			@Override // TODO Will make sure you can't make reservations for the past.
 			public void handle(ActionEvent e) {
 				LocalDate currentDate = LocalDate.now();
 				

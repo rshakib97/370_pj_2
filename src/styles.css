@@ -22,7 +22,7 @@
 	-fx-hgap: 1;
 }
 
-#log_in_button {
+#log_in_button, #log_out_button {
 	-fx-background-color: -fx-left-layout-bg-color;
 	-fx-font-size: 16px;
 	-fx-text-fill: -fx-main-window-text-fill;
