@@ -62,8 +62,9 @@ public final class DatabaseManager {
 				String password = rs.getString("passWord");
 				String fn = rs.getString("firstName");
 				String ln = rs.getString("lastName");
+				Clearance status = Clearance.valueOf(rs.getString("status"));
 				
-				c = new Customer(id, userName, password, fn, ln);
+				c = new Customer(id, userName, password, fn, ln, status);
 			}
 		}
 		

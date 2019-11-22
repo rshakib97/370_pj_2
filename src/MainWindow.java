@@ -213,6 +213,7 @@ public class MainWindow extends Application {
 						outerLayout.getChildren().remove(loginWindow);
 						
 						loggedInWindow = setLoggedInWindow(c);
+						
 						outerLayout.setLeft(loggedInWindow);
 					}
 					else {
