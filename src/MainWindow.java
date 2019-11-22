@@ -199,6 +199,10 @@ public class MainWindow extends Application {
 		Node fields[] = new Node[] { fromField, toField, departDate, returnDate };
 		for(int i = 0; i < fields.length; i++) { gp.add(fields[i], i, 1); }
 		
+		// Search Button
+		Button search = new Button("Search");
+		gp.add(search, 0, 2);
+		
 		// TODO set classes for styling
 	
 		return gp;
@@ -281,7 +285,7 @@ public class MainWindow extends Application {
                     @Override
                     public void updateItem(LocalDate item, boolean empty) {
                         // Disable dates before the current one
-                        if (item.isBefore(LocalDate.now()) ) {
+                        if (item.isBefore(LocalDate.now() ) ) {
                             setDisable(true);
                             setStyle("-fx-background-color: #ffc0cb;");
                         }
