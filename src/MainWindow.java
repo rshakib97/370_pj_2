@@ -30,11 +30,18 @@ public class MainWindow extends Application {
 	private final String HYPERLINK;
 			
 	// I.D.'s
-	private final String LEFT_LAYOUT;
+	private final String LOGIN_WINDOW;
+	private final String LOGGED_IN_WINDOW;
 	private final String CENTER_LAYOUT;
 	private final String LOG_IN_BUTTON;
 	
 	private final String CSSFILENAME;
+	
+	// Panes
+	BorderPane outerLayout;
+	GridPane loginWindow;
+	GridPane loggedInWindow;
+	GridPane centerLayout;
 	
 	MainWindow() throws ParseException { 
 		SCENE_WINDOW_WIDTH = 925;
@@ -46,7 +53,8 @@ public class MainWindow extends Application {
 		HYPERLINK = "hyperlink";
 		
 		// I.D.'s
-		LEFT_LAYOUT = "left_layout";
+		LOGIN_WINDOW = "login_window";
+		LOGGED_IN_WINDOW = "logged_in_window";
 		CENTER_LAYOUT = "center_layout";
 		LOG_IN_BUTTON = "log_in_button";
 		
@@ -67,12 +75,12 @@ public class MainWindow extends Application {
 	
 	// Sets the outer most layout of the Main Window
 	private BorderPane setOuterLayout() {
-		BorderPane outerLayout = new BorderPane();
-		GridPane leftLayout = setLeftLayout();
-		GridPane centerLayout = setCenterLayout();
+		outerLayout = new BorderPane();
+		loginWindow = setLoginWindow();
+		centerLayout = setCenterLayout();
 		
 		// Set the areas of the Border Pane
-		outerLayout.setLeft(leftLayout);
+		outerLayout.setLeft(loginWindow);
 		outerLayout.setCenter(centerLayout);
 		
 		return outerLayout;
@@ -80,14 +88,14 @@ public class MainWindow extends Application {
 	
 	// Sets the leftmost layout of the Main Window
 	// TODO check for account authentication 
-	private GridPane setLeftLayout() {
+	private GridPane setLoginWindow() {
 		GridPane gp = new GridPane();
-		gp.setId(LEFT_LAYOUT);
+		gp.setId(LOGIN_WINDOW);
 	
 		// Row 0
 		Label userName = new Label("User Name:");
 		Label passWord = new Label("Password:");
-		Button logInButton = new Button("Log in");
+		Button logInButton = new Button();
 		
 		// Row 1
 		TextField userTextField = new TextField();
@@ -99,8 +107,12 @@ public class MainWindow extends Application {
 		for(int i = 0; i < textNodes.length; i++) { textNodes[i].getStyleClass().add(TEXT_NODE_LEFT_LAYOUT);}
 		link.getStyleClass().add(HYPERLINK);
 		
+		// Set login handler
+		logInButton = setLoginButton(userTextField, passwordField);
+		
 		// Set I.D.'s
 		logInButton.setId(LOG_IN_BUTTON);
+				
 		
 		Node nodesAtCol0[] = new Node[] { userName, passWord, logInButton };
 		for(int i = 0; i < nodesAtCol0.length; i++) { gp.add(nodesAtCol0[i], 0, i); }
@@ -111,14 +123,48 @@ public class MainWindow extends Application {
 		return gp;
 	}
 	
+	private GridPane setLoggedInWindow(Customer c) {
+		GridPane gp = new GridPane();
+		gp.setId(LOGGED_IN_WINDOW);
+		
+		// Customer Data
+		String fn = c.getFirstName();
+		String ln = c.getLastName();
+		
+		// Row 0
+		Label p = new Label("Profile: ");
+		
+		// Row 1
+		Text name = new Text(fn + " " + ln);
+		
+		Node textNodes[] = new Node[] { p, name };
+		for(int i = 0; i < textNodes.length; i++) { textNodes[i].getStyleClass().add(TEXT_NODE_LEFT_LAYOUT); }
+		// Set classes
+		
+		Node nodesAtCol0[] = new Node[] { p };
+		for(int i = 0; i < nodesAtCol0.length; i++) { gp.add(nodesAtCol0[i], 0, i);}
+		
+		Node nodesAtCol1[] = new Node[] { name };
+		for (int i = 0; i < nodesAtCol1.length; i++) { gp.add(nodesAtCol1[i], 1, i); }
+		
+		return gp;
+	}
+	
 	private GridPane setCenterLayout() {
 		GridPane gp = new GridPane();
 		gp.setId(CENTER_LAYOUT);
 		
+		// Row 0
 		Label fromLabel = new Label("From");
 		Label toLabel = new Label("To");
 		Label departLabel = new Label("Depart");
 		Label returnLabel = new Label("Return");
+		
+		// Row 1
+		TextField fromField = new TextField();
+		TextField toField = new TextField();
+		DatePicker departDate = setDatePicker();
+		DatePicker returnDate = setDatePicker();
 		
 		Label labels[] = new Label[] { fromLabel, toLabel, departLabel, returnLabel };
 		for(int i = 0; i < labels.length; i++) { 
@@ -126,17 +172,39 @@ public class MainWindow extends Application {
 			gp.add(labels[i], i, 0);
 		}
 		
-		TextField fromField = new TextField();
-		TextField toField = new TextField();
-		DatePicker departDate = setDatePicker();
-		DatePicker returnDate = setDatePicker();
-		
 		Node fields[] = new Node[] { fromField, toField, departDate, returnDate };
 		for(int i = 0; i < fields.length; i++) { gp.add(fields[i], i, 1); }
 		
 		// TODO set classes for styling
 	
 		return gp;
+	}
+	
+	private Button setLoginButton(TextField tf, PasswordField pf) {
+		Button b = new Button("Log in");
+		
+		b.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				String un = tf.getText();
+				String pw = pf.getText();
+				
+				if(!validateFields(un, pw) ) { System.out.println("Invalid"); }
+				else { 
+					Customer c = DatabaseManager.retrieveCustomer(un, pw); 
+					
+					if(c != null) { 
+						outerLayout.getChildren().remove(loginWindow);
+						
+						loggedInWindow = setLoggedInWindow(c);
+						outerLayout.setLeft(loggedInWindow);
+					}
+				}
+			}
+		});
+		
+		return b;
 	}
 	
 	private Hyperlink setCreateAccountLink() {
@@ -154,12 +222,9 @@ public class MainWindow extends Application {
 				Stage stage = new Stage();
 				try {
 					cf.start(stage);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-							
+				} 
+				catch (Exception e) { e.printStackTrace(); }
+			}			
 		});
 		
 		return link;
@@ -182,5 +247,12 @@ public class MainWindow extends Application {
 		});
 		
 		return datePicker;
+	}
+	
+	private boolean validateFields(String un, String pw) {
+		if(un.isEmpty() ) { return false; }
+		else if(pw.isEmpty() ) { return false; }
+		
+		return true;
 	}
 }

@@ -29,29 +29,46 @@ public final class DatabaseManager {
 			con = DriverManager.getConnection(url, user, password);
 		}
 		
-		catch(Exception e) {
-			System.out.println(e);
-		}
+		catch(Exception e) { System.out.println(e); }
 	}
 	
-	public static void insertCustomer(String un, String pw) {
+	public static void insertCustomer(String fn, String ln, String un, String pw) {
 		try {
-			Statement s = con.createStatement();
-			ResultSet rs = s.executeQuery("SELECT * FROM " + customerDatabase);
-			ResultSetMetaData rsmd = rs.getMetaData();
-			int colCount = rsmd.getColumnCount();
-	
-			for(int i = 1; i <= colCount; i++) { 
-				s.executeUpdate("INSERT INTO " + customerDatabase + " " + rsmd.getColumnName(i) + "VALUES ('albert'); ");
-			}
+			String params[] = new String[] { fn, ln, un, pw };
 			
-			//s.executeUpdate("INSERT INTO `caad3435`.`RayhanAirCustomers` (`firstName`) VALUES ('albert');");
-			//s.executeUpdate("INSERT INTO " + customerDatabase + " (`firstName`) VALUES ('albert');");
+			PreparedStatement ps = con.prepareStatement("INSERT INTO " + customerDatabase + " VALUES(DEFAULT,?,?,?,?)");
+			
+			for(int i = 1; i <= params.length; i++) { ps.setString(i, params[i - 1]); }
+			
+			ps.executeUpdate();
 		}
 		
-		catch(Exception e) {
-			System.out.print(e);
+		catch(Exception e) { System.out.print(e); }
+	}
+	
+	// TODO validate username and password
+	public static Customer retrieveCustomer(String un, String pw) {
+		Customer c = null;
+		
+		try {
+			PreparedStatement ps = con.prepareStatement("SELECT * FROM " + customerDatabase + " WHERE userName = ?");
+			ps.setString(1, un);
+			ResultSet rs = ps.executeQuery();
+			ResultSetMetaData rsmd = rs.getMetaData();
+			
+			while(rs.next() ) {
+				int id = rs.getInt("customerID");
+				String userName = rs.getString("userName");
+				String password = rs.getString("passWord");
+				String fn = rs.getString("firstName");
+				String ln = rs.getString("lastName");
+				
+				c = new Customer(id, userName, password, fn, ln);
+			}
 		}
 		
+		catch(Exception e) { System.out.println(e); }
+		
+		return c;
 	}
 }

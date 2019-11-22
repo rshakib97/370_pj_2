@@ -8,7 +8,7 @@
 	-fx-main-window-text-fill: whitesmoke;
 }
 
-#left_layout {
+#login_window, #logged_in_window {
 	-fx-background-color: -fx-left-layout-bg-color;
 	-fx-padding: 15px;
 	-fx-hgap: 8;
