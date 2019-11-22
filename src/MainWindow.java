@@ -271,6 +271,7 @@ public class MainWindow extends Application {
 		return link;
 	}
 	
+	// Restricts dates that are before the current date
 	Callback<DatePicker, DateCell> getDayCellFactory() {
 		final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
 			 
@@ -302,7 +303,7 @@ public class MainWindow extends Application {
 		
 		datePicker.setOnAction(new EventHandler<ActionEvent>() {
 
-			@Override // TODO Will make sure you can't make reservations for the past.
+			@Override 
 			public void handle(ActionEvent e) {
 				LocalDate currentDate = LocalDate.now();
 				
