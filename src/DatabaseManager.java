@@ -47,13 +47,13 @@ public final class DatabaseManager {
 		catch(Exception e) { System.out.print(e); }
 	}
 	
-	// TODO validate username and password
 	public static Customer retrieveCustomer(String un, String pw) {
 		Customer c = null;
 		
 		try {
-			PreparedStatement ps = con.prepareStatement("SELECT * FROM " + customerDatabase + " WHERE userName = ?");
+			PreparedStatement ps = con.prepareStatement("SELECT * FROM " + customerDatabase + " WHERE userName = ?" + " AND passWord = ?");
 			ps.setString(1, un);
+			ps.setString(2, pw);
 			ResultSet rs = ps.executeQuery();
 		
 			while(rs.next() ) {

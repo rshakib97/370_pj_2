@@ -33,6 +33,11 @@
 	-fx-underline: true;
 }
 
+#warning_label {
+	-fx-text-fill: red;
+	-fx-font-size: 14px;
+}
+
 .root {
 	-fx-font-family: "Tahoma";
 }
