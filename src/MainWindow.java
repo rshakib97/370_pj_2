@@ -2,14 +2,18 @@
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import java.text.ParseException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -17,6 +21,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class MainWindow extends Application {
 	private Stage primaryStage;
@@ -266,9 +271,34 @@ public class MainWindow extends Application {
 		return link;
 	}
 	
-	// TODO restrict past dates
+	Callback<DatePicker, DateCell> getDayCellFactory() {
+		final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
+			 
+            @Override
+            public DateCell call(final DatePicker datePicker) {
+                return new DateCell() {
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+ 
+                        // Disable Monday, Tueday, Wednesday.
+                        if (item.isBefore(LocalDate.now()) ) {
+                            setDisable(true);
+                            setStyle("-fx-background-color: #ffc0cb;");
+                        }
+                    }
+                };
+            }
+        };
+        
+        return dayCellFactory;
+	}
+	
 	private DatePicker setDatePicker() {
 		DatePicker datePicker = new DatePicker();
+		
+		Callback<DatePicker, DateCell> dayCellFactory = this.getDayCellFactory();
+		datePicker.setDayCellFactory(dayCellFactory);
 		
 		datePicker.setOnAction(new EventHandler<ActionEvent>() {
 
