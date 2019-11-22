@@ -32,6 +32,7 @@ public final class DatabaseManager {
 		catch(Exception e) { System.out.println(e); }
 	}
 	
+	// Puts a new customer into the database
 	public static void insertCustomer(String fn, String ln, String un, String pw) {
 		try {
 			String params[] = new String[] { fn, ln, un, pw };
@@ -54,8 +55,7 @@ public final class DatabaseManager {
 			PreparedStatement ps = con.prepareStatement("SELECT * FROM " + customerDatabase + " WHERE userName = ?");
 			ps.setString(1, un);
 			ResultSet rs = ps.executeQuery();
-			ResultSetMetaData rsmd = rs.getMetaData();
-			
+		
 			while(rs.next() ) {
 				int id = rs.getInt("customerID");
 				String userName = rs.getString("userName");

@@ -190,6 +190,7 @@ public class MainWindow extends Application {
 				String un = tf.getText();
 				String pw = pf.getText();
 				
+				// TODO make a more meaningful message to user
 				if(!validateFields(un, pw) ) { System.out.println("Invalid"); }
 				else { 
 					Customer c = DatabaseManager.retrieveCustomer(un, pw); 
