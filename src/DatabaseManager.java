@@ -74,13 +74,16 @@ public final class DatabaseManager {
 		return c;
 	}
 	
-	public static ArrayList<Flight> getFlights() {
-		//String table = databaseName + "." + flightTable;
-		
+	public static ArrayList<Flight> getFlights(String from, String to) {
 		ArrayList<Flight> flights = new ArrayList<>();
 		
 		try {
-			PreparedStatement ps = con.prepareStatement("SELECT * FROM caad3435.AdamAirFlights");
+			from = from.toUpperCase();
+			to = to.toUpperCase();
+			
+			PreparedStatement ps = con.prepareStatement("SELECT * FROM caad3435.AdamAirFlights WHERE origin LIKE ?");
+			ps.setString(1, from + "%");
+			//ps.setString(2, to);
 			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next() ) {

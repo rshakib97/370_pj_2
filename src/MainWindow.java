@@ -200,7 +200,7 @@ public class MainWindow extends Application {
 		for(int i = 0; i < fields.length; i++) { gp.add(fields[i], i, 1); }
 		
 		// Search Button
-		Button search = setSearchButton();
+		Button search = setSearchButton(fromField, toField);
 		gp.add(search, 0, 2);
 		
 		// TODO set classes for styling
@@ -208,14 +208,16 @@ public class MainWindow extends Application {
 		return gp;
 	}
 	
-	private Button setSearchButton() {
+	private Button setSearchButton(TextField from, TextField to) {
 		Button b = new Button("Search");
 		
 		b.setOnAction(new EventHandler<ActionEvent>() {
-
+			
 			@Override
 			public void handle(ActionEvent event) {
-				DatabaseManager.getFlights();
+				String fromQuery = from.getText();
+				String toQuery = to.getText();
+				DatabaseManager.getFlights(fromQuery, toQuery);
 			}
 			
 		});
