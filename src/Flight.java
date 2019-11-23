@@ -1,33 +1,31 @@
 /* Should have a fare cost and where this flight will be going. */
 public class Flight {
-	private static int flightNumber = 0;
-	private int filledSeats, maxSeats;
-	private double cost;
-	private Flight destination;
+	private int flightID, maxCap, reserved;
+	private String date, deptTime, arrTime, origin, destination;
+	private double fare;
 	
-	public Flight(int max, Flight f) {
-		maxSeats = max;
-		destination = f;
-		
-		flightNumber++;
-		filledSeats = 0;
-		cost = 100.00; // TODO This is only a base cost, add a way to create a new cost based on available seating
+	public Flight(int id, int max, int res, String d, String dt, String at, String o, String dest, double f) {
+		 flightID = id;
+		 maxCap = max;
+		 reserved = res;
+		 
+		 date = d;
+		 deptTime = dt;
+		 arrTime = at;
+		 origin = o;
+		 destination = dest;
+		 
+		 fare = f;
 	}
 
 	// Getter Methods
-	public int getFilledSeats() { return filledSeats; }
-	public int getMaxSeats() { return maxSeats; }
-	public double getCost() { return cost; }
-	public Flight getDestination() { return destination; }
-	
-	// Setter Methods
-	public void setMaxSeats(int max) { maxSeats = max; }
-	public void setDestination(Flight f) { destination = f; }
-	
-	// Class Methods
-	public boolean seatsAvailable() { return filledSeats >= maxSeats; }
-	public void addFilledSeat() {
-		if(seatsAvailable() ) { filledSeats++; } 
-		else { System.out.println("Can not book flight number " + flightNumber); }
-	}
+	public int getflightID() { return flightID; }
+	public int getmaxCap() { return maxCap; }
+	public int getReserved() { return reserved; }
+	public String getDate() { return date; }
+	public String getdeptTime() { return deptTime; }
+	public String getArrTime() { return arrTime; }
+	public String getOrigin() { return origin; }
+	public String getDesination() { return destination; }
+	public double getFare() { return fare; }
 }

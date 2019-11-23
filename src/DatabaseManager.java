@@ -1,7 +1,8 @@
 import java.sql.*;
+import java.util.ArrayList;
 
 public final class DatabaseManager {
-	private String databaseName;
+	private static String databaseName;
 	private String url;
 	private String user;
 	private String password;
@@ -57,7 +58,7 @@ public final class DatabaseManager {
 			ResultSet rs = ps.executeQuery();
 		
 			while(rs.next() ) {
-				int id = rs.getInt("customerID");
+				int id = rs.getInt("accountID");
 				String userName = rs.getString("userName");
 				String password = rs.getString("passWord");
 				String fn = rs.getString("firstName");
@@ -71,5 +72,24 @@ public final class DatabaseManager {
 		catch(Exception e) { System.out.println(e); }
 		
 		return c;
+	}
+	
+	public static ArrayList<Flight> getFlights() {
+		//String table = databaseName + "." + flightTable;
+		
+		ArrayList<Flight> flights = new ArrayList<>();
+		
+		try {
+			PreparedStatement ps = con.prepareStatement("SELECT * FROM caad3435.AdamAirFlights");
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next() ) {
+				System.out.println(rs.getString("origin"));
+			}
+		}
+		
+		catch(Exception e) { System.out.println(e); }
+		
+		return flights;
 	}
 }
