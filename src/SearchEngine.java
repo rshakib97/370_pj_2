@@ -1,6 +1,4 @@
 
 public final class SearchEngine {
-	public SearchEngine() {
-		
-	}
+	public SearchEngine() {}
 }

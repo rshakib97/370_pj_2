@@ -200,12 +200,27 @@ public class MainWindow extends Application {
 		for(int i = 0; i < fields.length; i++) { gp.add(fields[i], i, 1); }
 		
 		// Search Button
-		Button search = new Button("Search");
+		Button search = setSearchButton();
 		gp.add(search, 0, 2);
 		
 		// TODO set classes for styling
 	
 		return gp;
+	}
+	
+	private Button setSearchButton() {
+		Button b = new Button("Search");
+		
+		b.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				DatabaseManager.getFlights();
+			}
+			
+		});
+		
+		return b;
 	}
 	
 	private Button setLoginButton(TextField tf, PasswordField pf) {
