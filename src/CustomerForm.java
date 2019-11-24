@@ -187,7 +187,7 @@ public class CustomerForm extends Application {
 					System.out.println("it worked, fill in the data base!"); // then write to the database from all text
 																				// fields
 					Counter_To_Check_If_All_Fields_Are_Valid = 0;
-					// System.exit(0);
+					primaryStage.close();
 				}
 
 				DatabaseManager.insertCustomer(firstname_TextField.getText(), lastname_TextField.getText(),
