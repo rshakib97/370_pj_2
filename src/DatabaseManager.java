@@ -78,7 +78,7 @@ public final class DatabaseManager {
 		ArrayList<Flight> flights = new ArrayList<>();
 		
 		try {
-			from = from.toUpperCase();
+			from = from.toUpperCase();//
 			to = to.toUpperCase();
 			
 			PreparedStatement ps = con.prepareStatement("SELECT * FROM caad3435.AdamAirFlights WHERE origin LIKE ?");
