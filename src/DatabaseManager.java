@@ -92,8 +92,7 @@ public final class DatabaseManager {
 			to = to.toUpperCase();
 			
 			PreparedStatement ps = con.prepareStatement("SELECT * FROM " + flightsDatabase + " AS f" +
-					" JOIN Airports AS a ON f.origin = a.airportID" + 
-					" WHERE a.airportName LIKE ?");
+					" JOIN Airports AS a ON f.origin = a.airportID" + " WHERE a.airportName LIKE ?");
 			
 			ps.setString(1, from + "%");
 			//ps.setString(2, to);
