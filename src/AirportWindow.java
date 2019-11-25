@@ -33,7 +33,7 @@ public class AirportWindow extends Application {
         // Create the ListView
         final ListView<String> globalAirportList = new ListView<>();
         // Add the items to the List 
-        globalAirportList.getItems().addAll(createAirportList());
+        globalAirportList.getItems().addAll(DatabaseManager.getAllAirports() );
         // Set the size of the ListView
         globalAirportList.setPrefSize(120, 120);
         // Enable multiple selection
@@ -45,8 +45,9 @@ public class AirportWindow extends Application {
             public void changed(ObservableValue<? extends String> ov,
                     final String oldvalue, final String newvalue) 
             {
-                arrival_txt_box(ov, oldvalue, newvalue);
-                departure_txt_bx(ov, oldvalue, newvalue);
+            	ArrayList<Flight> flights = DatabaseManager.getFlightsFromAirport(globalAirportList.getSelectionModel().getSelectedItem() );
+                arrival_txt_box(ov, oldvalue, newvalue, flights);
+                departure_txt_bx(ov, oldvalue, newvalue, flights);
         }});
  
         // Create the HBox for the Airports
@@ -99,46 +100,17 @@ public class AirportWindow extends Application {
         stage.show();       
     }
  
-    // Helper-Method to create an ArrayList of Persons
-    private ArrayList<String> createAirportList()
-    {
-        ArrayList<String> Airports = new ArrayList<String>();
-         
-        Airports.add("JFK");
-        Airports.add("DXB");
-        Airports.add("LAX");
-        Airports.add("ORD");
-        Airports.add("LHR");
-        Airports.add("CAN");
-        Airports.add("ICN");
-        Airports.add("ICN");
-        Airports.add("DEL");
-        Airports.add("LAS");
-        Airports.add("BCN");
-        Airports.add("ATL");
-         
-        return Airports;
-    }
- 
     // Method to display the Data, which has been changed
-    public void arrival_txt_box(ObservableValue<? extends String> observable,String oldValue,String newValue) {	
+    public void arrival_txt_box(ObservableValue<? extends String> observable,String oldValue,String newValue, ArrayList<Flight> flights) {	
     	arrivals.clear();
-    	for(int i =0; i <= 100;i++) {
-//        String oldText = oldValue == null ? "null" : oldValue.toString();
-//        String newText = newValue == null ? "null" : newValue.toString();
-         
-//        arrivals.appendText("Itemchanged: old = " + oldText + ", new = " + newText + "\n");
-    	  arrivals.appendText("Airline: " +i+"          Flight: " +  "               Time: " + "\n");
+    	for(int i = 0; i < flights.size(); i++) {
+    	  arrivals.appendText("Departing From: " + flights.get(i).getOrigin() + "\tFlight No: " + flights.get(i).getFlightID() + "\tDate: " + flights.get(i).getDate()  + "\n");
     	}
     }
-    public void departure_txt_bx(ObservableValue<? extends String> observable,String oldValue,String newValue) {	
+    public void departure_txt_bx(ObservableValue<? extends String> observable,String oldValue,String newValue, ArrayList<Flight> flights) {	
     	departures.clear();
-    	for(int i =0; i <= 100;i++) {
-//        String oldText = oldValue == null ? "null" : oldValue.toString();
-//        String newText = newValue == null ? "null" : newValue.toString();
-         
-//        arrivals.appendText("Itemchanged: old = " + oldText + ", new = " + newText + "\n");
-    	departures.appendText("Airline: " +i+"          Flight: " +  "               Time: " + "\n");
-    }
+    	for(int i = 0; i <= flights.size(); i++) {
+    		departures.appendText("Airline: " +i+"          Flight: " +  "               Time: " + "\n");
+    	}
     } 
 }

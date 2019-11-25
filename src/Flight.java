@@ -4,6 +4,12 @@ public class Flight {
 	private String date, deptTime, arrTime, origin, destination;
 	private double fare;
 	
+	public Flight(int id, String d, String o) {
+		flightID = id;
+		date = d;
+		origin = o;
+	}
+	
 	public Flight(int id, int max, int res, String d, String dt, String at, String o, String dest, double f) {
 		 flightID = id;
 		 maxCap = max;
@@ -19,8 +25,8 @@ public class Flight {
 	}
 
 	// Getter Methods
-	public int getflightID() { return flightID; }
-	public int getmaxCap() { return maxCap; }
+	public int getFlightID() { return flightID; }
+	public int getMaxCap() { return maxCap; }
 	public int getReserved() { return reserved; }
 	public String getDate() { return date; }
 	public String getdeptTime() { return deptTime; }

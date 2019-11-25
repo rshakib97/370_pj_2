@@ -7,7 +7,9 @@ public final class DatabaseManager {
 	private String user;
 	private String password;
 	
-	private static String accountDatabase;
+	private static String accountsDatabase;
+	private static String airportsDatabase;
+	private static String flightsDatabase;
 	
 	private static Connection con;
 	
@@ -17,7 +19,9 @@ public final class DatabaseManager {
 		user = "caad3435";
 		password = "23033435";
 		
-		accountDatabase = "caad3435.Accounts";
+		accountsDatabase = "caad3435.Accounts";
+		airportsDatabase = "caad3435.Airports";
+		flightsDatabase = "caad3435.Flights";
 		
 		initiateConnection();
 	}
@@ -38,7 +42,7 @@ public final class DatabaseManager {
 		try {
 			String params[] = new String[] { fn, ln, un, pw, "CUST" };
 			
-			PreparedStatement ps = con.prepareStatement("INSERT INTO " + accountDatabase + " VALUES(DEFAULT,?,?,?,?,?)");
+			PreparedStatement ps = con.prepareStatement("INSERT INTO " + accountsDatabase + " VALUES(DEFAULT,?,?,?,?,?)");
 			
 			for(int i = 1; i <= params.length; i++) { ps.setString(i, params[i - 1]); }
 			
@@ -52,7 +56,7 @@ public final class DatabaseManager {
 		Customer c = null;
 		
 		try {
-			PreparedStatement ps = con.prepareStatement("SELECT * FROM " + accountDatabase + " WHERE userName = ?" + " AND passWord = ?");
+			PreparedStatement ps = con.prepareStatement("SELECT * FROM " + accountsDatabase + " WHERE userName = ?" + " AND passWord = ?");
 			ps.setString(1, un);
 			ps.setString(2, pw);
 			ResultSet rs = ps.executeQuery();
@@ -74,7 +78,7 @@ public final class DatabaseManager {
 		return c;
 	}
 	
-	public static ArrayList<Flight> getFlights(String from, String to) {
+	public static ArrayList<Flight> searchFlights(String from, String to) {
 		ArrayList<Flight> flights = new ArrayList<>();
 		
 		try {
@@ -88,6 +92,58 @@ public final class DatabaseManager {
 			
 			while(rs.next() ) {
 				System.out.println(rs.getString("origin"));
+			}
+		}
+		
+		catch(Exception e) { System.out.println(e); }
+		
+		return flights;
+	}
+	
+	public static ArrayList<String> getAllAirports() {
+		ArrayList<String> airports = new ArrayList<String>();
+		try {
+			PreparedStatement ps = con.prepareStatement("SELECT * FROM " + airportsDatabase);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next() ) {
+				airports.add(rs.getString("airportName"));
+			}
+		}
+		
+		catch(Exception e) { System.out.println(e); }
+		
+		return airports;
+	}
+	
+	public static ArrayList<Flight> getFlightsFromAirport(String airport) {
+		ArrayList<Flight> flights = new ArrayList<Flight>();
+		
+		try {
+			/*PreparedStatement ps = con.prepareStatement("SELECT * FROM " + flightsDatabase + "," + airportsDatabase +
+				" WHERE " + flightsDatabase + ".origin = " + airportsDatabase + ".airportID" + " AND " + airportsDatabase + ".airportName=?");*/
+			
+			/*PreparedStatement ps = con.prepareStatement("SELECT * FROM " + flightsDatabase + " INNER JOIN " + airportsDatabase + 
+					" WHERE " + flightsDatabase + ".origin = " + airportsDatabase + ".airportID" + " AND " + airportsDatabase + ".airportName=?");*/
+			
+			PreparedStatement ps = con.prepareStatement("SELECT * " + 
+					" FROM Flights AS f" + 
+					" JOIN Airports AS a1 ON f.origin = a1.airportID" + 
+					" JOIN Airports AS a2 ON f.dest = a2.airportID" + 
+					" JOIN Airlines AS air ON f.airline = air.airlineID WHERE a1.airportName=?");
+			
+			ps.setString(1, airport);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next() ) {
+				int id = rs.getInt("flightID");
+				String date = rs.getString("date");
+				String origin = rs.getString("airportName");
+				
+				Flight f = new Flight(id, date, origin);
+				flights.add(f);
 			}
 		}
 		
