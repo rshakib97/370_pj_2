@@ -183,8 +183,8 @@ public final class DatabaseManager {
 				String date = rs.getString("date");
 				String deptTime = rs.getString("depTime");
 				String arrTime = rs.getString("arrTime");
-				String origin = rs.getString("a1.airportName");
-				String dest = rs.getString("a2.airportName");
+				String origin = rs.getString("a2.airportName");
+				String dest = rs.getString("a1.airportName");
 				String airline = rs.getString("airlineName");
 				double fare = rs.getDouble("fare");
 				

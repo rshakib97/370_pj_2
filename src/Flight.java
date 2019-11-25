@@ -8,7 +8,7 @@ public class Flight {
 		flightID = id;
 		deptTime = d;
 		airline = a;
-		destination = d;
+		destination = des;
 	}
 	
 	public Flight(int id, int max, int res, String d, String dt, String at, String o, String dest, String a, double f) {
