@@ -52,8 +52,8 @@ public final class DatabaseManager {
 		catch(Exception e) { System.out.print(e); }
 	}
 	
-	public static Customer retrieveAccount(String un, String pw) {
-		Customer c = null;
+	public static Account retrieveAccount(String un, String pw) {
+		Account a = null;
 		
 		try {
 			PreparedStatement ps = con.prepareStatement("SELECT * FROM " + accountsDatabase + " WHERE userName = ?" + " AND passWord = ?");
@@ -69,13 +69,19 @@ public final class DatabaseManager {
 				String ln = rs.getString("lastName");
 				Clearance status = Clearance.valueOf(rs.getString("status"));
 				
-				c = new Customer(id, userName, password, fn, ln, status);
+				if(status == Clearance.CUST) { a = new Customer(id, fn, ln, userName, password, status); }
+				
+				else if( status == Clearance.FADMIN) { a = new FlightAdmin(id, fn, ln, userName, password, status); }
+				
+				else if(status == Clearance.SADMIN) { a = new SearchEngineAdmin(id, fn, ln, userName, password, status); }
+				
+				else { System.out.println("Not a valid clearance level"); }
 			}
 		}
 		
 		catch(Exception e) { System.out.println(e); }
 		
-		return c;
+		return a;
 	}
 	
 	public static ArrayList<Flight> searchFlights(String from, String to) {

@@ -138,14 +138,14 @@ public class MainWindow extends Application {
 	}
 	
 	// TODO Add a manage reservations button, when logged in. 
-	private GridPane setLoggedInWindow(Customer c) {
+	private GridPane setLoggedInWindow(Account a) {
 		GridPane gp = new GridPane();
 		gp.setId(LOGGED_IN_WINDOW);
 		
 		// Customer Data
-		String fn = c.getFirstName();
-		String ln = c.getLastName();
-		String status = c.getStatus().toString();
+		String fn = a.getFirstName();
+		String ln = a.getLastName();
+		String status = a.getStatus().toString();
 		
 		// Row 0
 		Label profileLabel = new Label("Profile: ");
@@ -240,11 +240,11 @@ public class MainWindow extends Application {
 				
 				// TODO make a more meaningful message to user
 				if(validateFields(un, pw) ) { 
-					Customer c = DatabaseManager.retrieveAccount(un, pw); 
+					Account a = DatabaseManager.retrieveAccount(un, pw); 
 					
-					if(c != null) { 
+					if(a != null) { 
 						outerLayout.getChildren().remove(loginWindow);
-						loggedInWindow = setLoggedInWindow(c);
+						loggedInWindow = setLoggedInWindow(a);
 						outerLayout.setLeft(loggedInWindow);
 					}
 					else {
