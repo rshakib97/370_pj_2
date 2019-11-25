@@ -91,13 +91,16 @@ public final class DatabaseManager {
 			from = from.toUpperCase();
 			to = to.toUpperCase();
 			
-			PreparedStatement ps = con.prepareStatement("SELECT * FROM caad3435.AdamAirFlights WHERE origin LIKE ?");
+			PreparedStatement ps = con.prepareStatement("SELECT * FROM " + flightsDatabase + " AS f" +
+					" JOIN Airports AS a ON f.origin = a.airportID" + 
+					" WHERE a.airportName LIKE ?");
+			
 			ps.setString(1, from + "%");
 			//ps.setString(2, to);
 			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next() ) {
-				System.out.println(rs.getString("origin"));
+				System.out.println(rs.getString("a.airportName"));
 			}
 			
 			ps.close();

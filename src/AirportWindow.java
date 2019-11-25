@@ -99,14 +99,10 @@ public class AirportWindow extends Application {
     // Method to display the Data, which has been changed
     public void arrival_txt_box(ObservableValue<? extends String> observable,String oldValue,String newValue, ArrayList<Flight> flights) {	
     	arrivals.clear();
-    	for(int i = 0; i < flights.size(); i++) {
-    	  arrivals.appendText(flights.get(i).displayArrivals() );
-    	}
+    	for(int i = 0; i < flights.size(); i++) { arrivals.appendText(flights.get(i).displayArrivals() ); }
     }
     public void departure_txt_bx(ObservableValue<? extends String> observable,String oldValue,String newValue, ArrayList<Flight> flights) {	
     	departures.clear();
-    	for(int i = 0; i < flights.size(); i++) {
-    		departures.appendText(flights.get(i).displayDepartures());
-    	}
+    	for(int i = 0; i < flights.size(); i++) { departures.appendText(flights.get(i).displayDepartures() ); }
     } 
 }
