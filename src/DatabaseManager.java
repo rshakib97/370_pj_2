@@ -128,7 +128,7 @@ public final class DatabaseManager {
 		
 		try {
 			PreparedStatement ps = con.prepareStatement("SELECT * " + 
-					" FROM Flights AS f" + 
+					" FROM " + flightsDatabase + " AS f" + 
 					" JOIN Airports AS a1 ON f.origin = a1.airportID" + 
 					" JOIN Airports AS a2 ON f.dest = a2.airportID" + 
 					" JOIN Airlines AS air ON f.airline = air.airlineID WHERE a1.airportName=?");

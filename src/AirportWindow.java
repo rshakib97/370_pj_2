@@ -13,8 +13,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
  
 public class AirportWindow extends Application {
-    TextArea arrivals;
-    TextArea departures; 
+    private TextArea arrivals;
+    private TextArea departures; 
      
     @Override
     public void start(Stage stage) {
@@ -40,11 +40,8 @@ public class AirportWindow extends Application {
         globalAirportList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
          
         // Update the message Label when the selected item changes
-        globalAirportList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
-        {
-            public void changed(ObservableValue<? extends String> ov,
-                    final String oldvalue, final String newvalue) 
-            {
+        globalAirportList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            public void changed(ObservableValue<? extends String> ov, final String oldvalue, final String newvalue) {
             	ArrayList<Flight> departures = DatabaseManager.getDestinationsFromAirport(globalAirportList.getSelectionModel().getSelectedItem() );
             	ArrayList<Flight> arrivals = DatabaseManager.getArrivalsFromAirport(globalAirportList.getSelectionModel().getSelectedItem());
                 arrival_txt_box(ov, oldvalue, newvalue, arrivals);
@@ -73,8 +70,6 @@ public class AirportWindow extends Application {
         pane.setVgap(5);        
         // Add the HBox to the GridPane at position 0
         pane.addColumn(0, selection);
-        // Add the Buttons to the GridPane at position 1
-     //   pane.addColumn(1,departures);
          
         // Create the VBox
         VBox root = new VBox();
