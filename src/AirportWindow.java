@@ -20,10 +20,10 @@ public class AirportWindow extends Application {
     public void start(Stage stage) {
         // Create the TextArea
         arrivals = new TextArea();
-        arrivals.setMaxWidth(450);
+        arrivals.setMaxWidth(600);
         arrivals.setMaxHeight(350);
         departures = new TextArea();
-        departures.setMaxWidth(450);
+        departures.setMaxWidth(600);
         departures.setMaxHeight(350);
         // Create the Label
         Label airportsplz = new Label("Select an airport: ");
@@ -45,9 +45,10 @@ public class AirportWindow extends Application {
             public void changed(ObservableValue<? extends String> ov,
                     final String oldvalue, final String newvalue) 
             {
-            	ArrayList<Flight> flights = DatabaseManager.getFlightsFromAirport(globalAirportList.getSelectionModel().getSelectedItem() );
-                arrival_txt_box(ov, oldvalue, newvalue, flights);
-                departure_txt_bx(ov, oldvalue, newvalue, flights);
+            	ArrayList<Flight> departures = DatabaseManager.getDestinationsFromAirport(globalAirportList.getSelectionModel().getSelectedItem() );
+            	ArrayList<Flight> arrivals = DatabaseManager.getArrivalsFromAirport(globalAirportList.getSelectionModel().getSelectedItem());
+                arrival_txt_box(ov, oldvalue, newvalue, arrivals);
+                departure_txt_bx(ov, oldvalue, newvalue, departures);
         }});
  
         // Create the HBox for the Airports
@@ -104,13 +105,13 @@ public class AirportWindow extends Application {
     public void arrival_txt_box(ObservableValue<? extends String> observable,String oldValue,String newValue, ArrayList<Flight> flights) {	
     	arrivals.clear();
     	for(int i = 0; i < flights.size(); i++) {
-    	  arrivals.appendText("Departing From: " + flights.get(i).getOrigin() + "\tFlight No: " + flights.get(i).getFlightID() + "\tDate: " + flights.get(i).getDate()  + "\n");
+    	  arrivals.appendText(flights.get(i).displayDepartures() );
     	}
     }
     public void departure_txt_bx(ObservableValue<? extends String> observable,String oldValue,String newValue, ArrayList<Flight> flights) {	
     	departures.clear();
-    	for(int i = 0; i <= flights.size(); i++) {
-    		departures.appendText("Airline: " +i+"          Flight: " +  "               Time: " + "\n");
+    	for(int i = 0; i < flights.size(); i++) {
+    		departures.appendText(flights.get(i).displayArrivals());
     	}
     } 
 }

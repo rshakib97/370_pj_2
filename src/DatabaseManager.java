@@ -19,9 +19,9 @@ public final class DatabaseManager {
 		user = "caad3435";
 		password = "23033435";
 		
-		accountsDatabase = "caad3435.Accounts";
-		airportsDatabase = "caad3435.Airports";
-		flightsDatabase = "caad3435.Flights";
+		accountsDatabase = "Accounts";
+		airportsDatabase = "Airports";
+		flightsDatabase = "Flights";
 		
 		initiateConnection();
 	}
@@ -93,6 +93,9 @@ public final class DatabaseManager {
 			while(rs.next() ) {
 				System.out.println(rs.getString("origin"));
 			}
+			
+			ps.close();
+			rs.close();
 		}
 		
 		catch(Exception e) { System.out.println(e); }
@@ -110,6 +113,9 @@ public final class DatabaseManager {
 			while(rs.next() ) {
 				airports.add(rs.getString("airportName"));
 			}
+			
+			ps.close();
+			rs.close();
 		}
 		
 		catch(Exception e) { System.out.println(e); }
@@ -117,16 +123,10 @@ public final class DatabaseManager {
 		return airports;
 	}
 	
-	public static ArrayList<Flight> getFlightsFromAirport(String airport) {
+	public static ArrayList<Flight> getDestinationsFromAirport(String airport) {
 		ArrayList<Flight> flights = new ArrayList<Flight>();
 		
 		try {
-			/*PreparedStatement ps = con.prepareStatement("SELECT * FROM " + flightsDatabase + "," + airportsDatabase +
-				" WHERE " + flightsDatabase + ".origin = " + airportsDatabase + ".airportID" + " AND " + airportsDatabase + ".airportName=?");*/
-			
-			/*PreparedStatement ps = con.prepareStatement("SELECT * FROM " + flightsDatabase + " INNER JOIN " + airportsDatabase + 
-					" WHERE " + flightsDatabase + ".origin = " + airportsDatabase + ".airportID" + " AND " + airportsDatabase + ".airportName=?");*/
-			
 			PreparedStatement ps = con.prepareStatement("SELECT * " + 
 					" FROM Flights AS f" + 
 					" JOIN Airports AS a1 ON f.origin = a1.airportID" + 
@@ -139,12 +139,61 @@ public final class DatabaseManager {
 			
 			while(rs.next() ) {
 				int id = rs.getInt("flightID");
+				int maxCap = rs.getInt("maxCap");
+				int res = rs.getInt("reserved");
 				String date = rs.getString("date");
-				String origin = rs.getString("airportName");
+				String deptTime = rs.getString("depTime");
+				String arrTime = rs.getString("arrTime");
+				String origin = rs.getString("a1.airportName");
+				String dest = rs.getString("a2.airportName");
+				String airline = rs.getString("airlineName");
+				double fare = rs.getDouble("fare");
 				
-				Flight f = new Flight(id, date, origin);
+				Flight f = new Flight(id, maxCap, res, date, deptTime, arrTime, origin, dest, airline, fare);
 				flights.add(f);
 			}
+			
+			ps.close();
+			rs.close();
+		}
+		
+		catch(Exception e) { System.out.println(e); }
+		
+		return flights;
+	}
+	
+	public static ArrayList<Flight> getArrivalsFromAirport(String airport) {
+		ArrayList<Flight> flights = new ArrayList<Flight>();
+		
+		try {
+			PreparedStatement ps = con.prepareStatement("SELECT * " + 
+					" FROM Flights AS f" + 
+					" JOIN Airports AS a1 ON f.origin = a1.airportID" + 
+					" JOIN Airports AS a2 ON f.dest = a2.airportID" + 
+					" JOIN Airlines AS air ON f.airline = air.airlineID WHERE a2.airportName=?");
+			
+			ps.setString(1, airport);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next() ) {
+				int id = rs.getInt("flightID");
+				int maxCap = rs.getInt("maxCap");
+				int res = rs.getInt("reserved");
+				String date = rs.getString("date");
+				String deptTime = rs.getString("depTime");
+				String arrTime = rs.getString("arrTime");
+				String origin = rs.getString("a1.airportName");
+				String dest = rs.getString("a2.airportName");
+				String airline = rs.getString("airlineName");
+				double fare = rs.getDouble("fare");
+				
+				Flight f = new Flight(id, maxCap, res, date, deptTime, arrTime, origin, dest, airline, fare);
+				flights.add(f);
+			}
+			
+			ps.close();
+			rs.close();
 		}
 		
 		catch(Exception e) { System.out.println(e); }
