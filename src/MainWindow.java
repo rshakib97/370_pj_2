@@ -9,16 +9,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import java.text.ParseException;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -202,6 +200,11 @@ public class MainWindow extends Application {
 		// Search Button
 		Button search = setSearchButton(fromField, toField);
 		gp.add(search, 0, 2);
+		
+		Reservations_From_Search_Engine rfse = new Reservations_From_Search_Engine();
+		VBox vb  = rfse.getVBox();
+		
+		gp.add(vb, 0, 3);
 		
 		// TODO set classes for styling
 	
