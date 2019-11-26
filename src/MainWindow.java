@@ -6,6 +6,9 @@ import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import java.text.ParseException;
@@ -29,7 +32,7 @@ public class MainWindow<Reservations_From_Scratch_Engine> extends Application {
 	
 	private final int SCENE_WINDOW_WIDTH;
 	private final int SCENE_WINDOW_HEIGHT;
-	// CSS Parameters;
+	// CSS Parameters
 	// Classes
 	private final String TEXT_NODE_LEFT_LAYOUT;
 	private final String TEXT_NODE_CENTER_LAYOUT;
@@ -42,7 +45,6 @@ public class MainWindow<Reservations_From_Scratch_Engine> extends Application {
 	private final String LOG_IN_BUTTON;
 	private final String LOG_OUT_BUTTON;
 	private final String WARNING_LABEL;
-	
 	private final String CSSFILENAME;
 	
 	// Panes
@@ -57,7 +59,7 @@ public class MainWindow<Reservations_From_Scratch_Engine> extends Application {
 	
 	MainWindow() throws ParseException { 
 		SCENE_WINDOW_WIDTH = 925;
-		SCENE_WINDOW_HEIGHT = 500;
+		SCENE_WINDOW_HEIGHT = 600;
 		
 		// Classes
 		TEXT_NODE_LEFT_LAYOUT = "text_node_left_layout";
@@ -95,15 +97,31 @@ public class MainWindow<Reservations_From_Scratch_Engine> extends Application {
 		outerLayout = new BorderPane();
 		loginWindow = setLoginWindow();
 		centerLayout = setCenterLayout();
+		VBox vBox = rfse.getVBox();
 		
 		// Set the areas of the Border Pane
 		outerLayout.setLeft(loginWindow);
 		outerLayout.setCenter(centerLayout);
-		VBox vBox = rfse.getVBox();
 		
 		outerLayout.setBottom(vBox);
+		outerLayout.setTop(setMenu() );
 		
 		return outerLayout;
+	}
+	
+	private MenuBar setMenu() {
+		Menu m = new Menu("Menu");
+		
+		MenuItem arrDept = new MenuItem("Arrivals and Departures");
+		MenuItem airlines = new MenuItem("Airline Search");
+		
+		m.getItems().addAll(arrDept, airlines);
+		
+		MenuBar mb = new MenuBar();
+		
+		mb.getMenus().add(m);
+		
+		return mb;
 	}
 	
 	// Sets the leftmost layout of the Main Window

@@ -89,6 +89,7 @@ public class Reservations_From_Search_Engine {
 		}
 	}
 	
+	// TODO Customers should be able to reserved the clicked flight.
 	public void ConfirmedButtonClicked() {
 		
 	}
