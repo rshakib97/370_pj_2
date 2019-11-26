@@ -135,14 +135,15 @@ public class MainWindow extends Application {
 		return gp;
 	}
 	
-	private GridPane setLoggedInWindow(Customer c) {
+	// TODO Add a manage reservations button, when logged in. 
+	private GridPane setLoggedInWindow(Account a) {
 		GridPane gp = new GridPane();
 		gp.setId(LOGGED_IN_WINDOW);
 		
 		// Customer Data
-		String fn = c.getFirstName();
-		String ln = c.getLastName();
-		String status = c.getStatus().toString();
+		String fn = a.getFirstName();
+		String ln = a.getLastName();
+		String status = a.getStatus().toString();
 		
 		// Row 0
 		Label profileLabel = new Label("Profile: ");
@@ -188,6 +189,12 @@ public class MainWindow extends Application {
 		DatePicker departDate = setDatePicker();
 		DatePicker returnDate = setDatePicker();
 		
+		// Row 2
+		Button search = setSearchButton(fromField, toField);
+		Button arrivalDepart = setArrivalDepartureButton();
+		gp.add(search, 0, 2);
+		gp.add(arrivalDepart, 1, 2);
+		
 		Label labels[] = new Label[] { fromLabel, toLabel, departLabel, returnLabel };
 		for(int i = 0; i < labels.length; i++) { 
 			labels[i].getStyleClass().add(TEXT_NODE_CENTER_LAYOUT);
@@ -197,6 +204,7 @@ public class MainWindow extends Application {
 		Node fields[] = new Node[] { fromField, toField, departDate, returnDate };
 		for(int i = 0; i < fields.length; i++) { gp.add(fields[i], i, 1); }
 		
+<<<<<<< HEAD
 		// Search Button
 		Button search = setSearchButton(fromField, toField);
 		gp.add(search, 0, 2);
@@ -206,6 +214,8 @@ public class MainWindow extends Application {
 		
 		gp.add(vb, 0, 3);
 		
+=======
+>>>>>>> 0d9952df1f1b71372f98d242858ec28624ce9aeb
 		// TODO set classes for styling
 	
 		return gp;
@@ -220,7 +230,7 @@ public class MainWindow extends Application {
 			public void handle(ActionEvent event) {
 				String fromQuery = from.getText();
 				String toQuery = to.getText();
-				DatabaseManager.getFlights(fromQuery, toQuery);
+				DatabaseManager.searchFlights(fromQuery, toQuery);
 			}
 			
 		});
@@ -240,11 +250,11 @@ public class MainWindow extends Application {
 				
 				// TODO make a more meaningful message to user
 				if(validateFields(un, pw) ) { 
-					Customer c = DatabaseManager.retrieveAccount(un, pw); 
+					Account a = DatabaseManager.retrieveAccount(un, pw); 
 					
-					if(c != null) { 
+					if(a != null) { 
 						outerLayout.getChildren().remove(loginWindow);
-						loggedInWindow = setLoggedInWindow(c);
+						loggedInWindow = setLoggedInWindow(a);
 						outerLayout.setLeft(loggedInWindow);
 					}
 					else {
@@ -293,6 +303,23 @@ public class MainWindow extends Application {
 		});
 		
 		return link;
+	}
+	
+	private Button setArrivalDepartureButton() {
+		Button b = new Button("Arrivals/Departures");
+		
+		b.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				AirportWindow aw = new AirportWindow();
+				Stage s = new Stage();
+				aw.start(s);
+			}
+		});
+		
+		
+		return b;
 	}
 	
 	// Restricts dates that are before the current date

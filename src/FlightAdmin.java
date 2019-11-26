@@ -2,9 +2,7 @@
 
 public class FlightAdmin extends Account {
 
-	public FlightAdmin(int id, String username, String password) {
-		super(id, username, password);
-		
-		status = Clearance.FADMIN;
+	public FlightAdmin(int id, String fn, String ln, String username, String password, Clearance c) {
+		super(id, fn, ln, username, password, c);
 	}
 }

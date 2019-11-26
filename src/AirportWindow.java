@@ -13,17 +13,17 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
  
 public class AirportWindow extends Application {
-    TextArea arrivals;
-    TextArea departures; 
+    private TextArea arrivals;
+    private TextArea departures; 
      
     @Override
     public void start(Stage stage) {
         // Create the TextArea
         arrivals = new TextArea();
-        arrivals.setMaxWidth(450);
+        arrivals.setMaxWidth(600);
         arrivals.setMaxHeight(350);
         departures = new TextArea();
-        departures.setMaxWidth(450);
+        departures.setMaxWidth(600);
         departures.setMaxHeight(350);
         // Create the Label
         Label airportsplz = new Label("Select an airport: ");
@@ -33,20 +33,19 @@ public class AirportWindow extends Application {
         // Create the ListView
         final ListView<String> globalAirportList = new ListView<>();
         // Add the items to the List 
-        globalAirportList.getItems().addAll(createAirportList());
+        globalAirportList.getItems().addAll(DatabaseManager.getAllAirports() );
         // Set the size of the ListView
         globalAirportList.setPrefSize(120, 120);
         // Enable multiple selection
         globalAirportList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
          
         // Update the message Label when the selected item changes
-        globalAirportList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
-        {
-            public void changed(ObservableValue<? extends String> ov,
-                    final String oldvalue, final String newvalue) 
-            {
-                arrival_txt_box(ov, oldvalue, newvalue);
-                departure_txt_bx(ov, oldvalue, newvalue);
+        globalAirportList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            public void changed(ObservableValue<? extends String> ov, final String oldvalue, final String newvalue) {
+            	ArrayList<Flight> departures = DatabaseManager.getDestinationsFromAirport(globalAirportList.getSelectionModel().getSelectedItem() );
+            	ArrayList<Flight> arrivals = DatabaseManager.getArrivalsFromAirport(globalAirportList.getSelectionModel().getSelectedItem());
+                arrival_txt_box(ov, oldvalue, newvalue, arrivals);
+                departure_txt_bx(ov, oldvalue, newvalue, departures);
         }});
  
         // Create the HBox for the Airports
@@ -71,8 +70,6 @@ public class AirportWindow extends Application {
         pane.setVgap(5);        
         // Add the HBox to the GridPane at position 0
         pane.addColumn(0, selection);
-        // Add the Buttons to the GridPane at position 1
-     //   pane.addColumn(1,departures);
          
         // Create the VBox
         VBox root = new VBox();
@@ -99,46 +96,13 @@ public class AirportWindow extends Application {
         stage.show();       
     }
  
-    // Helper-Method to create an ArrayList of Persons
-    private ArrayList<String> createAirportList()
-    {
-        ArrayList<String> Airports = new ArrayList<String>();
-         
-        Airports.add("JFK");
-        Airports.add("DXB");
-        Airports.add("LAX");
-        Airports.add("ORD");
-        Airports.add("LHR");
-        Airports.add("CAN");
-        Airports.add("ICN");
-        Airports.add("ICN");
-        Airports.add("DEL");
-        Airports.add("LAS");
-        Airports.add("BCN");
-        Airports.add("ATL");
-         
-        return Airports;
-    }
- 
     // Method to display the Data, which has been changed
-    public void arrival_txt_box(ObservableValue<? extends String> observable,String oldValue,String newValue) {	
+    public void arrival_txt_box(ObservableValue<? extends String> observable,String oldValue,String newValue, ArrayList<Flight> flights) {	
     	arrivals.clear();
-    	for(int i =0; i <= 100;i++) {
-//        String oldText = oldValue == null ? "null" : oldValue.toString();
-//        String newText = newValue == null ? "null" : newValue.toString();
-         
-//        arrivals.appendText("Itemchanged: old = " + oldText + ", new = " + newText + "\n");
-    	  arrivals.appendText("Airline: " +i+"          Flight: " +  "               Time: " + "\n");
-    	}
+    	for(int i = 0; i < flights.size(); i++) { arrivals.appendText(flights.get(i).displayArrivals() ); }
     }
-    public void departure_txt_bx(ObservableValue<? extends String> observable,String oldValue,String newValue) {	
+    public void departure_txt_bx(ObservableValue<? extends String> observable,String oldValue,String newValue, ArrayList<Flight> flights) {	
     	departures.clear();
-    	for(int i =0; i <= 100;i++) {
-//        String oldText = oldValue == null ? "null" : oldValue.toString();
-//        String newText = newValue == null ? "null" : newValue.toString();
-         
-//        arrivals.appendText("Itemchanged: old = " + oldText + ", new = " + newText + "\n");
-    	departures.appendText("Airline: " +i+"          Flight: " +  "               Time: " + "\n");
-    }
+    	for(int i = 0; i < flights.size(); i++) { departures.appendText(flights.get(i).displayDepartures() ); }
     } 
 }
