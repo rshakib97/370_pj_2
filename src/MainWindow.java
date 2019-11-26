@@ -121,6 +121,15 @@ public class MainWindow<Reservations_From_Scratch_Engine> extends Application {
 		
 		mb.getMenus().add(m);
 		
+		arrDept.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				AirportWindow aw = new AirportWindow();
+				Stage s = new Stage();
+				aw.start(s);
+			}
+		});
+		
 		return mb;
 	}
 	
@@ -217,9 +226,7 @@ public class MainWindow<Reservations_From_Scratch_Engine> extends Application {
 		
 		// Row 2
 		Button search = setSearchButton(fromField, toField);
-		Button arrivalDepart = setArrivalDepartureButton();
 		gp.add(search, 0, 2);
-		gp.add(arrivalDepart, 1, 2);
 		
 		Label labels[] = new Label[] { fromLabel, toLabel, departLabel, returnLabel };
 		for(int i = 0; i < labels.length; i++) { 
@@ -319,23 +326,6 @@ public class MainWindow<Reservations_From_Scratch_Engine> extends Application {
 		});
 		
 		return link;
-	}
-	
-	private Button setArrivalDepartureButton() {
-		Button b = new Button("Arrivals/Departures");
-		
-		b.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				AirportWindow aw = new AirportWindow();
-				Stage s = new Stage();
-				aw.start(s);
-			}
-		});
-		
-		
-		return b;
 	}
 	
 	// Restricts dates that are before the current date

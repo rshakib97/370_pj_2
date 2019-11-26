@@ -4,6 +4,10 @@ public class Flight {
 	private String date, deptTime, arrTime, origin, destination, airline;
 	private double fare;
 	
+	public Flight(String a) {
+		airline = a;
+	}
+	
 	public Flight(String air, double f, String o, String dest, String dt, String at) {
 		airline = air;
 		fare = f;
