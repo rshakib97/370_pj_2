@@ -21,7 +21,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-public class MainWindow extends Application {
+public class MainWindow<Reservations_From_Scratch_Engine> extends Application {
 	private Stage primaryStage;
 	private Scene scene;
 	
@@ -53,8 +53,8 @@ public class MainWindow extends Application {
 	private Label warningLabel;
 	
 	MainWindow() throws ParseException { 
-		SCENE_WINDOW_WIDTH = 950;
-		SCENE_WINDOW_HEIGHT = 400;
+		SCENE_WINDOW_WIDTH = 925;
+		SCENE_WINDOW_HEIGHT = 500;
 		
 		// Classes
 		TEXT_NODE_LEFT_LAYOUT = "text_node_left_layout";
@@ -94,6 +94,10 @@ public class MainWindow extends Application {
 		// Set the areas of the Border Pane
 		outerLayout.setLeft(loginWindow);
 		outerLayout.setCenter(centerLayout);
+		Reservations_From_Search_Engine rfse = new Reservations_From_Search_Engine();
+		VBox vBox = rfse.getVBox();
+		
+		outerLayout.setBottom(vBox);
 		
 		return outerLayout;
 	}
@@ -204,18 +208,6 @@ public class MainWindow extends Application {
 		Node fields[] = new Node[] { fromField, toField, departDate, returnDate };
 		for(int i = 0; i < fields.length; i++) { gp.add(fields[i], i, 1); }
 		
-<<<<<<< HEAD
-		// Search Button
-		Button search = setSearchButton(fromField, toField);
-		gp.add(search, 0, 2);
-		
-		Reservations_From_Search_Engine rfse = new Reservations_From_Search_Engine();
-		VBox vb  = rfse.getVBox();
-		
-		gp.add(vb, 0, 3);
-		
-=======
->>>>>>> 0d9952df1f1b71372f98d242858ec28624ce9aeb
 		// TODO set classes for styling
 	
 		return gp;

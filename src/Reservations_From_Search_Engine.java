@@ -1,4 +1,3 @@
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -25,6 +24,7 @@ public class Reservations_From_Search_Engine {
 		this.Departure_time ="";
 		this.current_status="";
 		VBox = new VBox();
+		VBox.setPrefHeight(300);
 		
 		start();
 	}
