@@ -91,15 +91,32 @@ public final class DatabaseManager {
 			from = from.toUpperCase();
 			to = to.toUpperCase();
 			
-			PreparedStatement ps = con.prepareStatement("SELECT * FROM " + flightsDatabase + " AS f" +
-					" JOIN Airports AS a ON f.origin = a.airportID" + " WHERE a.airportName LIKE ?");
+			PreparedStatement ps = con.prepareStatement("SELECT * " + 
+					" FROM " + flightsDatabase + " AS f" + 
+					" JOIN Airports AS a1 ON f.origin = a1.airportID" + 
+					" JOIN Airports AS a2 ON f.dest = a2.airportID" + 
+					" JOIN Airlines AS air ON f.airline = air.airlineID" +
+					" WHERE a1.airportName LIKE ?");
 			
 			ps.setString(1, from + "%");
 			//ps.setString(2, to);
 			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next() ) {
-				System.out.println(rs.getString("a.airportName"));
+				int id = rs.getInt("flightID");
+				int maxCap = rs.getInt("maxCap");
+				int res = rs.getInt("reserved");
+				String date = rs.getString("date");
+				String deptTime = rs.getString("depTime");
+				String arrTime = rs.getString("arrTime");
+				String origin = rs.getString("a1.airportName");
+				String dest = rs.getString("a2.airportName");
+				String airline = rs.getString("air.airlineName");
+				double fare = rs.getDouble("fare");
+				
+				Flight f = new Flight(id, maxCap, res, date, deptTime, arrTime, origin, dest, airline, fare);
+				
+				flights.add(f);
 			}
 			
 			ps.close();

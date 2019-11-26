@@ -1,120 +1,70 @@
-import javafx.collections.ObservableList;
+import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class Reservations_From_Search_Engine {
-	public String Airline;
-	public double price;
-	public String Arrival_Time;
-	public String Departure_time;
-	public String current_status;
-	TableView<Reservations_From_Search_Engine>table;
-	VBox VBox;
+	private TableView<Flight> table;
+	private VBox VBox;
+	
+	private final int ROW_SIZE;
 
 	public Reservations_From_Search_Engine() {
-		this.Airline="";
-		this.price =0;
-		this.Arrival_Time="";
-		this.Departure_time ="";
-		this.current_status="";
 		VBox = new VBox();
-		VBox.setPrefHeight(300);
+		VBox.setPrefHeight(350);
+		
+		ROW_SIZE = 135;
 		
 		start();
-	}
-	
-	public Reservations_From_Search_Engine(String Airline, double price,String Departure_time, String Arrival_Time,String current_status) {
-		
-		this.Airline = Airline;
-		this.price = price;
-		this.Arrival_Time = Arrival_Time;
-		this.Departure_time = Departure_time;
-		this.current_status = current_status;
-		VBox = new VBox();
-		
-		start();
-	}
-	
-	public String getArrival_Time() {
-		return Arrival_Time;
-	}
-
-	public void setArrival_Time(String arrival_Time) {
-		Arrival_Time = arrival_Time;
-	}
-
-	public String getDeparture_time() {
-		return Departure_time;
-	}
-
-	public void setDeparture_time(String departure_time) {
-		Departure_time = departure_time;
-	}
-
-	public String getArrivalTime() {
-		return Arrival_Time;
-	}
-	public String getName() {
-		return Airline;
-	}
-	
-	public String getCurrent_status() {
-		return current_status;
-	}
-
-	public void setCurrent_status(String current_status) {
-		this.current_status = current_status;
-	}
-
-	public double getPrice() {
-		return price;
-	}
-	
-	
-	public void setPrice(double price) {
-		this.price = price;
 	}
 	
 	public VBox getVBox() { return VBox; }
 
 	public void start() {
-		// TODO Auto-generated method stub
+		
+		// PROPERTY NAMES MUST BE THE SAME AS THE VARIABLE NAMES IN THE FLIGHT
+		// GETTERS MUST ALSO BE PROPERLY FORMATTED!
 		
 		//Airline Name column 
-		TableColumn<Reservations_From_Search_Engine,String> nameColumn = new TableColumn<>("Airline");
-		nameColumn.setMinWidth(200);
-		nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+		TableColumn<Flight, String> nameColumn = new TableColumn<>("Airline");
+		nameColumn.setMinWidth(ROW_SIZE);
+		nameColumn.setCellValueFactory(new PropertyValueFactory<>("airline"));
 			
 		// price Column
-		TableColumn<Reservations_From_Search_Engine,Double> pricecol = new TableColumn<>("Price");
-		pricecol.setMinWidth(100);
-		pricecol.setCellValueFactory(new PropertyValueFactory<>("price"));
+		TableColumn<Flight, Double> pricecol = new TableColumn<>("Price");
+		pricecol.setMinWidth(ROW_SIZE);
+		pricecol.setCellValueFactory(new PropertyValueFactory<>("fare"));
 		
-		//Departure time column
-		TableColumn<Reservations_From_Search_Engine,String> Departure_time = new TableColumn<>("Departure Time");
-		Departure_time.setMinWidth(100);
-		Departure_time.setCellValueFactory(new PropertyValueFactory<>("Departure_time"));
+		// Origin Column
+		TableColumn<Flight, String> orgCol = new TableColumn<>("Origin");
+		orgCol.setMinWidth(ROW_SIZE);
+		orgCol.setCellValueFactory(new PropertyValueFactory<>("origin"));
 		
-		//Arrival Time column
-		TableColumn<Reservations_From_Search_Engine,String> Arrival_Time = new TableColumn<>("Arrival Time");
-		Arrival_Time.setMinWidth(100);
-		Arrival_Time.setCellValueFactory(new PropertyValueFactory<>("Arrival_Time"));
+		// Destination Column
+		TableColumn<Flight, String> deptCol = new TableColumn<>("Destination");
+		deptCol.setMinWidth(ROW_SIZE);
+		deptCol.setCellValueFactory(new PropertyValueFactory<>("destination"));
 		
-		//status column
-		TableColumn<Reservations_From_Search_Engine,String> status = new TableColumn<>("Available");
-		status.setMinWidth(100);
+		// Departure time column
+		TableColumn<Flight, String> Departure_time = new TableColumn<>("Departure Time");
+		Departure_time.setMinWidth(ROW_SIZE);
+		Departure_time.setCellValueFactory(new PropertyValueFactory<>("deptTime"));
+		
+		// Arrival Time column
+		TableColumn<Flight, String> Arrival_Time = new TableColumn<>("Arrival Time");
+		Arrival_Time.setMinWidth(ROW_SIZE);
+		Arrival_Time.setCellValueFactory(new PropertyValueFactory<>("arrTime"));
+		
+		// status column
+		TableColumn<Flight, String> status = new TableColumn<>("Available");
+		status.setMinWidth(ROW_SIZE);
 		status.setCellValueFactory(new PropertyValueFactory<>("current_status"));
-			
-		TextField reservationconfirm = new TextField();
-		reservationconfirm.setPromptText("Confirmed");
 		
-		//button
+		// button
 		Button addButton = new Button("Book");
 		addButton.setOnAction(e->ConfirmedButtonClicked());
 		
@@ -123,25 +73,23 @@ public class Reservations_From_Search_Engine {
 		hbox.setSpacing(10);
 		hbox.getChildren().addAll(addButton);
 	
-		table = new TableView<Reservations_From_Search_Engine>();
-		//table.setItems(getProduct());
-		table.getColumns().addAll(nameColumn,pricecol,Departure_time,Arrival_Time,status);
+		table = new TableView<Flight>();
+		
+		table.getColumns().addAll(nameColumn, pricecol, orgCol, deptCol, Departure_time, Arrival_Time, status);
 		
 		VBox.getChildren().addAll(table, hbox);
 	}
-	public void ConfirmedButtonClicked() {
-		ObservableList<Reservations_From_Search_Engine> productSelected, allProducts;
-		allProducts = table.getItems();
-		productSelected = table.getSelectionModel().getSelectedItems();
+	
+	public void getResults(ArrayList<Flight> flights) {
+		table.getItems().clear();
+		
+		for(int i = 0; i < flights.size(); i++) {
+			Flight f = flights.get(i);
+			table.getItems().add(f);
+		}
 	}
 	
-	/*public ObservableList<Reservations_From_Search_Engine> getProduct(){
-		ObservableList<Reservations_From_Search_Engine> products = FXCollections.observableArrayList();
-		products.add(new Reservations_From_Search_Engine ("delta",89,"1534","1423"," Available"));
-		products.add(new Reservations_From_Search_Engine ("southwest",859,"2345","0234"," Available"));
-		products.add(new Reservations_From_Search_Engine ("delta",859,"2023","2344"," Available"));
-		products.add(new Reservations_From_Search_Engine ("southwest",859,"2230","4233"," Available"));
-		products.add(new Reservations_From_Search_Engine ("jetblue",859,"2032","1323"," Available"));
-		return products;
-	}*/
+	public void ConfirmedButtonClicked() {
+		
+	}
 }

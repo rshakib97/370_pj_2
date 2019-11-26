@@ -10,6 +10,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -48,6 +50,7 @@ public class MainWindow<Reservations_From_Scratch_Engine> extends Application {
 	private GridPane loginWindow;
 	private GridPane loggedInWindow;
 	private GridPane centerLayout;
+	private Reservations_From_Search_Engine rfse;
 	
 	// Warning Label, initialized in the setLoginWindow
 	private Label warningLabel;
@@ -70,6 +73,8 @@ public class MainWindow<Reservations_From_Scratch_Engine> extends Application {
 		WARNING_LABEL = "warning_label";
 		
 		CSSFILENAME = "styles.css";
+		
+		rfse = new Reservations_From_Search_Engine();
 	}
 	
 	@Override // Sets and displays the primary stage
@@ -94,7 +99,6 @@ public class MainWindow<Reservations_From_Scratch_Engine> extends Application {
 		// Set the areas of the Border Pane
 		outerLayout.setLeft(loginWindow);
 		outerLayout.setCenter(centerLayout);
-		Reservations_From_Search_Engine rfse = new Reservations_From_Search_Engine();
 		VBox vBox = rfse.getVBox();
 		
 		outerLayout.setBottom(vBox);
@@ -222,7 +226,9 @@ public class MainWindow<Reservations_From_Scratch_Engine> extends Application {
 			public void handle(ActionEvent event) {
 				String fromQuery = from.getText();
 				String toQuery = to.getText();
-				DatabaseManager.searchFlights(fromQuery, toQuery);
+				ArrayList<Flight> results = DatabaseManager.searchFlights(fromQuery, toQuery);
+				rfse.getResults(results);
+				
 			}
 			
 		});

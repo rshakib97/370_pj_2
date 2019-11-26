@@ -4,6 +4,15 @@ public class Flight {
 	private String date, deptTime, arrTime, origin, destination, airline;
 	private double fare;
 	
+	public Flight(String air, double f, String o, String dest, String dt, String at) {
+		airline = air;
+		fare = f;
+		origin = o;
+		destination = dest; 
+		deptTime = dt;
+		arrTime = at;
+	}
+	
 	public Flight(int id, String d, String a, String des) {
 		flightID = id;
 		deptTime = d;
@@ -31,10 +40,10 @@ public class Flight {
 	public int getMaxCap() { return maxCap; }
 	public int getReserved() { return reserved; }
 	public String getDate() { return date; }
-	public String getdeptTime() { return deptTime; }
+	public String getDeptTime() { return deptTime; }
 	public String getArrTime() { return arrTime; }
 	public String getOrigin() { return origin; }
-	public String getDesination() { return destination; }
+	public String getDestination() { return destination; }
 	public String getAirline() { return airline; }
 	public double getFare() { return fare; }
 	
