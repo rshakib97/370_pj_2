@@ -84,6 +84,7 @@ public final class DatabaseManager {
 		return a;
 	}
 	
+	// TODO compare arrivals
 	public static ArrayList<Flight> searchFlights(String from, String to) {
 		ArrayList<Flight> flights = new ArrayList<>();
 		

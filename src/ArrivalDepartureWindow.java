@@ -12,7 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
  
-public class AirportWindow extends Application {
+public class ArrivalDepartureWindow extends Application {
     private TextArea arrivals;
     private TextArea departures; 
      

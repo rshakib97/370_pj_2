@@ -124,7 +124,7 @@ public class MainWindow<Reservations_From_Scratch_Engine> extends Application {
 		arrDept.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				AirportWindow aw = new AirportWindow();
+				ArrivalDepartureWindow aw = new ArrivalDepartureWindow();
 				Stage s = new Stage();
 				aw.start(s);
 			}
