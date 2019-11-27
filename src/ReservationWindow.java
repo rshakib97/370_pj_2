@@ -7,24 +7,24 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class AirlineWebsite extends Application {
-	private Airline airline;
+public class ReservationWindow extends Application {
+	private String userName;
 	
-	public AirlineWebsite(Airline a) {
-		airline = a;
+	public ReservationWindow(String un) {
+		userName = un;
 	}
 	
-	@Override
-	public void start(Stage stage)  {
+	public void start(Stage stage) {
 		VBox vBox = new VBox();
 		vBox.setAlignment(Pos.TOP_CENTER);
 		
-		Label welcome = new Label("Welcome to " + airline.getName() );
+		Label welcome = new Label("Reservations");
 		
 		FlightTable ft = new FlightTable();
 		
-		ArrayList<Flight> flights = DatabaseManager.getFlightsFromAirline(airline.getName() );
-		ft.getResults(flights);
+		ArrayList<Flight> reservations = DatabaseManager.getReservationsOf(userName);
+		
+		ft.getResults(reservations);
 		
 		vBox.getChildren().addAll(welcome, ft);
 		
@@ -33,5 +33,5 @@ public class AirlineWebsite extends Application {
 		stage.setResizable(false);
 		stage.show();
 	}
-	
+
 }

@@ -188,29 +188,41 @@ public class MainWindow<Reservations_From_Scratch_Engine> extends Application {
 		String fn = a.getFirstName();
 		String ln = a.getLastName();
 		String status = a.getStatus().toString();
+		Button actionButton = new Button();
 		
 		// Row 0
 		Label profileLabel = new Label("Profile: ");
-		Label reservationLabel = new Label("Reservations: ");
 		Label statusLabel = new Label("Status: ");
 		Button logout = setLogoutButton();
 		
 		// Row 1
 		Text name = new Text(fn + " " + ln);
-		Text reservations = new Text("None");
 		Text textStatus = new Text(status);
 		
 		// Set I.D.'s
 		logout.setId(LOG_OUT_BUTTON);
 		
+		// Check Status
+		if(a.getStatus() == Clearance.CUST) {
+			actionButton = setReservationsButton(a.getUserName() );
+		}
+		
+		else if(a.getStatus() == Clearance.AADMIN) { 
+			System.out.println("AADMIN");
+		}
+		
+		else if(a.getStatus() == Clearance.SADMIN) {
+			System.out.println("SADMIN");
+		}
+		
 		// Set classes
-		Node textNodes[] = new Node[] { profileLabel, reservationLabel, name, statusLabel, textStatus, reservations };
+		Node textNodes[] = new Node[] { profileLabel, name, statusLabel, textStatus};
 		for(int i = 0; i < textNodes.length; i++) { textNodes[i].getStyleClass().add(TEXT_NODE_LEFT_LAYOUT); }
 		
-		Node nodesAtCol0[] = new Node[] { profileLabel, reservationLabel, statusLabel, logout };
+		Node nodesAtCol0[] = new Node[] { profileLabel, statusLabel, logout };
 		for(int i = 0; i < nodesAtCol0.length; i++) { gp.add(nodesAtCol0[i], 0, i); }
 		
-		Node nodesAtCol1[] = new Node[] { name, reservations, textStatus };
+		Node nodesAtCol1[] = new Node[] { name, textStatus, actionButton };
 		for (int i = 0; i < nodesAtCol1.length; i++) { gp.add(nodesAtCol1[i], 1, i); }
 		
 		return gp;
@@ -249,6 +261,20 @@ public class MainWindow<Reservations_From_Scratch_Engine> extends Application {
 		// TODO set classes for styling
 	
 		return gp;
+	}
+	
+	private Button setReservationsButton(String userName) {
+		Button b = new Button("Reservations");
+		
+		b.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				ReservationWindow rw = new ReservationWindow(userName);
+				Stage s = new Stage();
+				rw.start(s);		
+			}
+		});
+		
+		return b; 
 	}
 	
 	private Button setSearchButton(TextField from, TextField to) {

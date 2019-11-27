@@ -71,9 +71,9 @@ public final class DatabaseManager {
 				
 				if(status == Clearance.CUST) { a = new Customer(id, fn, ln, userName, password, status); }
 				
-				else if( status == Clearance.FADMIN) { a = new FlightAdmin(id, fn, ln, userName, password, status); }
+				else if( status == Clearance.SADMIN) { a = new FlightAdmin(id, fn, ln, userName, password, status); }
 				
-				else if(status == Clearance.SADMIN) { a = new SearchEngineAdmin(id, fn, ln, userName, password, status); }
+				else if(status == Clearance.AADMIN) { a = new SearchEngineAdmin(id, fn, ln, userName, password, status); }
 				
 				else { System.out.println("Not a valid clearance level"); }
 			}
@@ -114,8 +114,9 @@ public final class DatabaseManager {
 				String dest = rs.getString("a2.airportName");
 				String airline = rs.getString("air.airlineName");
 				double fare = rs.getDouble("fare");
+				FlightStatus status = FlightStatus.valueOf(rs.getString("status"));
 				
-				Flight f = new Flight(id, maxCap, res, date, deptTime, arrTime, origin, dest, airline, fare);
+				Flight f = new Flight(id, maxCap, res, date, deptTime, arrTime, origin, dest, airline, fare, status);
 				
 				flights.add(f);
 			}
@@ -174,8 +175,9 @@ public final class DatabaseManager {
 				String dest = rs.getString("a2.airportName");
 				String airline = rs.getString("airlineName");
 				double fare = rs.getDouble("fare");
+				FlightStatus status = FlightStatus.valueOf(rs.getString("status"));
 				
-				Flight f = new Flight(id, maxCap, res, date, deptTime, arrTime, origin, dest, airline, fare);
+				Flight f = new Flight(id, maxCap, res, date, deptTime, arrTime, origin, dest, airline, fare, status);
 				flights.add(f);
 			}
 			
@@ -213,8 +215,9 @@ public final class DatabaseManager {
 				String dest = rs.getString("a1.airportName");
 				String airline = rs.getString("airlineName");
 				double fare = rs.getDouble("fare");
+				FlightStatus status = FlightStatus.valueOf(rs.getString("status"));
 				
-				Flight f = new Flight(id, maxCap, res, date, deptTime, arrTime, origin, dest, airline, fare);
+				Flight f = new Flight(id, maxCap, res, date, deptTime, arrTime, origin, dest, airline, fare, status);
 				flights.add(f);
 			}
 			
@@ -274,8 +277,9 @@ public final class DatabaseManager {
 				String dest = rs.getString("a1.airportName");
 				String a = rs.getString("airlineName");
 				double fare = rs.getDouble("fare");
+				FlightStatus status = FlightStatus.valueOf(rs.getString("status"));
 				
-				Flight f = new Flight(id, maxCap, res, date, deptTime, arrTime, origin, dest, a, fare);
+				Flight f = new Flight(id, maxCap, res, date, deptTime, arrTime, origin, dest, a, fare, status);
 				flights.add(f);
 			}
 			
@@ -285,7 +289,45 @@ public final class DatabaseManager {
 		
 		catch(Exception e) { System.out.println(e); }
 		
-		
 		return flights;
+	}
+	
+	public static ArrayList<Flight> getReservationsOf(String userName) {
+		ArrayList<Flight> reservations = new ArrayList<Flight>();
+		
+		try {
+			PreparedStatement ps = con.prepareStatement("SELECT * FROM Reservations AS r" +
+					" JOIN Flights AS f ON r.flightID = f.flightID" +
+					" JOIN Airports AS a1 ON f.origin = a1.airportID" + 
+					" JOIN Airports AS a2 ON f.dest = a2.airportID" + 
+					" JOIN Accounts AS a ON r.customerID = a.accountID" + 
+					" JOIN Airlines AS air ON f.airline = air.airlineID" + 
+					" WHERE a.userName = ?");
+			
+			ps.setString(1, userName);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next() ) {
+				int id = rs.getInt("f.flightID");
+				int maxCap = rs.getInt("f.maxCap");
+				int res = rs.getInt("f.reserved");
+				String date = rs.getString("f.date");
+				String deptTime = rs.getString("f.depTime");
+				String arrTime = rs.getString("f.arrTime");
+				String origin = rs.getString("a1.airportName");
+				String dest = rs.getString("a2.airportName");
+				String a = rs.getString("air.airlineName");
+				double fare = rs.getDouble("f.fare");
+				FlightStatus status = FlightStatus.valueOf(rs.getString("status"));
+				
+				Flight f = new Flight(id, maxCap, res, date, deptTime, arrTime, origin, dest, a, fare, status);
+				reservations.add(f);
+			}
+		}
+		
+		catch(Exception e) { System.out.println(e); }
+		
+		return reservations;
 	}
 }

@@ -1,30 +1,10 @@
-/* Should have a fare cost and where this flight will be going. */
 public class Flight {
 	private int flightID, maxCap, reserved;
 	private String date, deptTime, arrTime, origin, destination, airline;
 	private double fare;
+	private FlightStatus flightStatus;
 	
-	public Flight(String a) {
-		airline = a;
-	}
-	
-	public Flight(String air, double f, String o, String dest, String dt, String at) {
-		airline = air;
-		fare = f;
-		origin = o;
-		destination = dest; 
-		deptTime = dt;
-		arrTime = at;
-	}
-	
-	public Flight(int id, String d, String a, String des) {
-		flightID = id;
-		deptTime = d;
-		airline = a;
-		destination = des;
-	}
-	
-	public Flight(int id, int max, int res, String d, String dt, String at, String o, String dest, String a, double f) {
+	public Flight(int id, int max, int res, String d, String dt, String at, String o, String dest, String a, double f, FlightStatus fs) {
 		 flightID = id;
 		 maxCap = max;
 		 reserved = res;
@@ -37,6 +17,8 @@ public class Flight {
 		 airline = a;
 		 
 		 fare = f;
+		 
+		 flightStatus = fs;
 	}
 
 	// Getter Methods
@@ -50,6 +32,7 @@ public class Flight {
 	public String getDestination() { return destination; }
 	public String getAirline() { return airline; }
 	public double getFare() { return fare; }
+	public FlightStatus getFlightStatus() { return flightStatus; }
 	
 	public String displayDepartures() {
 		return  "Destination: " + destination + 

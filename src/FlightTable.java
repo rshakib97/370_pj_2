@@ -48,9 +48,9 @@ public class FlightTable extends TableView<Flight> {
 		Arrival_Time.setCellValueFactory(new PropertyValueFactory<>("arrTime"));
 		
 		// status column
-		TableColumn<Flight, String> status = new TableColumn<>("Available");
+		TableColumn<Flight, String> status = new TableColumn<>("Status");
 		status.setMinWidth(ROW_SIZE);
-		status.setCellValueFactory(new PropertyValueFactory<>("current_status"));
+		status.setCellValueFactory(new PropertyValueFactory<>("flightStatus"));
 		
 		getColumns().addAll(nameColumn, pricecol, orgCol, deptCol, Departure_time, Arrival_Time, status);
 	}
