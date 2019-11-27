@@ -14,6 +14,7 @@ public class AirlineWebsitePortal extends Application {
 
 	@Override
 	public void start(Stage stage) {
+		// TODO make this window look better
 		VBox vBox = new VBox();
 		vBox.setAlignment(Pos.TOP_CENTER);
 		Label welcome = new Label("Welcome to the Airline Portal");
