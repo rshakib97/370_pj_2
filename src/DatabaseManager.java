@@ -226,4 +226,66 @@ public final class DatabaseManager {
 		
 		return flights;
 	}
+	
+	public static ArrayList<Airline> getAllAirlines() {
+		ArrayList<Airline> airlines = new ArrayList<Airline>();
+		
+		try {
+			PreparedStatement ps = con.prepareStatement("SELECT * FROM Airlines");
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next() ) {
+				String name = rs.getString("airlineName");
+				Airline a = new Airline(name);
+				airlines.add(a);
+			}
+			
+			ps.close();
+			rs.close();
+		}
+		
+		catch(Exception e) { System.out.println(e); }
+		
+		return airlines;
+	}
+	
+	public static ArrayList<Flight> getFlightsFromAirline(String airline) {
+		ArrayList<Flight> flights = new ArrayList<Flight>();
+		try {
+			PreparedStatement ps = con.prepareStatement("SELECT * " + 
+					" FROM Flights AS f" + 
+					" JOIN Airports AS a1 ON f.origin = a1.airportID" + 
+					" JOIN Airports AS a2 ON f.dest = a2.airportID" + 
+					" JOIN Airlines AS air ON f.airline = air.airlineID WHERE air.airlineName=?");
+			
+			ps.setString(1, airline);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next() ) {
+				int id = rs.getInt("flightID");
+				int maxCap = rs.getInt("maxCap");
+				int res = rs.getInt("reserved");
+				String date = rs.getString("date");
+				String deptTime = rs.getString("depTime");
+				String arrTime = rs.getString("arrTime");
+				String origin = rs.getString("a2.airportName");
+				String dest = rs.getString("a1.airportName");
+				String a = rs.getString("airlineName");
+				double fare = rs.getDouble("fare");
+				
+				Flight f = new Flight(id, maxCap, res, date, deptTime, arrTime, origin, dest, a, fare);
+				flights.add(f);
+			}
+			
+			ps.close();
+			rs.close();
+		}
+		
+		catch(Exception e) { System.out.println(e); }
+		
+		
+		return flights;
+	}
 }

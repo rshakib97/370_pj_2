@@ -130,6 +130,15 @@ public class MainWindow<Reservations_From_Scratch_Engine> extends Application {
 			}
 		});
 		
+		airlines.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				AirlineWebsitePortal awp = new AirlineWebsitePortal();
+				Stage s = new Stage();
+				awp.start(s);
+			}
+		});
+		
 		return mb;
 	}
 	
@@ -252,10 +261,8 @@ public class MainWindow<Reservations_From_Scratch_Engine> extends Application {
 				String fromQuery = from.getText();
 				String toQuery = to.getText();
 				ArrayList<Flight> results = DatabaseManager.searchFlights(fromQuery, toQuery);
-				rfse.getResults(results);
-				
+				rfse.getFlightTable().getResults(results);
 			}
-			
 		});
 		
 		return b;
