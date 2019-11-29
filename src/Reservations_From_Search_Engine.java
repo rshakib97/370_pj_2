@@ -21,8 +21,7 @@ public class Reservations_From_Search_Engine {
 
 	public void start() {
 		// Button
-		Button addButton = new Button("Book");
-		addButton.setOnAction(e->ConfirmedButtonClicked());
+		Button addButton = new BookingButton("Book", table);
 		
 		HBox hbox = new HBox();
 		hbox.setPadding(new Insets(10,10,10,10));
@@ -30,10 +29,5 @@ public class Reservations_From_Search_Engine {
 		hbox.getChildren().addAll(addButton);
 	
 		VBox.getChildren().addAll(table, hbox);
-	}
-	
-	// TODO Customers should be able to reserved the clicked flight.
-	public void ConfirmedButtonClicked() {
-		
 	}
 }

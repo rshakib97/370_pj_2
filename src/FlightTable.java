@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -27,6 +26,10 @@ public class FlightTable extends TableView<Flight> {
 		pricecol.setMinWidth(ROW_SIZE);
 		pricecol.setCellValueFactory(new PropertyValueFactory<>("fare"));
 		
+		TableColumn<Flight, String> dateCol = new TableColumn<>("Date");
+		dateCol.setMinWidth(ROW_SIZE);
+		dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+		
 		// Origin Column
 		TableColumn<Flight, String> orgCol = new TableColumn<>("Origin");
 		orgCol.setMinWidth(ROW_SIZE);
@@ -52,7 +55,7 @@ public class FlightTable extends TableView<Flight> {
 		status.setMinWidth(ROW_SIZE);
 		status.setCellValueFactory(new PropertyValueFactory<>("flightStatus"));
 		
-		getColumns().addAll(nameColumn, pricecol, orgCol, deptCol, Departure_time, Arrival_Time, status);
+		getColumns().addAll(nameColumn, pricecol, dateCol, orgCol, deptCol, Departure_time, Arrival_Time, status);
 	}
 	
 	public void getResults(ArrayList<Flight> flights) {

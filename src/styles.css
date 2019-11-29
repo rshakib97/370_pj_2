@@ -19,7 +19,7 @@
 	-fx-background-color: -fx-center-layout-bg-color;
 	-fx-padding: 5px 0px 0px 5px;
 	-fx-vgap: 8;
-	-fx-hgap: 1;
+	-fx-hgap: 2;
 }
 
 #log_in_button, #log_out_button {

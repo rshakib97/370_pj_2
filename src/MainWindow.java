@@ -58,7 +58,7 @@ public class MainWindow<Reservations_From_Scratch_Engine> extends Application {
 	private Label warningLabel;
 	
 	MainWindow() throws ParseException { 
-		SCENE_WINDOW_WIDTH = 925;
+		SCENE_WINDOW_WIDTH = 1050;
 		SCENE_WINDOW_HEIGHT = 600;
 		
 		// Classes
@@ -263,6 +263,7 @@ public class MainWindow<Reservations_From_Scratch_Engine> extends Application {
 		return gp;
 	}
 	
+	// Shows the reservations of the logged in customer
 	private Button setReservationsButton(String userName) {
 		Button b = new Button("Reservations");
 		
