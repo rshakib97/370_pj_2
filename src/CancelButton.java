@@ -14,7 +14,6 @@ public class CancelButton extends Button {
 			public void handle(ActionEvent e) {
 				Flight f = table.getSelectionModel().getSelectedItem();
 				if(DatabaseManager.cancelReservation(f.getFlightID() ) ) {
-					
 					table.getItems().remove(f);
 				}
 			}

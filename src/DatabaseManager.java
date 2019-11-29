@@ -339,9 +339,10 @@ public final class DatabaseManager {
 		if(a == null || a.getStatus() != Clearance.CUST) { return false; }
 		
 		try {
-			PreparedStatement ps = con.prepareStatement("INSERT INTO " + reservationsDatabase + " VALUES(DEFAULT,?,?)");
+			PreparedStatement ps = con.prepareStatement("INSERT INTO " + reservationsDatabase + " VALUES(DEFAULT,?,?,?)");
 			ps.setInt(1, a.getAccountID() );
 			ps.setInt(2, flightID);
+			ps.setString(3, "AIR");
 			
 			ps.executeUpdate();
 			ps.close();
@@ -367,5 +368,30 @@ public final class DatabaseManager {
 		catch(Exception e) { System.out.println(e); }
 	
 		return true;
+	}
+	
+	public static ArrayList<Reservation> getReservationsFromSearchEngine() {
+		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+		
+		try {
+			PreparedStatement ps = con.prepareStatement("SELECT * FROM " + reservationsDatabase + 
+					" AS r JOIN Accounts as a ON r.customerID = a.accountID"
+					+ " WHERE bookingStatus = 'SE'");
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next() ) {
+				String fn = rs.getString("a.firstName");
+				String ln = rs.getString("a.lastName");
+				Integer rID = rs.getInt("r.reservationID");
+				Integer fID = rs.getInt("r.flightID");
+				
+				Reservation r = new Reservation(fn, ln, rID, fID);
+				reservations.add(r);
+			}
+		}
+		
+		catch(Exception e) { System.out.println(e); }
+		
+		return reservations;
 	}
 }

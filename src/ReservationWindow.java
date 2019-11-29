@@ -35,5 +35,4 @@ public class ReservationWindow extends Application {
 		stage.setResizable(false);
 		stage.show();
 	}
-
 }

@@ -212,7 +212,7 @@ public class MainWindow<Reservations_From_Scratch_Engine> extends Application {
 		}
 		
 		else if(a.getStatus() == Clearance.SADMIN) {
-			System.out.println("SADMIN");
+			actionButton = setSearchEngineAdminButton();
 		}
 		
 		// Set classes
@@ -261,6 +261,21 @@ public class MainWindow<Reservations_From_Scratch_Engine> extends Application {
 		// TODO set classes for styling
 	
 		return gp;
+	}
+	
+	private Button setSearchEngineAdminButton() {
+		Button b = new Button("Reservations");
+		
+		b.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				SearchAdminWindow saw = new SearchAdminWindow();
+				Stage s = new Stage();
+				saw.start(s);
+			}
+		});
+		
+		return b;
 	}
 	
 	// Shows the reservations of the logged in customer
