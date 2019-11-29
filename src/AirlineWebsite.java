@@ -9,9 +9,11 @@ import javafx.stage.Stage;
 
 public class AirlineWebsite extends Application {
 	private Airline airline;
+	private BookStatus bookStatus;
 	
 	public AirlineWebsite(Airline a) {
 		airline = a;
+		bookStatus = BookStatus.AIR;
 	}
 	
 	@Override
@@ -26,7 +28,9 @@ public class AirlineWebsite extends Application {
 		ArrayList<Flight> flights = DatabaseManager.getFlightsFromAirline(airline.getName() );
 		ft.getResults(flights);
 		
-		vBox.getChildren().addAll(welcome, ft);
+		BookingButton bookButton = new BookingButton("Book", ft, bookStatus);
+		
+		vBox.getChildren().addAll(welcome, ft, bookButton);
 		
 		Scene s = new Scene(vBox, 925, 400);
 		stage.setScene(s);

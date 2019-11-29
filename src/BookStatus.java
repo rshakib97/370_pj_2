@@ -1,4 +1,4 @@
 
 public enum BookStatus {
-	DEF, SE
+	AIR, SE
 }

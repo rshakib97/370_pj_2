@@ -335,14 +335,14 @@ public final class DatabaseManager {
 	
 	// Lets customers book reservations, will return false for any other account status
 	// TODO disallow customers being able to book two of the same reservations
-	public static boolean bookReservation(Account a, int flightID) {
+	public static boolean bookReservation(Account a, int flightID, BookStatus status) {
 		if(a == null || a.getStatus() != Clearance.CUST) { return false; }
 		
 		try {
 			PreparedStatement ps = con.prepareStatement("INSERT INTO " + reservationsDatabase + " VALUES(DEFAULT,?,?,?)");
 			ps.setInt(1, a.getAccountID() );
 			ps.setInt(2, flightID);
-			ps.setString(3, "AIR");
+			ps.setString(3, status.toString() );
 			
 			ps.executeUpdate();
 			ps.close();

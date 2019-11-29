@@ -52,7 +52,7 @@ public class MainWindow<Reservations_From_Scratch_Engine> extends Application {
 	private GridPane loginWindow;
 	private GridPane loggedInWindow;
 	private GridPane centerLayout;
-	private Reservations_From_Search_Engine rfse;
+	private ReservationsFromSearchEngine rfse;
 	
 	// Warning Label, initialized in the setLoginWindow
 	private Label warningLabel;
@@ -76,7 +76,7 @@ public class MainWindow<Reservations_From_Scratch_Engine> extends Application {
 		
 		CSSFILENAME = "styles.css";
 		
-		rfse = new Reservations_From_Search_Engine();
+		rfse = new ReservationsFromSearchEngine();
 	}
 	
 	@Override // Sets and displays the primary stage

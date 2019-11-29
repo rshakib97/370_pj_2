@@ -5,19 +5,19 @@ import javafx.scene.control.TableView;
 
 public class BookingButton extends Button {
 	private TableView<Flight> table;
-	public BookingButton(String text, TableView<Flight> tv) {
+	private BookStatus status;
+	public BookingButton(String text, TableView<Flight> tv, BookStatus s) {
 		super(text);
 		table = tv;
+		status = s;
 		
 		setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
 				Flight f = table.getSelectionModel().getSelectedItem();
 				
-				DatabaseManager.bookReservation(GlobalData.getLoggedInAccount(), f.getFlightID() );
+				if(f != null) { DatabaseManager.bookReservation(GlobalData.getLoggedInAccount(), f.getFlightID(), status); }
 			}
 		});
 	}
-	
-	
 }

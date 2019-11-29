@@ -3,15 +3,18 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class Reservations_From_Search_Engine {
+public class ReservationsFromSearchEngine {
 	private VBox VBox;
 	private FlightTable table;
+	private BookStatus bookStat;
 
-	public Reservations_From_Search_Engine() {
+	public ReservationsFromSearchEngine() {
 		VBox = new VBox();
 		VBox.setPrefHeight(350);
 		
 		table = new FlightTable();
+		
+		bookStat = BookStatus.SE;
 		
 		start();
 	}
@@ -21,7 +24,7 @@ public class Reservations_From_Search_Engine {
 
 	public void start() {
 		// Button
-		Button bookButton = new BookingButton("Book", table);
+		Button bookButton = new BookingButton("Book", table, bookStat);
 		
 		HBox hbox = new HBox();
 		hbox.setPadding(new Insets(10,10,10,10));
