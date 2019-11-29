@@ -10,6 +10,7 @@ public final class DatabaseManager {
 	private static String accountsDatabase;
 	private static String airportsDatabase;
 	private static String flightsDatabase;
+	private static String reservationsDatabase;
 	
 	private static Connection con;
 	
@@ -22,6 +23,7 @@ public final class DatabaseManager {
 		accountsDatabase = "Accounts";
 		airportsDatabase = "Airports";
 		flightsDatabase = "Flights";
+		reservationsDatabase = "Reservations";
 		
 		initiateConnection();
 	}
@@ -329,5 +331,41 @@ public final class DatabaseManager {
 		catch(Exception e) { System.out.println(e); }
 		
 		return reservations;
+	}
+	
+	// Lets customers book reservations, will return false for any other account status
+	// TODO disallow customers being able to book two of the same reservations
+	public static boolean bookReservation(Account a, int flightID) {
+		if(a == null || a.getStatus() != Clearance.CUST) { return false; }
+		
+		try {
+			PreparedStatement ps = con.prepareStatement("INSERT INTO " + reservationsDatabase + " VALUES(DEFAULT,?,?)");
+			ps.setInt(1, a.getAccountID() );
+			ps.setInt(2, flightID);
+			
+			ps.executeUpdate();
+			ps.close();
+		}
+		
+		catch(Exception e) { System.out.println(e); }
+		
+		
+		
+		return true;
+	}
+	
+	// Lets a customer cancel a reservation
+	public static boolean cancelReservation(int flightID) {
+		try {
+			PreparedStatement ps = con.prepareStatement("DELETE FROM " + reservationsDatabase + " WHERE flightID = ?");
+			ps.setInt(1, flightID);
+		
+			ps.executeUpdate();
+			ps.close();
+		}
+		
+		catch(Exception e) { System.out.println(e); }
+	
+		return true;
 	}
 }

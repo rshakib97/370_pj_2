@@ -313,6 +313,7 @@ public class MainWindow<Reservations_From_Scratch_Engine> extends Application {
 						outerLayout.getChildren().remove(loginWindow);
 						loggedInWindow = setLoggedInWindow(a);
 						outerLayout.setLeft(loggedInWindow);
+						GlobalData.setLoggedInAccount(a);
 					}
 					else {
 						warningLabel.setText("Invalid username\nor password");
@@ -334,6 +335,7 @@ public class MainWindow<Reservations_From_Scratch_Engine> extends Application {
 				outerLayout.getChildren().remove(loggedInWindow);
 				loginWindow = setLoginWindow();
 				outerLayout.setLeft(loginWindow);
+				GlobalData.setLoggedInAccount(null);
 			}
 		});
 		

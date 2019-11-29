@@ -21,12 +21,12 @@ public class Reservations_From_Search_Engine {
 
 	public void start() {
 		// Button
-		Button addButton = new BookingButton("Book", table);
+		Button bookButton = new BookingButton("Book", table);
 		
 		HBox hbox = new HBox();
 		hbox.setPadding(new Insets(10,10,10,10));
 		hbox.setSpacing(10);
-		hbox.getChildren().addAll(addButton);
+		hbox.getChildren().addAll(bookButton);
 	
 		VBox.getChildren().addAll(table, hbox);
 	}

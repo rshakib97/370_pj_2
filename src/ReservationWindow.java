@@ -22,11 +22,13 @@ public class ReservationWindow extends Application {
 		
 		FlightTable ft = new FlightTable();
 		
+		CancelButton cancelButton = new CancelButton("Cancel", ft);
+		
 		ArrayList<Flight> reservations = DatabaseManager.getReservationsOf(userName);
 		
 		ft.getResults(reservations);
 		
-		vBox.getChildren().addAll(welcome, ft);
+		vBox.getChildren().addAll(welcome, ft, cancelButton);
 		
 		Scene s = new Scene(vBox, 925, 400);
 		stage.setScene(s);

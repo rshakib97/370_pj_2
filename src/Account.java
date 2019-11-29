@@ -14,6 +14,7 @@ public abstract class Account {
 		status = c;
 	}
 	
+	public int getAccountID() { return accountID; }
 	public String getFirstName() { return firstName; }
 	public String getLastName() { return lastName; }
 	public String getUserName() { return userName; }
