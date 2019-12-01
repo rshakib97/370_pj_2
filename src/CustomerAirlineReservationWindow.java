@@ -4,9 +4,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -20,9 +17,7 @@ public class CustomerAirlineReservationWindow extends Application {
 		
 		ArrayList<Airline> airlines = DatabaseManager.getAllAirlines();
 		
-		for(int i = 0; i < airlines.size(); i++) {
-			lv.getItems().add(airlines.get(i).getName() );
-		}
+		for(int i = 0; i < airlines.size(); i++) { lv.getItems().add(airlines.get(i).getName() ); }
 		
 		HBox airlineList = new HBox(lv);
 		airlineList.setSpacing(10);
