@@ -375,8 +375,40 @@ public final class DatabaseManager {
 		
 		try {
 			PreparedStatement ps = con.prepareStatement("SELECT * FROM " + reservationsDatabase + 
-					" AS r JOIN Accounts as a ON r.customerID = a.accountID"
+					" AS r JOIN Accounts AS a ON r.customerID = a.accountID"
 					+ " WHERE bookingStatus = 'SE'");
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next() ) {
+				String fn = rs.getString("a.firstName");
+				String ln = rs.getString("a.lastName");
+				Integer rID = rs.getInt("r.reservationID");
+				Integer fID = rs.getInt("r.flightID");
+				
+				Reservation r = new Reservation(fn, ln, rID, fID);
+				reservations.add(r);
+			}
+		}
+		
+		catch(Exception e) { System.out.println(e); }
+		
+		return reservations;
+	}
+	
+	public static ArrayList<Reservation> getReservationsFromAirline(String name) {
+		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+		
+		try {
+			PreparedStatement ps = con.prepareStatement("SELECT * FROM Reservations AS r" +
+					" JOIN Flights AS f ON r.flightID = f.flightID" +
+					" JOIN Airports AS a1 ON f.origin = a1.airportID" + 
+					" JOIN Airports AS a2 ON f.dest = a2.airportID" + 
+					" JOIN Accounts AS a ON r.customerID = a.accountID" + 
+					" JOIN Airlines AS air ON f.airline = air.airlineID" + 
+					" WHERE air.airlineName = ?");
+			
+			ps.setString(1, name);
+			
 			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next() ) {

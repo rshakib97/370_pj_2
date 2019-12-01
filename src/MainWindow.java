@@ -14,7 +14,6 @@ import javafx.scene.control.TextField;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -26,7 +25,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-public class MainWindow<Reservations_From_Scratch_Engine> extends Application {
+public class MainWindow extends Application {
 	private Stage primaryStage;
 	private Scene scene;
 	
@@ -203,17 +202,11 @@ public class MainWindow<Reservations_From_Scratch_Engine> extends Application {
 		logout.setId(LOG_OUT_BUTTON);
 		
 		// Check Status
-		if(a.getStatus() == Clearance.CUST) {
-			actionButton = setReservationsButton(a.getUserName() );
-		}
+		if(a.getStatus() == Clearance.CUST) { actionButton = setReservationsButton(a.getUserName() ); }
 		
-		else if(a.getStatus() == Clearance.AADMIN) { 
-			System.out.println("AADMIN");
-		}
+		else if(a.getStatus() == Clearance.AADMIN) { actionButton = setAirlineAdminButton(); }
 		
-		else if(a.getStatus() == Clearance.SADMIN) {
-			actionButton = setSearchEngineAdminButton();
-		}
+		else if(a.getStatus() == Clearance.SADMIN) { actionButton = setSearchEngineAdminButton(); }
 		
 		// Set classes
 		Node textNodes[] = new Node[] { profileLabel, name, statusLabel, textStatus};
@@ -261,6 +254,21 @@ public class MainWindow<Reservations_From_Scratch_Engine> extends Application {
 		// TODO set classes for styling
 	
 		return gp;
+	}
+	
+	private Button setAirlineAdminButton() {
+		Button b = new Button("Customer Reservations");
+		
+		b.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				CustomerAirlineReservationWindow csrw = new CustomerAirlineReservationWindow();
+				Stage s = new Stage();
+				csrw.start(s);
+			}
+		});
+		
+		return b;
 	}
 	
 	private Button setSearchEngineAdminButton() {

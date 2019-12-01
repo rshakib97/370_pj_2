@@ -4,10 +4,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class SearchAdminTable extends TableView<Reservation> {
+public class ReservationTable extends TableView<Reservation> {
 	private int ROW_SIZE;
 	
-	public SearchAdminTable() {
+	public ReservationTable() {
 		ROW_SIZE = 135;
 		
 		createTable();

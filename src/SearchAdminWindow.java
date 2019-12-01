@@ -17,7 +17,7 @@ public class SearchAdminWindow extends Application {
 		VBox vBox = new VBox();
 		vBox.setAlignment(Pos.TOP_CENTER);
 		
-		SearchAdminTable sat = new SearchAdminTable();
+		ReservationTable sat = new ReservationTable();
 		
 		ArrayList<Reservation> reservations = DatabaseManager.getReservationsFromSearchEngine();
 		
