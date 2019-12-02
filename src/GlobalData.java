@@ -1,3 +1,5 @@
+/* Allows access to the current date through the program and a logged in customer if any */
+
 import java.time.LocalDate;
 
 public final class GlobalData {

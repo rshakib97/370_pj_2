@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -6,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -14,11 +16,9 @@ import javafx.stage.Stage;
 
 public class FlightForm extends Application {
 	private String airline;
-	private ArrayList<TextField> fields;
 	
 	public FlightForm(String a) {
 		airline = a;
-		fields = new ArrayList<TextField>();
 	}
 
 	@Override
@@ -46,8 +46,8 @@ public class FlightForm extends Application {
 				"Maximum Seats",
 				"Price" };
 		
-		TextField date = new TextField();
-		date.setPromptText("Date");
+		DatePicker date = new DatePicker();
+		
 		TextField depart = new TextField();
 		depart.setPromptText("Departure Time");
 		TextField arrival = new TextField();
@@ -67,7 +67,7 @@ public class FlightForm extends Application {
 			public void handle(ActionEvent event) {
 				int max = Integer.parseInt(maxSeats.getText() );
 				
-				String d = date.getText();
+				LocalDate d = date.getValue();
 				String deptTime = depart.getText();
 				String arrTime = arrival.getText();
 				String origin = airportOrgs.getSelectionModel().getSelectedItem();
@@ -93,16 +93,6 @@ public class FlightForm extends Application {
 		cb.getSelectionModel().selectFirst();
 		
 		return cb;
-	}
-	
-	private boolean validate() {
-		for(int i = 0; i < fields.size(); i++) {
-			if(fields.get(i).getText().isEmpty() ) {
-				return false;
-			}
-		}
-		
-		return true;
 	}
 }
 	

@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public final class DatabaseManager {
@@ -450,7 +451,7 @@ public final class DatabaseManager {
 		catch(Exception e) { System.out.println(e); }
 	}
 	
-	public static void addFlight(int max, String date, String deptTime, String arrTime, String origin, String dest, String airline, double fare) {
+	public static void addFlight(int max, LocalDate date, String deptTime, String arrTime, String origin, String dest, String airline, double fare) {
 		try {
 			int airlineID = 0;
 			int originID = 0;
@@ -483,7 +484,7 @@ public final class DatabaseManager {
 			
 			ps = con.prepareStatement("INSERT INTO Flights (flightID, date, airline, depTime, arrTime, origin, dest, maxCap, fare) VALUES(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?)");
 			
-			ps.setString(1, date);
+			ps.setDate(1, Date.valueOf(date) );
 			ps.setInt(2, airlineID);
 			ps.setString(3, deptTime);
 			ps.setString(4, arrTime);
