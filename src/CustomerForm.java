@@ -8,123 +8,19 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.TilePane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class CustomerForm extends Application {
 	public int Counter_To_Check_If_All_Fields_Are_Valid = 0;
 
-	public void Invalid_Password(Stage stage) {
-
-		// set title for the stage
-		stage.setTitle("Invalid");
-
-		// create a tile pane
-		TilePane tilepane = new TilePane();
-
-		// create a label
-		Label label = new Label(" Please Enter A Valid Password!");
-		label.centerShapeProperty();
-
-		// set size of label
-		label.setMinWidth(50);
-		label.setMinHeight(50);
-
-		// tilepane.getChildren().add(button);
-		tilepane.getChildren().add(label);
-		// create a scene
-		Scene scene = new Scene(tilepane, 200, 100);
-
-		// set the scene
-		stage.setScene(scene);
-
-		stage.show();
-	}
-
-	public void Last_Name_Missing(Stage stage) {
-
-		// set title for the stage
-		stage.setTitle("Invalid");
-
-		// create a tile pane
-		TilePane tilepane = new TilePane();
-
-		// create a label
-		Label label = new Label(" Please Enter A Valid Last Name !");
-		label.centerShapeProperty();
-
-		// set size of label
-		label.setMinWidth(50);
-		label.setMinHeight(50);
-
-		// tilepane.getChildren().add(button);
-		tilepane.getChildren().add(label);
-		// create a scene
-		Scene scene = new Scene(tilepane, 200, 100);
-
-		// set the scene
-		stage.setScene(scene);
-
-		stage.show();
-	}
-
-	public void First_Name_Missing(Stage stage) {
-
-		// set title for the stage
-		stage.setTitle("Invalid");
-
-		// create a tile pane
-		TilePane tilepane = new TilePane();
-
-		// create a label
-		Label label = new Label(" Please Enter A Valid First Name !");
-		label.centerShapeProperty();
-
-		// set size of label
-		label.setMinWidth(50);
-		label.setMinHeight(50);
-
-		tilepane.getChildren().add(label);
-		// create a scene
-		Scene scene = new Scene(tilepane, 200, 100);
-
-		// set the scene
-		stage.setScene(scene);
-
-		stage.show();
-	}
-
-	public void User_Name_Missing(Stage stage) {
-
-		// set title for the stage
-		stage.setTitle("Invalid");
-
-		// create a tile pane
-		TilePane tilepane = new TilePane();
-
-		// create a label
-		Label label = new Label(" Please Enter A Valid Username!");
-		label.centerShapeProperty();
-
-		// set size of label
-		label.setMinWidth(100);
-		label.setMinHeight(50);
-
-		tilepane.getChildren().add(label);
-		// create a scene
-		Scene scene = new Scene(tilepane, 200, 100);
-
-		// set the scene
-		stage.setScene(scene);
-
-		stage.show();
-	}
-
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-// TODO Auto-generated method stub
-		final Label message = new Label("");
+//TODO Auto-generated method stub
+		final Label warningmessage = new Label("");
+		warningmessage.setTextFill(Color.RED);
 		primaryStage.setTitle("New Customer Form");
 
 		Label FirstName_Label = new Label("First Name");
@@ -139,69 +35,58 @@ public class CustomerForm extends Application {
 		Label First_Password_Label = new Label("Enter a password, 6 characters minimum ");
 		PasswordField First_Password_TextField = new PasswordField();
 
-		PasswordField Second_Password_Label = new PasswordField();
-		Label Second_Password_TextField = new Label("Re-Enter password, 6 characters minimum");
+		PasswordField Second_Password_TextField = new PasswordField();
+		Label Second_Password_Label = new Label("Re-Enter password, 6 characters minimum");
 
-		Button btn = new Button("submit");
-		btn.setOnAction(new EventHandler<ActionEvent>() {
+		Button submit = new Button("Submit");
+		submit.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-// TODO Auto-generated method stub
-				Counter_To_Check_If_All_Fields_Are_Valid = 0;
-//	System.out.println("Entered text is " + firstname_TextField.getText());
-				if (firstname_TextField.getLength() == 0) {
-					Stage pop_up = new Stage();
-					First_Name_Missing(pop_up);
 
-				} else {
-					Counter_To_Check_If_All_Fields_Are_Valid++;
+				if (firstname_TextField.getText().isEmpty()) { warningmessage.setText("Invalid First Name!"); } 
+				
+				else if (lastname_TextField.getText().isEmpty()) { warningmessage.setText("Invalid Last Name"); } 
+				
+				else if (User_Name_TextField.getText().isEmpty()) { warningmessage.setText("Invalid User Name"); } 
+				
+				// Password must be a length greater than 6 and match both fields
+				else if ((!(First_Password_TextField.getText().equals(Second_Password_TextField.getText())))
+						|| First_Password_TextField.getLength() < 6 || Second_Password_TextField.getLength() < 6) {
+					warningmessage.setText("Invalid Password");
+				} 
+				else {
+					String fn = firstname_TextField.getText();
+					String ln = lastname_TextField.getText();
+					String un = User_Name_TextField.getText();
+					String pw = First_Password_TextField.getText();
+					warningmessage.setText("Success!");
+					if (DatabaseManager.insertCustomer(fn, ln, un, pw) ) {
+						warningmessage.setTextFill(Color.BLUE);
+						warningmessage.setText("Success!");
+					}
 				}
-//	System.out.println("Entered text is " + lastname_TextField.getText());
-				if (lastname_TextField.getLength() == 0) {
-					Stage pop_up = new Stage();
-					Last_Name_Missing(pop_up);
-
-				} else {
-					Counter_To_Check_If_All_Fields_Are_Valid++;
-				}
-//System.out.println("Entered text is " + User_Name_TextField.getText());
-				if (User_Name_TextField.getLength() == 0) {
-					message.setText("Your password is incorrect!");
-					Stage pop_up = new Stage();
-					User_Name_Missing(pop_up);
-
-				} else {
-					Counter_To_Check_If_All_Fields_Are_Valid++;
-				}
-
-				if (!(First_Password_TextField.equals(Second_Password_Label))
-						&& (First_Password_TextField.getLength() < 6)) {
-					Stage pop_up = new Stage();
-					Invalid_Password(pop_up);
-
-				} else {
-					Counter_To_Check_If_All_Fields_Are_Valid++;
-				}
-				if (Counter_To_Check_If_All_Fields_Are_Valid == 4) { // if all fields were filled out correct
-					System.out.println("it worked, fill in the data base!"); // then write to the database from all text
-																				// fields
-					Counter_To_Check_If_All_Fields_Are_Valid = 0;
-					primaryStage.close();
-				}
-
-				DatabaseManager.insertCustomer(firstname_TextField.getText(), lastname_TextField.getText(),
-						User_Name_TextField.getText(), First_Password_TextField.getText());
-
-//User_Name_TextField.clear();
-
 			}
+		});
+		
+		Button close = new Button("Close");
+		close.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				primaryStage.close();
+				
+			}
+		
 		});
 		BorderPane pane = new BorderPane();
 		pane.setPadding(new Insets(10));
 
 		VBox paneCenter = new VBox();
 		paneCenter.setSpacing(5);
+		
+		HBox buttons = new HBox(5);
+		buttons.getChildren().addAll(submit, close);
 
 		pane.setLeft(paneCenter);
 		paneCenter.getChildren().add(FirstName_Label);
@@ -212,10 +97,10 @@ public class CustomerForm extends Application {
 		paneCenter.getChildren().add(User_Name_TextField);
 		paneCenter.getChildren().add(First_Password_Label);
 		paneCenter.getChildren().add(First_Password_TextField);
-		paneCenter.getChildren().add(Second_Password_TextField);
 		paneCenter.getChildren().add(Second_Password_Label);
-
-		paneCenter.getChildren().add(btn);
+		paneCenter.getChildren().add(Second_Password_TextField);
+		paneCenter.getChildren().add(warningmessage);
+		paneCenter.getChildren().add(buttons);
 		Scene scene = new Scene(pane, 600, 450);
 		primaryStage.setScene(scene);
 		primaryStage.show();

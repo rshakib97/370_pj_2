@@ -40,7 +40,7 @@ public final class DatabaseManager {
 	}
 	
 	// Puts a new customer into the database
-	public static void insertCustomer(String fn, String ln, String un, String pw) {
+	public static boolean insertCustomer(String fn, String ln, String un, String pw) {
 		try {
 			String params[] = new String[] { fn, ln, un, pw, "CUST" };
 			
@@ -51,7 +51,9 @@ public final class DatabaseManager {
 			ps.executeUpdate();
 		}
 		
-		catch(Exception e) { System.out.print(e); }
+		catch(Exception e) { return false; }
+		
+		return true;
 	}
 	
 	public static Account retrieveAccount(String un, String pw) {
