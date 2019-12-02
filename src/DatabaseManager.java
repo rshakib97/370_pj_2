@@ -161,9 +161,10 @@ public final class DatabaseManager {
 					" FROM " + flightsDatabase + " AS f" + 
 					" JOIN Airports AS a1 ON f.origin = a1.airportID" + 
 					" JOIN Airports AS a2 ON f.dest = a2.airportID" + 
-					" JOIN Airlines AS air ON f.airline = air.airlineID WHERE a1.airportName=?");
+					" JOIN Airlines AS air ON f.airline = air.airlineID WHERE a1.airportName=? AND f.date = ?");
 			
 			ps.setString(1, airport);
+			ps.setDate(2, Date.valueOf(GlobalData.getCurrentDate() ) );
 			
 			ResultSet rs = ps.executeQuery();
 			
@@ -201,9 +202,10 @@ public final class DatabaseManager {
 					" FROM Flights AS f" + 
 					" JOIN Airports AS a1 ON f.origin = a1.airportID" + 
 					" JOIN Airports AS a2 ON f.dest = a2.airportID" + 
-					" JOIN Airlines AS air ON f.airline = air.airlineID WHERE a2.airportName=?");
+					" JOIN Airlines AS air ON f.airline = air.airlineID WHERE a2.airportName=? AND f.date = ?");
 			
 			ps.setString(1, airport);
+			ps.setDate(2, Date.valueOf(GlobalData.getCurrentDate() ) );
 			
 			ResultSet rs = ps.executeQuery();
 			
@@ -263,9 +265,10 @@ public final class DatabaseManager {
 					" FROM Flights AS f" + 
 					" JOIN Airports AS a1 ON f.origin = a1.airportID" + 
 					" JOIN Airports AS a2 ON f.dest = a2.airportID" + 
-					" JOIN Airlines AS air ON f.airline = air.airlineID WHERE air.airlineName=?");
+					" JOIN Airlines AS air ON f.airline = air.airlineID WHERE air.airlineName=? AND f.date = ?");
 			
 			ps.setString(1, airline);
+			ps.setDate(2, Date.valueOf(GlobalData.getCurrentDate() ) );
 			
 			ResultSet rs = ps.executeQuery();
 			
