@@ -1,7 +1,8 @@
+import java.time.LocalDate;
 
 public final class GlobalData {
 	private static Account loggedInAccount;
-	private static String currentDate;
+	private static LocalDate currentDate;
 	
 	public GlobalData() {
 		loggedInAccount = null;
@@ -10,9 +11,9 @@ public final class GlobalData {
 	
 	// Getters
 	public static Account getLoggedInAccount() { return loggedInAccount; }
-	public static String getCurrentDate() { return currentDate; }
+	public static LocalDate getCurrentDate() { return currentDate; }
 	
 	// Setters
 	public static void setLoggedInAccount(Account a) { loggedInAccount = a; }
-	public static void setCurrentDate(String d) { currentDate = d; }
+	public static void setCurrentDate(LocalDate localDate) { currentDate = localDate; }
 }

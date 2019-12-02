@@ -99,10 +99,11 @@ public final class DatabaseManager {
 					" JOIN Airports AS a1 ON f.origin = a1.airportID" + 
 					" JOIN Airports AS a2 ON f.dest = a2.airportID" + 
 					" JOIN Airlines AS air ON f.airline = air.airlineID" +
-					" WHERE a1.airportName LIKE ?");
+					" WHERE a1.airportName LIKE ? AND a2.airportName LIKE ? AND f.date = ?");
 			
 			ps.setString(1, from + "%");
-			//ps.setString(2, to);
+			ps.setString(2, to + "%");
+			ps.setDate(3, Date.valueOf(GlobalData.getCurrentDate() ) );
 			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next() ) {
@@ -213,8 +214,8 @@ public final class DatabaseManager {
 				String date = rs.getString("date");
 				String deptTime = rs.getString("depTime");
 				String arrTime = rs.getString("arrTime");
-				String origin = rs.getString("a2.airportName");
-				String dest = rs.getString("a1.airportName");
+				String origin = rs.getString("a1.airportName");
+				String dest = rs.getString("a2.airportName");
 				String airline = rs.getString("airlineName");
 				double fare = rs.getDouble("fare");
 				FlightStatus status = FlightStatus.valueOf(rs.getString("status"));
@@ -350,8 +351,6 @@ public final class DatabaseManager {
 		
 		catch(Exception e) { System.out.println(e); }
 		
-		
-		
 		return true;
 	}
 	
@@ -388,6 +387,9 @@ public final class DatabaseManager {
 				Reservation r = new Reservation(fn, ln, rID, fID);
 				reservations.add(r);
 			}
+			
+			ps.close();
+			rs.close();
 		}
 		
 		catch(Exception e) { System.out.println(e); }
@@ -420,10 +422,77 @@ public final class DatabaseManager {
 				Reservation r = new Reservation(fn, ln, rID, fID);
 				reservations.add(r);
 			}
+			
+			ps.close();
+			rs.close();
 		}
 		
 		catch(Exception e) { System.out.println(e); }
 		
 		return reservations;
+	}
+	
+	public static void cancelFlight(int flightID) {
+		try {
+			PreparedStatement ps = con.prepareStatement("UPDATE Flights SET status = 'CANC' WHERE flightID = ?");
+			ps.setInt(1, flightID);
+			
+			ps.executeUpdate();
+			
+			ps.close();
+		}
+		
+		catch(Exception e) { System.out.println(e); }
+	}
+	
+	public static void addFlight(int max, String date, String deptTime, String arrTime, String origin, String dest, String airline, double fare) {
+		try {
+			int airlineID = 0;
+			int originID = 0;
+			int destinationID = 0;
+			
+			PreparedStatement ps = con.prepareStatement("SELECT * FROM Airlines WHERE airlineName = ?");
+			ps.setString(1, airline);
+			
+			ResultSet rs = ps.executeQuery();
+		
+			while(rs.next() ) { airlineID = rs.getInt("airlineID"); }
+			
+			ps = con.prepareStatement("SELECT * FROM Airports WHERE airportName = ?");
+			ps.setString(1, origin);
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next() ) { originID = rs.getInt("airportID"); }
+			
+			System.out.println(originID);
+			
+			ps = con.prepareStatement("SELECT * FROM Airports WHERE airportName = ?");
+			ps.setString(1, dest);
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next() ) { destinationID = rs.getInt("airportID"); }
+			
+			System.out.println(destinationID);
+			
+			ps = con.prepareStatement("INSERT INTO Flights (flightID, date, airline, depTime, arrTime, origin, dest, maxCap, fare) VALUES(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?)");
+			
+			ps.setString(1, date);
+			ps.setInt(2, airlineID);
+			ps.setString(3, deptTime);
+			ps.setString(4, arrTime);
+			ps.setInt(5, originID);
+			ps.setInt(6, destinationID);
+			ps.setInt(7, max);
+			ps.setDouble(8, fare);
+			
+			ps.executeUpdate();
+			
+			ps.close();
+			rs.close();
+		}
+		
+		catch(Exception e) { System.out.println(e); }
 	}
 }

@@ -111,19 +111,29 @@ public class MainWindow extends Application {
 	private MenuBar setMenu() {
 		Menu m = new Menu("Menu");
 		
-		MenuItem arrDept = new MenuItem("Arrivals and Departures");
+		MenuItem dept = new MenuItem("Departures");
+		MenuItem arr = new MenuItem("Arrivals");
 		MenuItem airlines = new MenuItem("Airline Search");
 		
-		m.getItems().addAll(arrDept, airlines);
+		m.getItems().addAll(dept, arr, airlines);
 		
 		MenuBar mb = new MenuBar();
 		
 		mb.getMenus().add(m);
 		
-		arrDept.setOnAction(new EventHandler<ActionEvent>() {
+		dept.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				ArrivalDepartureWindow aw = new ArrivalDepartureWindow();
+				DepartureWindow dw = new DepartureWindow();
+				Stage s = new Stage();
+				dw.start(s);
+			}
+		});
+		
+		arr.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				ArrivalWindow aw = new ArrivalWindow();
 				Stage s = new Stage();
 				aw.start(s);
 			}
@@ -204,7 +214,11 @@ public class MainWindow extends Application {
 		// Check Status
 		if(a.getStatus() == Clearance.CUST) { actionButton = setReservationsButton(a.getUserName() ); }
 		
-		else if(a.getStatus() == Clearance.AADMIN) { actionButton = setAirlineAdminButton(); }
+		else if(a.getStatus() == Clearance.AADMIN) { 
+			actionButton = setAirlineAdminCustomerReservationsButton();
+			Button adminFlightConfig = setAirlineAdminFlightConfigButton();
+			gp.add(adminFlightConfig, 0, 3);
+		}
 		
 		else if(a.getStatus() == Clearance.SADMIN) { actionButton = setSearchEngineAdminButton(); }
 		
@@ -230,25 +244,23 @@ public class MainWindow extends Application {
 		Label fromLabel = new Label("From");
 		Label toLabel = new Label("To");
 		Label departLabel = new Label("Depart");
-		Label returnLabel = new Label("Return");
 		
 		// Row 1
 		TextField fromField = new TextField();
 		TextField toField = new TextField();
 		DatePicker departDate = setDatePicker();
-		DatePicker returnDate = setDatePicker();
 		
 		// Row 2
 		Button search = setSearchButton(fromField, toField);
 		gp.add(search, 0, 2);
 		
-		Label labels[] = new Label[] { fromLabel, toLabel, departLabel, returnLabel };
+		Label labels[] = new Label[] { fromLabel, toLabel, departLabel };
 		for(int i = 0; i < labels.length; i++) { 
 			labels[i].getStyleClass().add(TEXT_NODE_CENTER_LAYOUT);
 			gp.add(labels[i], i, 0);
 		}
 		
-		Node fields[] = new Node[] { fromField, toField, departDate, returnDate };
+		Node fields[] = new Node[] { fromField, toField, departDate };
 		for(int i = 0; i < fields.length; i++) { gp.add(fields[i], i, 1); }
 		
 		// TODO set classes for styling
@@ -256,7 +268,23 @@ public class MainWindow extends Application {
 		return gp;
 	}
 	
-	private Button setAirlineAdminButton() {
+	private Button setAirlineAdminFlightConfigButton() {
+		Button b = new Button("Add or Change Flights");
+		
+		b.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				FlightAdminWindow faw = new FlightAdminWindow();
+				Stage s = new Stage();
+				faw.start(s);
+			}
+		});
+		
+		return b;
+	}
+	
+	private Button setAirlineAdminCustomerReservationsButton() {
 		Button b = new Button("Customer Reservations");
 		
 		b.setOnAction(new EventHandler<ActionEvent>() {
@@ -419,7 +447,7 @@ public class MainWindow extends Application {
 
 			@Override 
 			public void handle(ActionEvent e) {
-				// TODO get the value of the selected date and make reservations
+				GlobalData.setCurrentDate(datePicker.getValue() );
 			}
 		});
 		

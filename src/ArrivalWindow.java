@@ -6,29 +6,17 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
- 
-public class ArrivalDepartureWindow extends Application {
-    private TextArea arrivals;
-    private TextArea departures; 
-     
-    @Override
+
+public class ArrivalWindow extends Application {
+	@Override
     public void start(Stage stage) {
-        // Create the TextArea
-        arrivals = new TextArea();
-        arrivals.setMaxWidth(600);
-        arrivals.setMaxHeight(350);
-        departures = new TextArea();
-        departures.setMaxWidth(600);
-        departures.setMaxHeight(350);
         // Create the Label
         Label airportsplz = new Label("Select an airport: ");
-        Label arrivalslabel = new Label("Arrivals:");
-        Label departurelabel = new Label("Departures:");
+        Label arrLabel = new Label("Arrivals");
         
         // Create the ListView
         final ListView<String> globalAirportList = new ListView<>();
@@ -38,14 +26,14 @@ public class ArrivalDepartureWindow extends Application {
         globalAirportList.setPrefSize(120, 120);
         // Enable multiple selection
         globalAirportList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        
+        FlightTable arrs = new FlightTable();
          
         // Update the message Label when the selected item changes
         globalAirportList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> ov, final String oldvalue, final String newvalue) {
-            	ArrayList<Flight> departures = DatabaseManager.getDestinationsFromAirport(globalAirportList.getSelectionModel().getSelectedItem() );
             	ArrayList<Flight> arrivals = DatabaseManager.getArrivalsFromAirport(globalAirportList.getSelectionModel().getSelectedItem());
-                arrival_txt_box(ov, oldvalue, newvalue, arrivals);
-                departure_txt_bx(ov, oldvalue, newvalue, departures);
+                arrs.getResults(arrivals);
         }});
  
         // Create the HBox for the Airports
@@ -54,7 +42,6 @@ public class ArrivalDepartureWindow extends Application {
         airportsSelection_box.setSpacing(10);
         // Add the Label and the List to the HBox
         airportsSelection_box.getChildren().addAll(airportsplz, globalAirportList);
-         
          
         // Create the Selection HBox
         HBox selection = new HBox();
@@ -76,7 +63,7 @@ public class ArrivalDepartureWindow extends Application {
         // Set Spacing to 10 pixels
         root.setSpacing(10);
         // Add the GridPane and the TextArea to the VBox
-        root.getChildren().addAll(pane,arrivalslabel,arrivals,departurelabel,departures);
+        root.getChildren().addAll(pane, arrLabel, arrs);
          
         // Set the Style-properties of the VBox
         root.setStyle("-fx-padding: 10;" +
@@ -94,15 +81,5 @@ public class ArrivalDepartureWindow extends Application {
         stage.setTitle("Airports");
         // Display the Stage
         stage.show();       
-    }
- 
-    // Method to display the Data, which has been changed
-    public void arrival_txt_box(ObservableValue<? extends String> observable,String oldValue,String newValue, ArrayList<Flight> flights) {	
-    	arrivals.clear();
-    	for(int i = 0; i < flights.size(); i++) { arrivals.appendText(flights.get(i).displayArrivals() ); }
-    }
-    public void departure_txt_bx(ObservableValue<? extends String> observable,String oldValue,String newValue, ArrayList<Flight> flights) {	
-    	departures.clear();
-    	for(int i = 0; i < flights.size(); i++) { departures.appendText(flights.get(i).displayDepartures() ); }
-    } 
+	}
 }

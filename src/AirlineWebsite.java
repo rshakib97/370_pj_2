@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -32,7 +31,7 @@ public class AirlineWebsite extends Application {
 		
 		vBox.getChildren().addAll(welcome, ft, bookButton);
 		
-		Scene s = new Scene(vBox, 925, 400);
+		Scene s = new Scene(vBox, 1050, 400);
 		stage.setScene(s);
 		stage.setResizable(false);
 		stage.show();
