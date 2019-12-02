@@ -346,6 +346,14 @@ public final class DatabaseManager {
 		if(a == null || a.getStatus() != Clearance.CUST) { return false; }
 		if(f.getFlightStatus() == FlightStatus.CANC) { return false; }
 		
+		// Check if flight is full
+		int max = f.getMaxCap();
+		int reserved = f.getReserved();
+	
+		if(reserved >= max) { return false; }
+		
+		System.out.println(max + " " + reserved);
+		
 		try {
 			PreparedStatement ps = con.prepareStatement("INSERT INTO " + reservationsDatabase + " VALUES(DEFAULT,?,?,?)");
 			ps.setInt(1, a.getAccountID() );
@@ -354,7 +362,6 @@ public final class DatabaseManager {
 			
 			ps.executeUpdate();
 			
-			int reserved = f.getReserved();
 			reserved++;
 			
 			ps = con.prepareStatement("UPDATE Flights SET reserved = ? WHERE flightID = ?");
