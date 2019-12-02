@@ -471,16 +471,12 @@ public final class DatabaseManager {
 			
 			while(rs.next() ) { originID = rs.getInt("airportID"); }
 			
-			System.out.println(originID);
-			
 			ps = con.prepareStatement("SELECT * FROM Airports WHERE airportName = ?");
 			ps.setString(1, dest);
 			
 			rs = ps.executeQuery();
 			
 			while(rs.next() ) { destinationID = rs.getInt("airportID"); }
-			
-			System.out.println(destinationID);
 			
 			ps = con.prepareStatement("INSERT INTO Flights (flightID, date, airline, depTime, arrTime, origin, dest, maxCap, fare) VALUES(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?)");
 			
