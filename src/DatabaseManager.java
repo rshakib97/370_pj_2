@@ -361,6 +361,8 @@ public final class DatabaseManager {
 			ps.setInt(1, reserved);
 			ps.setInt(2, f.getFlightID() );
 			
+			ps.executeUpdate();
+			
 			ps.close();
 		}
 		
@@ -370,12 +372,22 @@ public final class DatabaseManager {
 	}
 	
 	// Lets a customer cancel a reservation
-	public static boolean cancelReservation(int flightID) {
+	public static boolean cancelReservation(Flight f) {
 		try {
 			PreparedStatement ps = con.prepareStatement("DELETE FROM " + reservationsDatabase + " WHERE flightID = ?");
-			ps.setInt(1, flightID);
+			ps.setInt(1, f.getFlightID() );
 		
 			ps.executeUpdate();
+			
+			int reserved = f.getReserved();
+			reserved--;
+			
+			ps = con.prepareStatement("UPDATE Flights SET reserved = ? WHERE flightID = ?");
+			ps.setInt(1, reserved);
+			ps.setInt(2, f.getFlightID() );
+			
+			ps.executeUpdate();
+			
 			ps.close();
 		}
 		
