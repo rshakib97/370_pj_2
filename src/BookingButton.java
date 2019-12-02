@@ -16,7 +16,7 @@ public class BookingButton extends Button {
 			public void handle(ActionEvent e) {
 				Flight f = table.getSelectionModel().getSelectedItem();
 				
-				if(f != null) { DatabaseManager.bookReservation(GlobalData.getLoggedInAccount(), f.getFlightID(), status); }
+				if(f != null) { DatabaseManager.bookReservation(GlobalData.getLoggedInAccount(), f, status); }
 			}
 		});
 	}

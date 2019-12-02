@@ -16,6 +16,10 @@ public class FlightTable extends TableView<Flight> {
 		// PROPERTY NAMES MUST BE THE SAME AS THE VARIABLE NAMES IN THE FLIGHT
 		// GETTERS MUST ALSO BE PROPERLY FORMATTED!
 		
+		TableColumn<Flight, String> flightNumber = new TableColumn<>("Flight Number");
+		flightNumber.setMinWidth(ROW_SIZE);
+		flightNumber.setCellValueFactory(new PropertyValueFactory<>("flightID"));
+		
 		//Airline Name column 
 		TableColumn<Flight, String> nameColumn = new TableColumn<>("Airline");
 		nameColumn.setMinWidth(ROW_SIZE);
@@ -55,7 +59,7 @@ public class FlightTable extends TableView<Flight> {
 		status.setMinWidth(ROW_SIZE);
 		status.setCellValueFactory(new PropertyValueFactory<>("flightStatus"));
 		
-		getColumns().addAll(nameColumn, pricecol, dateCol, orgCol, deptCol, Departure_time, Arrival_Time, status);
+		getColumns().addAll(flightNumber, nameColumn, pricecol, dateCol, orgCol, deptCol, Departure_time, Arrival_Time, status);
 	}
 	
 	public void getResults(ArrayList<Flight> flights) {

@@ -30,7 +30,7 @@ public class ReservationWindow extends Application {
 		
 		vBox.getChildren().addAll(welcome, ft, cancelButton);
 		
-		Scene s = new Scene(vBox, 925, 400);
+		Scene s = new Scene(vBox, 1070, 400);
 		stage.setScene(s);
 		stage.setResizable(false);
 		stage.show();
