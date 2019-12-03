@@ -15,12 +15,17 @@ public class AirlineWebsitePortal extends Application {
 	@Override
 	public void start(Stage stage) {
 		// TODO make this window look better
-		VBox vBox = new VBox();
-		vBox.setAlignment(Pos.TOP_CENTER);
-		vBox.setId("webPortal");
+		VBox root = new VBox();
+		root.setAlignment(Pos.TOP_CENTER);
+		root.setId("webPortal");
 		
-		Label welcome = new Label("Welcome to the Airline Portal");
-		vBox.getChildren().add(welcome);
+		Label welcome = new Label("Welcome to the Airline Portal.\nClick any of the links below");
+		welcome.setId("portal_welcome");
+		root.getChildren().add(welcome);
+		
+		VBox airlineBox = new VBox();
+		airlineBox.setAlignment(Pos.CENTER);
+		airlineBox.setId("airline_box");
 		
 		ArrayList<Airline> airlines = DatabaseManager.getAllAirlines();
 		for(int i = 0; i < airlines.size(); i++) {
@@ -28,6 +33,7 @@ public class AirlineWebsitePortal extends Application {
 			String name = a.getName();
 			
 			Hyperlink hl = new Hyperlink("www." + name + ".com");
+			hl.getStyleClass().add("airline_link");
 			
 			hl.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
@@ -38,10 +44,12 @@ public class AirlineWebsitePortal extends Application {
 				}
 			});
 			
-			vBox.getChildren().add(hl);
+			airlineBox.getChildren().add(hl);
 		}
 		
-		Scene scene = new Scene(vBox, 500, 500);
+		root.getChildren().add(airlineBox);
+		
+		Scene scene = new Scene(root, 500, 500);
 		scene.getStylesheets().add("styles.css");
 		stage.setScene(scene);
 		stage.show();

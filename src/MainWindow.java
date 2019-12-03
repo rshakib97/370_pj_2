@@ -36,7 +36,6 @@ public class MainWindow extends Application {
 	// Classes
 	private final String TEXT_NODE_LEFT_LAYOUT;
 	private final String TEXT_NODE_CENTER_LAYOUT;
-	private final String HYPERLINK;
 			
 	// I.D.'s
 	private final String LOGIN_WINDOW;
@@ -238,13 +237,18 @@ public class MainWindow extends Application {
 		// Set I.D.'s
 		logout.setId(LOG_OUT_BUTTON);
 		
+		HBox buttons = new HBox();
+		buttons.setSpacing(5);
+		
+		
 		// Check Status
 		if(a.getStatus() == Clearance.CUST) { actionButton = setReservationsButton(a.getUserName() ); }
 		
 		else if(a.getStatus() == Clearance.AADMIN) { 
 			actionButton = setAirlineAdminCustomerReservationsButton();
 			Button adminFlightConfig = setAirlineAdminFlightConfigButton();
-			gp.add(adminFlightConfig, 0, 3);
+			adminFlightConfig.getStyleClass().add("main_window_button");
+			buttons.getChildren().add(adminFlightConfig);
 		}
 		
 		else if(a.getStatus() == Clearance.SADMIN) { actionButton = setSearchEngineAdminButton(); }
@@ -253,11 +257,26 @@ public class MainWindow extends Application {
 		Node textNodes[] = new Node[] { profileLabel, name, statusLabel, textStatus};
 		for(int i = 0; i < textNodes.length; i++) { textNodes[i].getStyleClass().add(TEXT_NODE_LEFT_LAYOUT); }
 		
-		Node nodesAtCol0[] = new Node[] { profileLabel, statusLabel, logout };
-		for(int i = 0; i < nodesAtCol0.length; i++) { gp.add(nodesAtCol0[i], 0, i); }
+		HBox profileBox = new HBox();
+		profileBox.setSpacing(5);
+		profileBox.getChildren().addAll(profileLabel, name);
+		gp.add(profileBox, 0, 0);
 		
-		Node nodesAtCol1[] = new Node[] { name, textStatus, actionButton };
-		for (int i = 0; i < nodesAtCol1.length; i++) { gp.add(nodesAtCol1[i], 1, i); }
+		HBox statusBox = new HBox();
+		statusBox.setSpacing(5);
+		statusBox.getChildren().addAll(statusLabel, textStatus);
+		gp.add(statusBox, 0, 1);
+		
+		buttons.getChildren().add(actionButton);
+		gp.add(buttons, 0, 2);
+		
+		HBox logoutBox = new HBox();
+		logoutBox.setSpacing(5);
+		logoutBox.getChildren().add(logout);
+		gp.add(logoutBox, 0, 3);
+		
+		// setClass
+		actionButton.getStyleClass().add("main_window_button");
 		
 		return gp;
 	}

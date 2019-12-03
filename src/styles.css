@@ -1,11 +1,14 @@
 /* Will be used for all styling throughout the project */
 
-/* MAIN WINDOW STYLES */
 * {
 	/* Variables */
 	-fx-left-layout-bg-color: linear-gradient(to top left, lightskyblue, steelblue);
 	-fx-center-layout-bg-color: whitesmoke;
 	-fx-main-window-text-fill: whitesmoke;
+}
+
+#portal_welcome {
+ -fx-font-size: 20px;
 }
 
 #login_window, #logged_in_window, #webPortal {
@@ -22,13 +25,23 @@
 	-fx-hgap: 2;
 }
 
-#log_in_button, #log_out_button {
+#log_in_button, #log_out_button, .main_window_button {
 	-fx-background-color: -fx-left-layout-bg-color;
 	-fx-font-size: 16px;
 	-fx-text-fill: -fx-main-window-text-fill;
 }
 
 #log_in_button:hover {
+	-fx-background-color: steelblue;
+	-fx-underline: true;
+}
+
+#log_out_button:hover {
+	-fx-background-color: steelblue;
+	-fx-underline: true;
+}
+
+.main_window_button:hover {
 	-fx-background-color: steelblue;
 	-fx-underline: true;
 }
@@ -42,7 +55,7 @@
 	-fx-font-family: "Tahoma";
 }
 
-.text_node_left_layout {
+.text_node_left_layout, .airline_link {
 	-fx-font-size: 20px;
 	-fx-fill: -fx-main-window-text-fill; /* Need for Text class */
 	-fx-text-fill: -fx-main-window-text-fill; /* Need for Label class */
@@ -50,6 +63,11 @@
 
 .text_node_center_layout {
 	-fx-font-size: 14px;
+}
+
+#airline_box {
+	-fx-border-style: solid;
+	-fx-border-width: 1px;
 }
 
 /* END MAIN WINDOW STYLES */
