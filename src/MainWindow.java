@@ -66,7 +66,6 @@ public class MainWindow extends Application {
 		// Classes
 		TEXT_NODE_LEFT_LAYOUT = "text_node_left_layout";
 		TEXT_NODE_CENTER_LAYOUT = "text_node_center_layout";
-		HYPERLINK = "hyperlink";
 		
 		// I.D.'s
 		LOGIN_WINDOW = "login_window";
