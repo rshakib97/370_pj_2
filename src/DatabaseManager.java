@@ -141,11 +141,13 @@ public final class DatabaseManager {
 					" JOIN Airports AS a1 ON f.origin = a1.airportID" + 
 					" JOIN Airports AS a2 ON f.dest = a2.airportID" + 
 					" JOIN Airlines AS air ON f.airline = air.airlineID" +
-					" WHERE a1.airportName LIKE ? AND a2.airportName LIKE ? AND f.date = ?");
+					" WHERE a1.airportName LIKE ? AND a2.airportName LIKE ? AND f.date = ? AND f.status != ?");
 			
 			ps.setString(1, from + "%");
 			ps.setString(2, to + "%");
 			ps.setDate(3, Date.valueOf(GlobalData.getCurrentDate() ) );
+			ps.setString(4, "CANC");
+			
 			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next() ) {
@@ -307,10 +309,11 @@ public final class DatabaseManager {
 					" FROM Flights AS f" + 
 					" JOIN Airports AS a1 ON f.origin = a1.airportID" + 
 					" JOIN Airports AS a2 ON f.dest = a2.airportID" + 
-					" JOIN Airlines AS air ON f.airline = air.airlineID WHERE air.airlineName=? AND f.date = ?");
+					" JOIN Airlines AS air ON f.airline = air.airlineID WHERE air.airlineName=? AND f.date = ? AND f.status != ?");
 			
 			ps.setString(1, airline);
 			ps.setDate(2, Date.valueOf(GlobalData.getCurrentDate() ) );
+			ps.setString(3, "CANC");
 			
 			ResultSet rs = ps.executeQuery();
 			
@@ -384,6 +387,7 @@ public final class DatabaseManager {
 	public static boolean bookReservation(Account a, Flight f, BookStatus status) {
 		if(a == null || a.getStatus() != Clearance.CUST) { return false; }
 		if(f.getFlightStatus() == FlightStatus.CANC) { return false; }
+		if(f.getFlightStatus() == FlightStatus.FULL) { return false; }
 		
 		// Check if flight is full
 		int max = f.getMaxCap();
@@ -415,6 +419,7 @@ public final class DatabaseManager {
 				ps.setInt(2, f.getFlightID() );
 				
 				ps.executeUpdate();
+				
 			}
 		
 			ps.close();

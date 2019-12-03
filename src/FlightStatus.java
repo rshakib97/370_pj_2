@@ -2,5 +2,5 @@
  * customers will not be able to reserve it
  */  
 public enum FlightStatus {
-	OT, LATE, CANC
+	OT, LATE, CANC, FULL
 }

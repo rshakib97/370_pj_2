@@ -60,7 +60,7 @@ public class MainWindow extends Application {
 	private Label searchWarningLabel;
 	
 	MainWindow()  { 
-		SCENE_WINDOW_WIDTH = 1050;
+		SCENE_WINDOW_WIDTH = 1200;
 		SCENE_WINDOW_HEIGHT = 600;
 		
 		// Classes
