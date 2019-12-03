@@ -14,25 +14,32 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class FlightForm extends Application {
 	private String airline;
 	private Label messageLabel;
 	
+	private double textFieldSize, textFieldSpacing;
+	
 	public FlightForm(String a) {
 		airline = a;
+		textFieldSize = 200;
+		textFieldSpacing = 15;
 	}
 
 	@Override
 	public void start(Stage stage) {
-		VBox form = new VBox();
-		form.setSpacing(10);
+		VBox root = new VBox();
+		root.setSpacing(10);
+		root.setAlignment(Pos.TOP_CENTER);
 		
 		messageLabel = new Label("");
 		
 		Label head = new Label("Add a Flight");
-		form.getChildren().add(head);
+		head.setFont(new Font(20));
+		root.getChildren().add(head);
 		
 		Label origin = new Label("Origin Airport: ");
 		Label destination = new Label("Destination Airport: ");
@@ -40,31 +47,40 @@ public class FlightForm extends Application {
 		ComboBox<String> airportOrgs = setAirportsList();
 		ComboBox<String> airportDests = setAirportsList();
 		
+		
 		HBox airportOrigin = new HBox(origin, airportOrgs);
+		airportOrigin.setSpacing(5);
+		airportOrigin.setAlignment(Pos.CENTER);
+		
 		HBox airportDestination = new HBox(destination, airportDests);
-		
-		form.getChildren().addAll(airportOrigin, airportDestination);
-		
-		String fieldNames[] = {"Date",
-				"Departure Time", 
-				"Arrival Time",
-				"Maximum Seats",
-				"Price" };
+		airportDestination.setSpacing(5);
+		airportDestination.setAlignment(Pos.CENTER);
 		
 		DatePicker date = new DatePicker();
 		
 		TextField depart = new TextField();
 		depart.setPromptText("Departure Time");
+		depart.setMaxWidth(textFieldSize);
+		
 		TextField arrival = new TextField();
 		arrival.setPromptText("Arrival Time");
+		arrival.setMaxWidth(textFieldSize);
+		
 		TextField maxSeats = new TextField();
 		maxSeats.setPromptText("Maximum Seats");
+		maxSeats.setMaxWidth(textFieldSize);
+		
 		TextField price = new TextField();
 		price.setPromptText("Price");
+		price.setMaxWidth(textFieldSize);
 		
-		form.getChildren().addAll(date, depart, arrival, maxSeats, price);
+		VBox forms = new VBox();
+		forms.setSpacing(textFieldSpacing);
+		forms.setAlignment(Pos.CENTER);
+		forms.getChildren().addAll(date, depart, arrival, maxSeats, price);
 		
 		HBox bottom = new HBox();
+		bottom.setAlignment(Pos.CENTER);
 		bottom.setSpacing(5);
 		
 		Button submit = new Button("Submit");
@@ -120,9 +136,9 @@ public class FlightForm extends Application {
 		});
 		
 		bottom.getChildren().addAll(submit, close, messageLabel);
-		form.getChildren().add(bottom);
+		root.getChildren().addAll(airportOrigin, airportDestination, forms, bottom);
 		
-		Scene s = new Scene(form, 500, 500);
+		Scene s = new Scene(root, 500, 500);
 		stage.setScene(s);
 		stage.show();
 	}
