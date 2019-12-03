@@ -389,11 +389,8 @@ public final class DatabaseManager {
 		if(f.getFlightStatus() == FlightStatus.CANC) { return false; }
 		if(f.getFlightStatus() == FlightStatus.FULL) { return false; }
 		
-		// Check if flight is full
 		int max = f.getMaxCap();
 		int reserved = f.getReserved();
-	
-		if(reserved >= max) { return false; }
 		
 		try {
 			// Check if flight already reserved
@@ -420,6 +417,13 @@ public final class DatabaseManager {
 				
 				ps.executeUpdate();
 				
+				if(reserved == max) {
+					ps = con.prepareStatement("UPDATE Flights SET status = ? WHERE flightID = ?");
+					ps.setString(1, "FULL");
+					ps.setInt(2, f.getFlightID() );
+					
+					ps.executeUpdate();
+				}
 			}
 		
 			ps.close();
@@ -446,6 +450,13 @@ public final class DatabaseManager {
 			ps.setInt(2, f.getFlightID() );
 			
 			ps.executeUpdate();
+			
+			if(f.getFlightStatus() == FlightStatus.FULL) {
+				ps = con.prepareStatement("UPDATE Flights SET status = ? WHERE flightID = ?");
+				ps.setString(1, "OT");
+				ps.setInt(2, f.getFlightID() );
+				
+			}
 			
 			ps.close();
 		}
