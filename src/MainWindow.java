@@ -251,7 +251,12 @@ public class MainWindow extends Application {
 		
 		else if(a.getStatus() == Clearance.SADMIN) { actionButton = setSearchEngineAdminButton(); }
 		
-		else if(a.getStatus() == Clearance.MAS) { actionButton = setCreateAirlineButton(); }
+		else if(a.getStatus() == Clearance.MAS) { 
+			actionButton = setCreateAirlineButton(); 
+			Button addAirportButton = setCreateAirportButton();
+			addAirportButton.getStyleClass().add("main_window_button");
+			buttons.getChildren().add(addAirportButton);
+		}
 		// Set classes
 		Node textNodes[] = new Node[] { profileLabel, name, statusLabel, textStatus};
 		for(int i = 0; i < textNodes.length; i++) { textNodes[i].getStyleClass().add(TEXT_NODE_LEFT_LAYOUT); }
@@ -322,6 +327,22 @@ public class MainWindow extends Application {
 		
 		
 		return gp;
+	}
+	
+	private Button setCreateAirportButton() {
+		Button b = new Button("Create Airport");
+		
+		b.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				CreateAirportWindow caw = new CreateAirportWindow();
+				Stage s = new Stage();
+				caw.start(s);
+			}
+		});
+		
+		return b;
 	}
 	
 	private Button setCreateAirlineButton() {

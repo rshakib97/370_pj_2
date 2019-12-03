@@ -608,8 +608,26 @@ public final class DatabaseManager {
 			ps.setString(1, name);
 			
 			ps.executeUpdate();
+			
+			ps.close();
 		}
 		
 		catch(Exception e) { System.out.println(e); }
+	}
+	
+	public static void createNewAirport(String name) {
+		try {
+			PreparedStatement ps = con.prepareStatement("INSERT INTO Airports (airportID, airportName) VALUES (DEFAULT, ?)");
+			ps.setString(1, name);
+			
+			ps.executeUpdate();
+			
+			ps.close();
+		}
+		
+		catch(Exception e) {
+			System.out.println(e);
+		}
+		
 	}
 }
