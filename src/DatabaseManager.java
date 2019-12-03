@@ -352,24 +352,32 @@ public final class DatabaseManager {
 	
 		if(reserved >= max) { return false; }
 		
-		System.out.println(max + " " + reserved);
-		
 		try {
-			PreparedStatement ps = con.prepareStatement("INSERT INTO " + reservationsDatabase + " VALUES(DEFAULT,?,?,?)");
+			// Check if flight already reserved
+			PreparedStatement ps = con.prepareStatement("SELECT * FROM Reservations WHERE customerID = ? AND flightID = ?");
 			ps.setInt(1, a.getAccountID() );
 			ps.setInt(2, f.getFlightID() );
-			ps.setString(3, status.toString() );
 			
-			ps.executeUpdate();
+			ResultSet rs = ps.executeQuery();
 			
-			reserved++;
-			
-			ps = con.prepareStatement("UPDATE Flights SET reserved = ? WHERE flightID = ?");
-			ps.setInt(1, reserved);
-			ps.setInt(2, f.getFlightID() );
-			
-			ps.executeUpdate();
-			
+			// If there are no results, make the reservation
+			if(!rs.next() ) {
+				ps = con.prepareStatement("INSERT INTO " + reservationsDatabase + " VALUES(DEFAULT,?,?,?)");
+				ps.setInt(1, a.getAccountID() );
+				ps.setInt(2, f.getFlightID() );
+				ps.setString(3, status.toString() );
+				
+				ps.executeUpdate();
+				
+				reserved++;
+				
+				ps = con.prepareStatement("UPDATE Flights SET reserved = ? WHERE flightID = ?");
+				ps.setInt(1, reserved);
+				ps.setInt(2, f.getFlightID() );
+				
+				ps.executeUpdate();
+			}
+		
 			ps.close();
 		}
 		

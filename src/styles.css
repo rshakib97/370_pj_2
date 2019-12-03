@@ -33,7 +33,7 @@
 	-fx-underline: true;
 }
 
-#warning_label {
+#warning_label, #searchWarningLabel {
 	-fx-text-fill: red;
 	-fx-font-size: 14px;
 }

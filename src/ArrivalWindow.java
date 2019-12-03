@@ -32,8 +32,10 @@ public class ArrivalWindow extends Application {
         // Update the message Label when the selected item changes
         globalAirportList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> ov, final String oldvalue, final String newvalue) {
-            	ArrayList<Flight> arrivals = DatabaseManager.getArrivalsFromAirport(globalAirportList.getSelectionModel().getSelectedItem());
-                arrs.getResults(arrivals);
+            	if(GlobalData.getCurrentDate() != null) {
+            		ArrayList<Flight> arrivals = DatabaseManager.getArrivalsFromAirport(globalAirportList.getSelectionModel().getSelectedItem());
+                    arrs.getResults(arrivals);
+            	}
         }});
  
         // Create the HBox for the Airports

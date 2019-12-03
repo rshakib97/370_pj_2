@@ -44,6 +44,7 @@ public class MainWindow extends Application {
 	private final String LOG_IN_BUTTON;
 	private final String LOG_OUT_BUTTON;
 	private final String WARNING_LABEL;
+	private final String SEARCH_WARNING_LABEL;
 	private final String CSSFILENAME;
 	
 	// Panes
@@ -54,9 +55,11 @@ public class MainWindow extends Application {
 	private ReservationsFromSearchEngine rfse;
 	
 	// Warning Label, initialized in the setLoginWindow
-	private Label warningLabel;
+	private Label loginWarningLabel;
+	// Search Warning if no date, initalized in setCenterLayout
+	private Label searchWarningLabel;
 	
-	MainWindow() throws ParseException { 
+	MainWindow()  { 
 		SCENE_WINDOW_WIDTH = 1050;
 		SCENE_WINDOW_HEIGHT = 600;
 		
@@ -72,6 +75,7 @@ public class MainWindow extends Application {
 		LOG_IN_BUTTON = "log_in_button";
 		LOG_OUT_BUTTON = "log_out_button";
 		WARNING_LABEL = "warning_label";
+		SEARCH_WARNING_LABEL = "searchWarningLabel";
 		
 		CSSFILENAME = "styles.css";
 		
@@ -124,27 +128,50 @@ public class MainWindow extends Application {
 		dept.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				DepartureWindow dw = new DepartureWindow();
-				Stage s = new Stage();
-				dw.start(s);
+				if(GlobalData.getCurrentDate() == null) {
+					searchWarningLabel.setText("Please enter a date");
+				}
+				
+				else {
+					searchWarningLabel.setText("");
+					DepartureWindow dw = new DepartureWindow();
+					Stage s = new Stage();
+					dw.start(s);
+				}
+				
 			}
 		});
 		
 		arr.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				ArrivalWindow aw = new ArrivalWindow();
-				Stage s = new Stage();
-				aw.start(s);
+				if(GlobalData.getCurrentDate() == null) {
+					searchWarningLabel.setText("Please enter a date");
+				}
+				
+				else {
+					searchWarningLabel.setText("");
+					ArrivalWindow aw = new ArrivalWindow();
+					Stage s = new Stage();
+					aw.start(s);
+				}
+				
 			}
 		});
 		
 		airlines.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				AirlineWebsitePortal awp = new AirlineWebsitePortal();
-				Stage s = new Stage();
-				awp.start(s);
+				if(GlobalData.getCurrentDate() == null) {
+					searchWarningLabel.setText("Please enter a date");
+				}
+				
+				else {
+					searchWarningLabel.setText("");
+					AirlineWebsitePortal awp = new AirlineWebsitePortal();
+					Stage s = new Stage();
+					awp.start(s);
+				}
 			}
 		});
 		
@@ -159,7 +186,7 @@ public class MainWindow extends Application {
 		// Row 0
 		Label userName = new Label("User Name:");
 		Label password = new Label("Password:");
-		warningLabel = new Label();
+		loginWarningLabel = new Label();
 		Button logInButton = new Button();
 		
 		// Row 1
@@ -177,9 +204,9 @@ public class MainWindow extends Application {
 		
 		// Set I.D.'s
 		logInButton.setId(LOG_IN_BUTTON);
-		warningLabel.setId(WARNING_LABEL);
+		loginWarningLabel.setId(WARNING_LABEL);
 				
-		Node nodesAtCol0[] = new Node[] { userName, password, logInButton, warningLabel};
+		Node nodesAtCol0[] = new Node[] { userName, password, logInButton, loginWarningLabel};
 		for(int i = 0; i < nodesAtCol0.length; i++) { gp.add(nodesAtCol0[i], 0, i); }
 		
 		Node nodesAtCol1[] = new Node[] { userTextField, passwordField, link };
@@ -253,6 +280,9 @@ public class MainWindow extends Application {
 		// Row 2
 		Button search = setSearchButton(fromField, toField);
 		gp.add(search, 0, 2);
+		searchWarningLabel = new Label("");
+		searchWarningLabel.setId(SEARCH_WARNING_LABEL);
+		gp.add(searchWarningLabel, 1, 2);
 		
 		Label labels[] = new Label[] { fromLabel, toLabel, departLabel };
 		for(int i = 0; i < labels.length; i++) { 
@@ -260,11 +290,9 @@ public class MainWindow extends Application {
 			gp.add(labels[i], i, 0);
 		}
 		
-		Node fields[] = new Node[] { fromField, toField, departDate };
+		Node fields[] = new Node[] { fromField, toField, departDate, };
 		for(int i = 0; i < fields.length; i++) { gp.add(fields[i], i, 1); }
 		
-		// TODO set classes for styling
-	
 		return gp;
 	}
 	
@@ -336,10 +364,17 @@ public class MainWindow extends Application {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				String fromQuery = from.getText();
-				String toQuery = to.getText();
-				ArrayList<Flight> results = DatabaseManager.searchFlights(fromQuery, toQuery);
-				rfse.getFlightTable().getResults(results);
+				if(GlobalData.getCurrentDate() == null) {
+					searchWarningLabel.setText("Please enter a date");
+				}
+				
+				else {
+					searchWarningLabel.setText("");
+					String fromQuery = from.getText();
+					String toQuery = to.getText();
+					ArrayList<Flight> results = DatabaseManager.searchFlights(fromQuery, toQuery);
+					rfse.getFlightTable().getResults(results);
+				}
 			}
 		});
 		
@@ -367,7 +402,7 @@ public class MainWindow extends Application {
 						GlobalData.setLoggedInAccount(a);
 					}
 					else {
-						warningLabel.setText("Invalid username\nor password");
+						loginWarningLabel.setText("Invalid username\nor password");
 					}
 				}
 			}
@@ -456,11 +491,11 @@ public class MainWindow extends Application {
 	
 	private boolean validateFields(String un, String pw) {
 		if(un.isEmpty() ) { 
-			warningLabel.setText("Username field\nis empty.");
+			loginWarningLabel.setText("Username field\nis empty.");
 			return false; 
 		}
 		else if(pw.isEmpty() ) { 
-			warningLabel.setText("Password field\nis empty.");
+			loginWarningLabel.setText("Password field\nis empty.");
 			return false; 
 		}
 		
