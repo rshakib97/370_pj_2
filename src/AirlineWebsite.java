@@ -19,6 +19,7 @@ public class AirlineWebsite extends Application {
 	public void start(Stage stage)  {
 		VBox vBox = new VBox();
 		vBox.setAlignment(Pos.TOP_CENTER);
+		vBox.setSpacing(5);
 		
 		Label welcome = new Label("Welcome to " + airline.getName() );
 		
@@ -31,7 +32,7 @@ public class AirlineWebsite extends Application {
 		
 		vBox.getChildren().addAll(welcome, ft, bookButton);
 		
-		Scene s = new Scene(vBox, 1050, 400);
+		Scene s = new Scene(vBox, 1200, 400);
 		stage.setScene(s);
 		stage.setResizable(false);
 		stage.show();

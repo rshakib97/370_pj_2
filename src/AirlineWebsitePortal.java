@@ -17,6 +17,8 @@ public class AirlineWebsitePortal extends Application {
 		// TODO make this window look better
 		VBox vBox = new VBox();
 		vBox.setAlignment(Pos.TOP_CENTER);
+		vBox.setId("webPortal");
+		
 		Label welcome = new Label("Welcome to the Airline Portal");
 		vBox.getChildren().add(welcome);
 		
@@ -40,6 +42,7 @@ public class AirlineWebsitePortal extends Application {
 		}
 		
 		Scene scene = new Scene(vBox, 500, 500);
+		scene.getStylesheets().add("styles.css");
 		stage.setScene(scene);
 		stage.show();
 	}

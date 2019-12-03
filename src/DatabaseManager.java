@@ -89,7 +89,46 @@ public final class DatabaseManager {
 		return a;
 	}
 	
-	// TODO compare arrivals
+	public static ArrayList<Flight> getAllFlightsFromAirline(String airline) {
+		ArrayList<Flight> flights = new ArrayList<>();
+		
+		try {
+			PreparedStatement ps = con.prepareStatement("SELECT * " + 
+					" FROM Flights AS f" + 
+					" JOIN Airports AS a1 ON f.origin = a1.airportID" + 
+					" JOIN Airports AS a2 ON f.dest = a2.airportID" + 
+					" JOIN Airlines AS air ON f.airline = air.airlineID WHERE air.airlineName=?");
+			
+			ps.setString(1, airline);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next() ) {
+				int id = rs.getInt("flightID");
+				int maxCap = rs.getInt("maxCap");
+				int res = rs.getInt("reserved");
+				String date = rs.getString("date");
+				String deptTime = rs.getString("depTime");
+				String arrTime = rs.getString("arrTime");
+				String origin = rs.getString("a2.airportName");
+				String dest = rs.getString("a1.airportName");
+				String a = rs.getString("airlineName");
+				double fare = rs.getDouble("fare");
+				FlightStatus status = FlightStatus.valueOf(rs.getString("status"));
+				
+				Flight f = new Flight(id, maxCap, res, date, deptTime, arrTime, origin, dest, a, fare, status);
+				flights.add(f);
+			}
+			
+			ps.close();
+			rs.close();
+		}
+		
+		catch(Exception e) { System.out.println(e); }
+		
+		return flights;
+	}
+	
 	public static ArrayList<Flight> searchFlights(String from, String to) {
 		ArrayList<Flight> flights = new ArrayList<>();
 		
@@ -472,6 +511,18 @@ public final class DatabaseManager {
 		catch(Exception e) { System.out.println(e); }
 		
 		return reservations;
+	}
+	
+	public static void modifyFare(Flight f, double fare) {
+		try {
+			PreparedStatement ps = con.prepareStatement("UPDATE Flights SET fare = ? WHERE flightID = ?");
+			ps.setDouble(1, fare);
+			ps.setInt(2, f.getFlightID() );
+			
+			ps.executeUpdate();
+		}
+		
+		catch(Exception e) { System.out.println(e); }
 	}
 	
 	public static void cancelFlight(int flightID) {

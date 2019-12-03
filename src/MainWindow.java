@@ -20,6 +20,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -129,7 +130,7 @@ public class MainWindow extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				if(GlobalData.getCurrentDate() == null) {
-					searchWarningLabel.setText("Please enter a date");
+					searchWarningLabel.setText("Please enter a date to view departures");
 				}
 				
 				else {
@@ -146,7 +147,7 @@ public class MainWindow extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				if(GlobalData.getCurrentDate() == null) {
-					searchWarningLabel.setText("Please enter a date");
+					searchWarningLabel.setText("Please enter a date to view arrivals");
 				}
 				
 				else {
@@ -163,7 +164,7 @@ public class MainWindow extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				if(GlobalData.getCurrentDate() == null) {
-					searchWarningLabel.setText("Please enter a date");
+					searchWarningLabel.setText("Please enter a date to view the airline portal");
 				}
 				
 				else {
@@ -197,7 +198,6 @@ public class MainWindow extends Application {
 		// Set Classes
 		Node textNodes[] = new Node[] { userName, password };
 		for(int i = 0; i < textNodes.length; i++) { textNodes[i].getStyleClass().add(TEXT_NODE_LEFT_LAYOUT);}
-		link.getStyleClass().add(HYPERLINK);
 		
 		// Set login handler
 		logInButton = setLoginButton(userTextField, passwordField);
@@ -277,21 +277,31 @@ public class MainWindow extends Application {
 		TextField toField = new TextField();
 		DatePicker departDate = setDatePicker();
 		
+		HBox inputFields = new HBox();
+		inputFields.setSpacing(5);
+		gp.add(inputFields, 0, 0);
+		
+		VBox fromBox = new VBox(fromLabel, fromField);
+		fromBox.setSpacing(5);
+		
+		VBox toBox = new VBox(toLabel, toField);
+		toBox.setSpacing(5);
+		
+		VBox departBox = new VBox(departLabel, departDate);
+		departBox.setSpacing(5);
+		
+		inputFields.getChildren().addAll(fromBox, toBox, departBox);
+		
 		// Row 2
 		Button search = setSearchButton(fromField, toField);
-		gp.add(search, 0, 2);
+		gp.add(search, 0, 1);
 		searchWarningLabel = new Label("");
 		searchWarningLabel.setId(SEARCH_WARNING_LABEL);
-		gp.add(searchWarningLabel, 1, 2);
+		gp.add(searchWarningLabel, 0, 2);
 		
 		Label labels[] = new Label[] { fromLabel, toLabel, departLabel };
-		for(int i = 0; i < labels.length; i++) { 
-			labels[i].getStyleClass().add(TEXT_NODE_CENTER_LAYOUT);
-			gp.add(labels[i], i, 0);
-		}
+		for(int i = 0; i < labels.length; i++) {  labels[i].getStyleClass().add(TEXT_NODE_CENTER_LAYOUT); }
 		
-		Node fields[] = new Node[] { fromField, toField, departDate, };
-		for(int i = 0; i < fields.length; i++) { gp.add(fields[i], i, 1); }
 		
 		return gp;
 	}
@@ -365,7 +375,7 @@ public class MainWindow extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				if(GlobalData.getCurrentDate() == null) {
-					searchWarningLabel.setText("Please enter a date");
+					searchWarningLabel.setText("Please enter a date to search");
 				}
 				
 				else {

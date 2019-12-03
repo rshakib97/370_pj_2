@@ -12,10 +12,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class FlightForm extends Application {
 	private String airline;
+	private Label messageLabel;
 	
 	public FlightForm(String a) {
 		airline = a;
@@ -25,6 +27,8 @@ public class FlightForm extends Application {
 	public void start(Stage stage) {
 		VBox form = new VBox();
 		form.setSpacing(10);
+		
+		messageLabel = new Label("");
 		
 		Label head = new Label("Add a Flight");
 		form.getChildren().add(head);
@@ -59,27 +63,64 @@ public class FlightForm extends Application {
 		
 		form.getChildren().addAll(date, depart, arrival, maxSeats, price);
 		
+		HBox bottom = new HBox();
+		bottom.setSpacing(5);
+		
 		Button submit = new Button("Submit");
 		
 		submit.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				int max = Integer.parseInt(maxSeats.getText() );
-				
-				LocalDate d = date.getValue();
-				String deptTime = depart.getText();
-				String arrTime = arrival.getText();
 				String origin = airportOrgs.getSelectionModel().getSelectedItem();
 				String dest = airportDests.getSelectionModel().getSelectedItem();
+				LocalDate d = date.getValue();
 				
-				Double fare = Double.parseDouble(price.getText() );
+				if(origin.equals(dest)) { 
+					messageLabel.setTextFill(Color.RED);
+					messageLabel.setText("Origin and destination can not be the same");
+				}
 				
-				DatabaseManager.addFlight(max, d, deptTime, arrTime, origin, dest, airline, fare);
+				else if(d == null) {
+					messageLabel.setTextFill(Color.RED);
+					messageLabel.setText("Please enter a date");
+				}
+				
+				else {
+					try {
+						int max = Integer.parseInt(maxSeats.getText() );
+						
+						
+						String deptTime = depart.getText();
+						String arrTime = arrival.getText();
+						
+						Double fare = Double.parseDouble(price.getText() );
+						
+						DatabaseManager.addFlight(max, d, deptTime, arrTime, origin, dest, airline, fare);
+						
+						messageLabel.setTextFill(Color.GREEN);
+						messageLabel.setText("Flight creation successful!");
+					}
+					
+					
+					catch(Exception e) {
+						messageLabel.setTextFill(Color.RED);
+						messageLabel.setText("Flight creation failed");
+					}
+				}
 			}
 		});
 		
-		form.getChildren().add(submit);
+		Button close = new Button("Close");
+		close.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				stage.close();
+			}
+		});
+		
+		bottom.getChildren().addAll(submit, close, messageLabel);
+		form.getChildren().add(bottom);
 		
 		Scene s = new Scene(form, 500, 500);
 		stage.setScene(s);

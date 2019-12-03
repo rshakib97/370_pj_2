@@ -8,7 +8,7 @@
 	-fx-main-window-text-fill: whitesmoke;
 }
 
-#login_window, #logged_in_window {
+#login_window, #logged_in_window, #webPortal {
 	-fx-background-color: -fx-left-layout-bg-color;
 	-fx-padding: 15px;
 	-fx-hgap: 8;
