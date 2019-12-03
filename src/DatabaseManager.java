@@ -110,8 +110,8 @@ public final class DatabaseManager {
 				String date = rs.getString("date");
 				String deptTime = rs.getString("depTime");
 				String arrTime = rs.getString("arrTime");
-				String origin = rs.getString("a2.airportName");
-				String dest = rs.getString("a1.airportName");
+				String origin = rs.getString("a1.airportName");
+				String dest = rs.getString("a2.airportName");
 				String a = rs.getString("airlineName");
 				double fare = rs.getDouble("fare");
 				FlightStatus status = FlightStatus.valueOf(rs.getString("status"));
@@ -383,7 +383,6 @@ public final class DatabaseManager {
 	}
 	
 	// Lets customers book reservations, will return false for any other account status
-	// TODO disallow customers being able to book two of the same reservations
 	public static boolean bookReservation(Account a, Flight f, BookStatus status) {
 		if(a == null || a.getStatus() != Clearance.CUST) { return false; }
 		if(f.getFlightStatus() == FlightStatus.CANC) { return false; }
