@@ -137,7 +137,6 @@ public class MainWindow extends Application {
 					Stage s = new Stage();
 					dw.start(s);
 				}
-				
 			}
 		});
 		
@@ -252,6 +251,7 @@ public class MainWindow extends Application {
 		
 		else if(a.getStatus() == Clearance.SADMIN) { actionButton = setSearchEngineAdminButton(); }
 		
+		else if(a.getStatus() == Clearance.MAS) { actionButton = setCreateAirlineButton(); }
 		// Set classes
 		Node textNodes[] = new Node[] { profileLabel, name, statusLabel, textStatus};
 		for(int i = 0; i < textNodes.length; i++) { textNodes[i].getStyleClass().add(TEXT_NODE_LEFT_LAYOUT); }
@@ -322,6 +322,22 @@ public class MainWindow extends Application {
 		
 		
 		return gp;
+	}
+	
+	private Button setCreateAirlineButton() {
+		Button b = new Button("Create Airline");
+		
+		b.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				CreateAirlineWindow caw = new CreateAirlineWindow();
+				Stage s = new Stage();
+				caw.start(s);
+			}
+		});
+		
+		return b;
 	}
 	
 	private Button setAirlineAdminFlightConfigButton() {

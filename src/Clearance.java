@@ -3,5 +3,5 @@
  */
 
 public enum Clearance {
-	CUST, SADMIN, AADMIN;
+	CUST, SADMIN, AADMIN, MAS;
 }

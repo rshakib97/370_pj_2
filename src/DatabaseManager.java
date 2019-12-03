@@ -80,6 +80,8 @@ public final class DatabaseManager {
 				
 				else if(status == Clearance.AADMIN) { a = new SearchEngineAdmin(id, fn, ln, userName, password, status); }
 				
+				else if(status == Clearance.MAS) { a = new MasterAdmin(id, fn, ln, userName, password, status); }
+				
 				else { System.out.println("Not a valid clearance level"); }
 			}
 		}
@@ -595,6 +597,17 @@ public final class DatabaseManager {
 			
 			ps.close();
 			rs.close();
+		}
+		
+		catch(Exception e) { System.out.println(e); }
+	}
+	
+	public static void createNewAirline(String name) {
+		try {
+			PreparedStatement ps = con.prepareStatement("INSERT INTO Airlines (airlineID, airlineName) VALUES (DEFAULT, ?)");
+			ps.setString(1, name);
+			
+			ps.executeUpdate();
 		}
 		
 		catch(Exception e) { System.out.println(e); }

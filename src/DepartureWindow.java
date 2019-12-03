@@ -1,4 +1,7 @@
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -32,9 +35,16 @@ public class DepartureWindow extends Application {
         // Update the message Label when the selected item changes
         globalAirportList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> ov, final String oldvalue, final String newvalue) {
-            	if(GlobalData.getCurrentDate() != null) { 
-            		ArrayList<Flight> departures = DatabaseManager.getDestinationsFromAirport(globalAirportList.getSelectionModel().getSelectedItem() );
-                    deps.getResults(departures);   
+            	if(GlobalData.getCurrentDate() != null && !newvalue.isEmpty() ) { 
+            		Timer t = new Timer(true);
+            		
+            		t.schedule(new TimerTask() {
+						@Override
+						public void run() {
+						ArrayList<Flight> departures = DatabaseManager.getDestinationsFromAirport(globalAirportList.getSelectionModel().getSelectedItem() );
+		                deps.getResults(departures); 
+						}
+            		}, 0, 60000); // Refresh every 60 seconds
             	}
         }});
  
